@@ -94,11 +94,10 @@
                                     <c:forEach var="image" items="${listImage}">
                                         <div class="item active">
                                             <picture>
-                                                <source media="(max-width: 767px)" srcset="${pageContext.request.contextPath}/resources/image/product/${image.name}">
-                                                <source media="(min-width: 768px)" srcset="${pageContext.request.contextPath}/resources/image/product/${image.name}">
-                                                <img src="${pageContext.request.contextPath}/resources/image/product/${image.name}" alt="slide 1" title="slide 1" style="height: 330px">
+                                                <source media="(max-width: 767px)" srcset="${pageContext.request.contextPath}/resources/image/${image.name}">
+                                                <source media="(min-width: 768px)" srcset="${pageContext.request.contextPath}/resources/image/${image.name}">
+                                                <img src="${pageContext.request.contextPath}/resources/image/${image.name}" alt="slide 1" title="slide 1" style="height: 330px">
                                             </picture>
-                                            </a>
                                         </div>
                                     </c:forEach>
                                 </div>

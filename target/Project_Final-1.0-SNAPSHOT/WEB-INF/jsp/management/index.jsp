@@ -23,13 +23,13 @@
                                 </div>
                                 <div class="row">
                                     <ul class="bs-glyphicons">
-                                        <a href="#">
+                                        <a href="<c:url value="seller/processing-orders"/>">
                                             <li>
                                                 <span class="glyphicon glyphicon-list-alt"></span>
                                                 <span class="glyphicon-class">New order</span>
                                             </li>
                                         </a>
-                                        <a href="#">
+                                        <a href="<c:url value="seller/list-order-processing"/>">
                                             <li>
                                                 <span class="glyphicon glyphicon-ok-sign"></span>
                                                 <h1 class="glyphicon-class">Order paid</h1>
