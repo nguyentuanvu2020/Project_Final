@@ -5,6 +5,7 @@ import com.ivt.entities.CustomerEntity;
 import com.ivt.entities.OrderDetailEntity;
 import com.ivt.entities.OrderEntity;
 import com.ivt.entities.ProductDetailEntity;
+import com.ivt.enums.OrderStatus;
 import com.ivt.repositories.CustomerRepository;
 import com.ivt.repositories.OrderDetailRepository;
 import com.ivt.repositories.OrderRepository;
@@ -44,7 +45,7 @@ public class OrderService {
     }
     
 //    code của hiệp
-    public List<OrderEntity> getAllOrderProcessing(String status){
+    public List<OrderEntity> getAllOrderProcessing(OrderStatus status){
         return orderRepository.getAllOrderByStatus(status);
     }
 }

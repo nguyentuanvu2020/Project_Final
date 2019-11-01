@@ -18,51 +18,28 @@
                         <div class="col-md-12">
                             <div class="content-box-large">
                                 <div class="panel-heading">
-                                    <div class="panel-title">List product</div>
+                                    <div class="panel-title">List Processing Order</div>
                                 </div>
                                 <div class="panel-body">
                                     <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example">
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>ID</th>
-                                                <th>Name</th>
-                                                <th>Price</th>
-                                                <th>Quantity</th>
-                                                <th>Description</th>
-                                                <th>Status</th>
-                                                <th>Category</th>
-                                                <th>Options</th>
+                                                <th>Order number</th>
+                                                <th>Order date</th>
+                                                <th>Note</th>
+                                                <th>Total price</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <c:set var="i" value="1"/>
-                                            <c:forEach var="product" items="${products}">
+                                            <c:forEach var="order" items="${processingOrders}">
                                                 <tr class="odd gradeX">
                                                     <td>${i}</td>
-                                                    <td>${product.id}</td>
-                                                    <td>${product.name}</td>
-                                                    <td class="center"><fmt:formatNumber minFractionDigits="0" type="number" value="${product.price}"/></td>
-                                                    <td class="center">
-                                                        <c:forEach var="detail" items="${product.listProductDetail}">
-                                                            <p>
-                                                                ${detail.color.productColor} - ${detail.productSize.productSize} - ${detail.productQuantity}
-                                                            </p>
-                                                        </c:forEach>
-                                                    </td>
-                                                    <td class="center">${product.description}</td>
-                                                    <td class="center">${product.status}</td>
-                                                    <td class="center">${product.category.name}</td>
-                                                    <td class="center">
-                                                        <button class="btn btn-primary btn-xs" onclick="location.href='<c:url value="update-product/${product.id}"/>'">
-                                                            <i class="glyphicon glyphicon-refresh"></i> 
-                                                            Update
-                                                        </button>
-                                                        <button class="btn btn-danger  btn-xs">
-                                                            <i class="glyphicon glyphicon-remove"></i>
-                                                            Delete
-                                                        </button>
-                                                    </td>
+                                                    <td>${order.id}</td>
+                                                    <td>${order.orderDate}</td>
+                                                    <td>${order.note}</td>
+                                                    <td>${order.totalPrice}</td>
                                                 </tr>
                                                 <c:set var="i" value="${i+1}"/>
                                             </c:forEach>

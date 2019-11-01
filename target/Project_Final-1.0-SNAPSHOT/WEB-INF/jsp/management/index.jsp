@@ -23,57 +23,36 @@
                                 </div>
                                 <div class="row">
                                     <ul class="bs-glyphicons">
-                                        <li>
-                                            <span class="glyphicon glyphicon-adjust"></span>
-                                            <span class="glyphicon-class">glyphicon glyphicon-adjust</span>
-                                        </li>
-                                        <li>
-                                            <span class="glyphicon glyphicon-align-center"></span>
-                                            <span class="glyphicon-class">glyphicon glyphicon-align-center</span>
-                                        </li>
-                                        <li>
-                                            <span class="glyphicon glyphicon-align-justify"></span>
-                                            <span class="glyphicon-class">glyphicon glyphicon-align-justify</span>
-                                        </li>
-                                        <li>
-                                            <span class="glyphicon glyphicon-align-justify"></span>
-                                            <span class="glyphicon-class">glyphicon glyphicon-align-justify</span>
-                                        </li>
+                                        <a href="#">
+                                            <li>
+                                                <span class="glyphicon glyphicon-list-alt"></span>
+                                                <span class="glyphicon-class">New order</span>
+                                            </li>
+                                        </a>
+                                        <a href="#">
+                                            <li>
+                                                <span class="glyphicon glyphicon-ok-sign"></span>
+                                                <h1 class="glyphicon-class">Order paid</h1>
+                                                <span class="glyphicon-class">Order paid</span>
+                                            </li>
+                                        </a>
+                                        <a href="#">
+                                            <li>
+                                                <span class="glyphicon glyphicon-send"></span>
+                                                <h1 class="glyphicon-class">Order send</h1>
+                                                <span class="glyphicon-class">Order send</span>
+                                            </li>
+                                        </a>
+                                        <a href="#">
+                                            <li>
+                                                <span class="glyphicon glyphicon-usd"></span>
+                                                <h1 class="glyphicon-class">Total amount</h1>
+                                                <span class="glyphicon-class">Total amount</span>
+                                            </li>
+                                        </a>
                                     </ul>
                                 </div>
-                                <!--                                    <div class="col-md-3 col-sm-6">
-                                                                        <div class="a">
-                                
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-3 col-sm-6">
-                                                                        <div class="a">
-                                
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-3 col-sm-6">
-                                                                        <div class="a">
-                                
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-3 col-sm-6">
-                                                                        <div class="a">
-                                
-                                                                        </div>
-                                                                    </div>-->
-                                <style>
-                                    .c{
-                                        border-radius: 10%;
-                                    }
-                                    .a{
-                                        height: 285px;
-                                        background-color: #008A7B;
-                                        border-radius: 10% ;
-                                        margin-top: 5%;
-                                    }
-                                </style>
                             </div>
-
                         </div>
                     </div>
                 </div>
