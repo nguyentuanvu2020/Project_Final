@@ -13,16 +13,15 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ProductRepository extends CrudRepository<ProductEntity, Integer>{
+public interface ProductRepository extends CrudRepository<ProductEntity, Integer> {
+
     @Query(value = "SELECT distinct p FROM ProductEntity p INNER JOIN FETCH p.listImageProductDetail pi")
     public List<ProductEntity> getAllProductAndImage();
-    
-    @Query(value = "SELECT  p FROM ProductEntity p INNER JOIN FETCH p.listImageProductDetail pi where p.id = ?1")
-    public List<ProductEntity> findProductAndImageById(int id);
-    
-    
+
+    @Query(value = "SELECT distinct p FROM ProductEntity p INNER JOIN FETCH p.listImageProductDetail pi where p.id = ?1")
+    public ProductEntity findWholeProductById(int id);
+
 //    code của hiệp
-    
     @Query(value = "SELECT distinct p FROM ProductEntity p INNER JOIN FETCH p.listProductDetail pd")
     public List<ProductEntity> getAll();
 

@@ -24,4 +24,7 @@ public interface ProductDetailRepository extends CrudRepository<ProductDetailEnt
 
     @Query(value = "SELECT * FROM productdetails where product_id = ?1 and color_id = ?2 and size_id = ?3", nativeQuery = true)
     ProductDetailEntity getProductDetailByProductIdAndColorIdAndSizeId(int productId, int colorId, int sizeId);
+    
+//    @Query(value = "SELECT distinct p FROM ProductDetailEntity p INNER JOIN FETCH p.product.listImageProductDetail pi where p.id = ?1")
+//    public ProductDetailEntity findWholeProductDetailById(int id);
 }
