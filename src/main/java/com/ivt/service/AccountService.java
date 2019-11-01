@@ -20,12 +20,24 @@ public class AccountService {
             findAccountByEmailAndPassword(String email, String password) {
         return accountRepository.findAccountByEmailAndPassword(email, password);
     }
-            
-    public void registerAccount(AccountEntity account){
+
+    public void registerAccount(AccountEntity account) {
         accountRepository.save(account);
-    }  
-    
-    public AccountEntity findAccountByEmail(String email){
-      return accountRepository.findByEmail(email);
-     }
+    }
+
+    public AccountEntity findAccountById(int id) {
+        return accountRepository.findOne(id);
+    }
+
+    public AccountEntity findAccountByEmail(String email) {
+        return accountRepository.findByEmail(email);
+    }
+
+    public boolean isAvailable(String email) {
+        if (accountRepository.findByEmail2(email).size() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <head>
     <link rel="shortcut icon" href="//theme.hstatic.net/1000243581/1000361905/14/favicon.png?v=151" type="image/png" />
@@ -152,310 +152,339 @@
                                             <div class="flex items-center _25DJo1" id="checkFavorite"onclick="checkFavorite()" style="display: flex">
                                                 <svg width="24" height="20" class="_10K0Ee">
                                                 <path d="M19.469 1.262c-5.284-1.53-7.47 4.142-7.47 4.142S9.815-.269 4.532 1.262C-1.937 3.138.44 13.832 12 19.333c11.559-5.501 13.938-16.195 7.469-18.07z" 
-                                                      stroke="#FF424F" stroke-width="1.5" fill="none" fill-rule="evenodd" stroke-linejoin="round" id="on"></path>
-                                                </svg><div class="_1-aYcb"> Đã thích (384)</div></div>
-                                            <script>
-                                                let a = document.getElementById('on');
-                                                let check = false;
-                                                function checkFavorite() {
-                                                    if (check == false) {
-                                                        a.style.fill = "#FF424F";
-                                                        check = true;
-                                                    } else {
-                                                        a.style.fill = "none";
-                                                        check = false;
+                                                      stroke="#FF424F" stroke-width="1.5" fill="${style}" fill-rule="evenodd" stroke-linejoin="round" id="on"></path>
+                                                </svg><div class="_1-aYcb"> Đã thích (<span id="totalF">${favoriteTotal}</span>)</div></div>
+                                                <sec:authorize access="isAuthenticated()">    
+                                                <script>
+                                                    let a = document.getElementById('on');
+                                                    let check = a.style.fill;
+                                                    function checkFavorite() {
+                                                        if (check === "none") {
+                                                            var xhttp;
+                                                            xhttp = new XMLHttpRequest();
+                                                            xhttp.open("GET", "add-favorite?&productId=${product.id}", true);
+                                                            xhttp.send();
+                                                            xhttp.onreadystatechange = function () {
+                                                                if (this.readyState === 4 && this.status === 200) {
+                                                                    document.getElementById('totalF').innerHTML = this.responseText;
+                                                                }
+                                                            };
+                                                            a.style.fill = "#FF424F";
+                                                            check = "#FF424F";
+
+                                                        } else {
+                                                            var xhttp;
+                                                            xhttp = new XMLHttpRequest();
+                                                            xhttp.open("GET", "remove-favorite?&productId=${product.id}", true);
+                                                            xhttp.send();
+                                                            xhttp.onreadystatechange = function () {
+                                                                if (this.readyState === 4 && this.status === 200) {
+                                                                    document.getElementById('totalF').innerHTML = this.responseText;
+                                                                }
+                                                            };
+                                                            a.style.fill = "none";
+                                                            check = "none";
+                                                        }
                                                     }
-                                                }
-                                            </script>
-                                        </div>
-                                        
-                                        <div class="radio-toolbar">
-                                            <p>Chọn màu</p>
-                                            <c:forEach var="colors" items="${listColor}">
-                                                <input required="" type="radio" id="color${colors.productColor}" name="colorId" value="${colors.id}" class="productColor"onclick="checkColor(${colors.id})">
-                                                <label for="color${colors.productColor}">${colors.productColor}</label>
-                                            </c:forEach>
+                                                </script>
+                                            </sec:authorize>
                                         </div>
                                         <div class="radio-toolbar">
-                                            <p>Chọn size</p>
-                                            <c:forEach var="sizes" items="${listSize}">
-                                                <input required="" type="radio" id="color${sizes.productSize}" name="sizeId" value="${sizes.id}" class="productSize" onclick="checkSize(${sizes.id})">
-                                                <label for="color${sizes.productSize}">${sizes.productSize}</label>
-                                            </c:forEach>
-                                        </div>
-                                        <div class="radio-toolbar">
-                                            <p>Chọn Số lượng</p>
-                                            <input type="number" style="height: 40px;width: 100px;border: 1px solid grey;
-                                                   border-radius: 4px 4px;text-align: center;" max="10" min="1" value="1" 
-                                                   name="quantity" required="" id="quantity9" 
-                                                   class="quantityvalidate">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="clearfix">
-                                    <button class="btn-style-add add-to-cart" onclick="addCart()" type="button">
-                                        <span class="icon_cart_btn"></span>
-                                        <span>Thêm vào giỏ</span>
-                                    </button>
-                                    <button class="btn-style-buynow addnow" type="sumit" onclick="buyNow()">
-                                        <span class="icon_cart_btn"></span>
-                                        <span>Mua ngay</span>
-                                    </button>
-                                </div>
-                                <div class="alert alert-danger" role="alert" id="alertcheck" style="display: none">
-                                </div>
-                                <div class="alert alert-success" role="alert" id="alertcheck2" style="display: none">
-                                </div>
-                            </form>
+                                            <span>(4.1)</span>
+                                            <span class="fa fa-star checked"></span>
+                                            <span class="fa fa-star checked"></span>
+                                            <span class="fa fa-star checked"></span>
+                                            <span class="fa fa-star checked"></span>
+                                            <span class="fa fa-star"></span> <span>Đánh giá(10)</span>
 
-                        </div>
-                        <div class="col-lg-2 col-xs-12 pd-none-box-service mb15">
-                            <div class="box-service-product">
-                                <div class="header-box-service-product text-center">
-                                    <div class="title">Sẽ có tại nhà bạn</div>
-                                    <div class="content">từ 1-3 ngày làm việc</div>
-                                </div>
-                                <div class="content-box-service-product row">
-
-                                    <div class="col-lg-12 col-sm-3 col-xs-12">
-                                        <div class="border-service-product">
-                                            <div class="flexbox-grid-default">
-                                                <div class="flexbox-auto-45px flexbox-align-self-center">
-                                                    <img src="//theme.hstatic.net/1000243581/1000361905/14/icon-service-1.png?v=157">
-                                                </div>
-                                                <div class="flexbox-content des-service-product">
-                                                    <div class="title">Giao hàng nhanh</div>
-                                                    <div class="content">Nhận hàng trong ngày ở nội thành</div>
-                                                </div>
+                                            <style>
+                                                .checked {
+                                                    color: orange;
+                                                </style>
+                                            </div> 
+                                            <div class="radio-toolbar">
+                                                <p>Chọn màu</p>
+                                                <c:forEach var="colors" items="${listColor}">
+                                                    <input required="" type="radio" id="color${colors.productColor}" name="colorId" value="${colors.id}" class="productColor"onclick="checkColor(${colors.id})">
+                                                    <label for="color${colors.productColor}">${colors.productColor}</label>
+                                                </c:forEach>
+                                            </div>
+                                            <div class="radio-toolbar">
+                                                <p>Chọn size</p>
+                                                <c:forEach var="sizes" items="${listSize}">
+                                                    <input required="" type="radio" id="color${sizes.productSize}" name="sizeId" value="${sizes.id}" class="productSize" onclick="checkSize(${sizes.id})">
+                                                    <label for="color${sizes.productSize}">${sizes.productSize}</label>
+                                                </c:forEach>
+                                            </div>
+                                            <div class="radio-toolbar">
+                                                <p>Chọn Số lượng</p>
+                                                <input type="number" style="height: 40px;width: 100px;border: 1px solid grey;
+                                                       border-radius: 4px 4px;text-align: center;" max="10" min="1" value="1" 
+                                                       name="quantity" required="" id="quantity9" 
+                                                       class="quantityvalidate">
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-12 col-sm-3 col-xs-12">
-                                        <div class="border-service-product">
-                                            <div class="flexbox-grid-default">
-                                                <div class="flexbox-auto-45px flexbox-align-self-center">
-                                                    <img src="//theme.hstatic.net/1000243581/1000361905/14/icon-service-3.png?v=157">
-                                                </div>
-                                                <div class="flexbox-content des-service-product">
-                                                    <div class="title">Thanh toán</div>
-                                                    <div class="content">Nhận hàng và kiểm tra hàng trước khi thanh toán</div>
+                                    <div class="clearfix">
+                                        <button class="btn-style-add add-to-cart" onclick="addCart()" type="button">
+                                            <span class="icon_cart_btn"></span>
+                                            <span>Thêm vào giỏ</span>
+                                        </button>
+                                        <button class="btn-style-buynow addnow" type="sumit" onclick="buyNow()">
+                                            <span class="icon_cart_btn"></span>
+                                            <span>Mua ngay</span>
+                                        </button>
+                                    </div>
+                                    <div class="alert alert-danger" role="alert" id="alertcheck" style="display: none">
+                                        </div>
+                                        <div class="alert alert-success" role="alert" id="alertcheck2" style="display: none">
+                                        </div>
+                                    </form>
+
+                                </div>
+                                <div class="col-lg-2 col-xs-12 pd-none-box-service mb15">
+                                    <div class="box-service-product">
+                                        <div class="header-box-service-product text-center">
+                                            <div class="title">Sẽ có tại nhà bạn</div>
+                                            <div class="content">từ 1-3 ngày làm việc</div>
+                                        </div>
+                                        <div class="content-box-service-product row">
+
+                                            <div class="col-lg-12 col-sm-3 col-xs-12">
+                                                <div class="border-service-product">
+                                                    <div class="flexbox-grid-default">
+                                                        <div class="flexbox-auto-45px flexbox-align-self-center">
+                                                            <img src="//theme.hstatic.net/1000243581/1000361905/14/icon-service-1.png?v=157">
+                                                        </div>
+                                                        <div class="flexbox-content des-service-product">
+                                                            <div class="title">Giao hàng nhanh</div>
+                                                            <div class="content">Nhận hàng trong ngày ở nội thành</div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12 col-sm-3 col-xs-12">
-                                        <div class="border-service-product">
-                                            <div class="flexbox-grid-default">
-                                                <div class="flexbox-auto-45px flexbox-align-self-center">
-                                                    <img src="//theme.hstatic.net/1000243581/1000361905/14/icon-service-4.png?v=157">
+                                            <div class="col-lg-12 col-sm-3 col-xs-12">
+                                                <div class="border-service-product">
+                                                    <div class="flexbox-grid-default">
+                                                        <div class="flexbox-auto-45px flexbox-align-self-center">
+                                                            <img src="//theme.hstatic.net/1000243581/1000361905/14/icon-service-3.png?v=157">
+                                                        </div>
+                                                        <div class="flexbox-content des-service-product">
+                                                            <div class="title">Thanh toán</div>
+                                                            <div class="content">Nhận hàng và kiểm tra hàng trước khi thanh toán</div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div class="flexbox-content des-service-product">
-                                                    <div class="title">Hỗ trợ online</div>
-                                                    <div class="content">Goi 0986 888 888 <br>
-                                                        Từ 7h30-21h30</div>
+                                            </div>
+                                            <div class="col-lg-12 col-sm-3 col-xs-12">
+                                                <div class="border-service-product">
+                                                    <div class="flexbox-grid-default">
+                                                        <div class="flexbox-auto-45px flexbox-align-self-center">
+                                                            <img src="//theme.hstatic.net/1000243581/1000361905/14/icon-service-4.png?v=157">
+                                                        </div>
+                                                        <div class="flexbox-content des-service-product">
+                                                            <div class="title">Hỗ trợ online</div>
+                                                            <div class="content">Goi 0986 888 888 <br>
+                                                                Từ 7h30-21h30</div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-8 col-xs-12 pd5">
-                            <div class="product-comment">
-                                <!-- Nav tabs -->
-                                <ul class="product-tablist nav nav-tabs" id="tab-product-template"><li class="dropdown pull-right tabdrop hide"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-bars"></i> <b class="caret"></b></a><ul class="dropdown-menu"></ul></li>
-                                    <li class="active">
-                                        <a data-toggle="tab" data-spy="scroll" href="#description">
-                                            <span>Mô tả sản phẩm</span>
-                                        </a>
-                                    </li>
+                            <div class="row">
+                                <div class="col-lg-8 col-xs-12 pd5">
+                                    <div class="product-comment">
+                                        <!-- Nav tabs -->
+                                        <ul class="product-tablist nav nav-tabs" id="tab-product-template"><li class="dropdown pull-right tabdrop hide"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-bars"></i> <b class="caret"></b></a><ul class="dropdown-menu"></ul></li>
+                                            <li class="active">
+                                                <a data-toggle="tab" data-spy="scroll" href="#description">
+                                                    <span>Mô tả sản phẩm</span>
+                                                </a>
+                                            </li>
 
-                                </ul>
-                                <!-- Tab panes -->
-                                <div id="description">										
-                                    <div class="container-fluid product-description-wrapper">
+                                        </ul>
+                                        <!-- Tab panes -->
+                                        <div id="description">										
+                                            <div class="container-fluid product-description-wrapper">
 
-                                        <p>[<span>&nbsp;</span><a href="https://hangchinhhanggiare.com/collections/giay-adidas" data-mce-href="https://hangchinhhanggiare.com/collections/giay-adidas">Giày Adidas P.O.D-S3.1 "Green"</a>&nbsp;]</p><p>► Shop vừa về thêm vài mẫu giày adidas&nbsp;<a class="_58cn" href="https://www.facebook.com/hashtag/x_plr?source=feed_text&amp;story_id=1757553900935684" data-mce-href="https://www.facebook.com/hashtag/x_plr?source=feed_text&amp;story_id=1757553900935684"><span class="_5afx"><span class="_58cl _5afz">#</span><span class="_58cm">P.O.D-S3.1 "Green"</span></span></a>&nbsp;chính hãng mới nhất với phối grey nhé cả nhà! Hiện còn rất nhiều mẫu size nam tại shop! Ghé shop ngay để tham khảo nhé!&nbsp;<span class="_47e3 _5mfr"><img class="img" height="16" src="https://hstatic.net/392/1000243581/file/img-product-100055.png" width="16" data-mce-src="https://hstatic.net/392/1000243581/file/img-product-100055.png"><span class="_7oe">&lt;3</span></span>&nbsp;<span class="_47e3 _5mfr"><img class="img" height="16" src="https://hstatic.net/392/1000243581/file/img-product-100055.png" width="16" data-mce-src="https://hstatic.net/392/1000243581/file/img-product-100055.png"><span class="_7oe">&lt;3</span></span>&nbsp;<span class="_47e3 _5mfr"><img class="img" height="16" src="https://hstatic.net/392/1000243581/file/img-product-100055.png" width="16" data-mce-src="https://hstatic.net/392/1000243581/file/img-product-100055.png"><span class="_7oe">&lt;3</span></span></p><p>► Cam kết hàng chính hãng 100% Bao check, bao test&nbsp;<span class="_47e3 _5mfr"><img class="img" height="16" src="https://hstatic.net/392/1000243581/file/img-product-100055.png" width="16" data-mce-src="https://hstatic.net/392/1000243581/file/img-product-100055.png"><span class="_7oe">&lt;3</span></span></p><p>► Giá : [ Inbox hoặc tham khảo thêm tại website ]</p><div class="text_exposed_show"><p>-----------------------------------------</p><p>Hotline: 0933597986</p><p>Add: [86 Trần Hưng Đạo, P. Phạm Ngũ Lão, Q.1]</p><p>IG: hangchinhhanggiare</p><p><span style="color: rgb(255, 255, 255);" data-mce-style="color: #ffffff;">giày chính hãng, giày thể thao, giày nmd, giày nmd chính hãng, giày adidas, giày adidas chính hãng, giày chính hãng nam, hàng chính hãng nữ, giày thời trang, giày đẹp, giày real, giày chính hãng tphcm, giày chạy bộ, giày prophere, giày prophere chính hãng,,xplr. giày adidas xplr,nite jogger. POD, giày adidas POD chính hãng</span></p><p><span style="color: rgb(255, 255, 255);" data-mce-style="color: #ffffff;">ee4856</span></p><p><br></p></div>
+                                                <p>Chứa thông tin mô tả</p>
+                                            </div>
+                                        </div>
+
+                                        <div id="comment">
+                                            <div class="group-index mb15">
+                                                <div class="title-block">
+                                                    <h3 class="title-group">Bình luận</h3>
+                                                </div>
+                                            </div>
+                                            <div class="container-fluid">
+                                                <div class="row">
+
+                                                </div>
+                                            </div>
+                                        </div>	
 
                                     </div>
                                 </div>
-
-                                <div id="comment">
-                                    <div class="group-index mb15">
-                                        <div class="title-block">
-                                            <h3 class="title-group">Bình luận</h3>
-                                        </div>
-                                    </div>
-                                    <div class="container-fluid">
-                                        <div class="row">
-
-                                        </div>
-                                    </div>
-                                </div>	
-
                             </div>
                         </div>
-                    </div>
-                </div>
-            </section>
-        </main>
-        <!--footer-->
-        <jsp:include page="include/footer.jsp"/>
-        <!--end footer-->
+                    </section>
+                </main>
+                <!--footer-->
+                <jsp:include page="include/footer.jsp"/>
+                <!--end footer-->
 
-        <!--insert hotlinemobile if need-->
-    </div>
-    <!--menu mobile-->
-    <jsp:include page="include/menu-mobile.jsp"/>
-    <!--end menu mobile-->
+                <!--insert hotlinemobile if need-->
+            </div>
+            <!--menu mobile-->
+            <jsp:include page="include/menu-mobile.jsp"/>
+            <!--end menu mobile-->
 
-    <!--insert quick view row nếu cần-->
+            <!--insert quick view row nếu cần-->
 
-    <div class="back-to-top">
-        <a href="javascript:void(0);">
-            <svg class="svg-next-icon svg-next-icon-size-30" style="fill:#ffffff;">
-            <use xlink:href="#icon-scrollUp-bottom"></use>
-            </svg>
-        </a>
-    </div>
-</body>
-<script>
-    var addColorId;
-    var addSizeId;
-    var addQuantity;
-    function checkColor(colorId) {
-        addColorId = colorId;
-        var block = document.getElementsByClassName("productSize");
-//            for (var item of block) {
-//                item.checked = false;
-//            }
-        var xhttp;
-        xhttp = new XMLHttpRequest();
-        xhttp.open("GET", "print-size-by-color?colorId=" + colorId + "&productId=${product.id}", true);
-        xhttp.send();
-        xhttp.onreadystatechange = function () {
-            if (this.readyState === 4 && this.status === 200) {
-                var data = JSON.parse(this.responseText);
-                for (var item of block) {
-                    item.disabled = false;
-                    var check = 0;
-                    for (var i = 0; i < data.length; i++) {
-                        if (item.value == data[i]) {
-                            check = 1;
-                            break;
-                        }
-                    }
-                    if (check == 0) {
-                        item.disabled = true;
-                    }
-                }
-            }
-        };
-    }
-//        
-    function checkSize(sizeId) {
-        addSizeId = sizeId;
-        var block2 = document.getElementsByClassName("productColor");
-//            for (var item of block) {
-//                item.checked = false;
-//            }
-        var xhttp;
-        xhttp = new XMLHttpRequest();
-        xhttp.open("GET", "print-color-by-size?sizeId=" + sizeId + "&productId=${product.id}", true);
-        xhttp.send();
-        xhttp.onreadystatechange = function () {
-            if (this.readyState === 4 && this.status === 200) {
-                var data = JSON.parse(this.responseText);
-                for (var item of block2) {
-                    item.disabled = false;
-                    var check = 0;
-                    for (var i = 0; i < data.length; i++) {
-                        if (item.value == data[i]) {
-                            check = 1;
-                            break;
-                        }
-                    }
-                    if (check == 0) {
-                        item.disabled = true;
-                    }
-                }
-            }
-        };
-    }
-
-//    function setQuantity() {
-//        var quantity2 = document.getElementById("quantity9").value;
-//        addQuantity = quantity2;
-//    }
-    document.getElementsByClassName('quantityvalidate')[0].oninput = function () {
-        var max = parseInt(this.max);
-        var min = parseInt(this.min);
-        if (parseInt(this.value) < min) {
-            this.value = min;
-        } else if (parseInt(this.value) > max) {
-            this.value = max;
-        }
-        var quantity2 = document.getElementById("quantity9").value;
-        addQuantity = quantity2;
-    }
-    function addCart() {
-        if (addColorId == null || addSizeId == null) {
-            document.getElementById("alertcheck").style.display = "block";
-            document.getElementById("alertcheck").innerHTML = "Bạn chưa chọn Size hoặc Màu";
-            setTimeout(do_alert, 2000);
-        } else {
-            if (addQuantity == null) {
-                addQuantity = 1;
-            }
+            <div class="back-to-top">
+                <a href="javascript:void(0);">
+                    <svg class="svg-next-icon svg-next-icon-size-30" style="fill:#ffffff;">
+                <use xlink:href="#icon-scrollUp-bottom"></use>
+                </svg>
+            </a>
+        </div>
+    </body>
+    <script>
+        var addColorId;
+        var addSizeId;
+        var addQuantity;
+        function checkColor(colorId) {
+            addColorId = colorId;
+            var block = document.getElementsByClassName("productSize");
             var xhttp;
             xhttp = new XMLHttpRequest();
-            xhttp.open("GET", "add-to-cart?sizeId=" + addSizeId + "&productId=${product.id}"
-                    + "&quantity=" + addQuantity + "&colorId=" + addColorId, true);
+            xhttp.open("GET", "print-size-by-color?colorId=" + colorId + "&productId=${product.id}", true);
             xhttp.send();
             xhttp.onreadystatechange = function () {
                 if (this.readyState === 4 && this.status === 200) {
-                    console.log(this.responseText);
-                    document.getElementById("cart-count2").innerHTML = this.responseText;
-                    document.getElementById("alertcheck2").style.display = "block";
-                    document.getElementById("alertcheck").style.display = "none";
-                    document.getElementById("alertcheck2").innerHTML = "Bạn đã thêm " + addQuantity + " sản phẩm vào giỏ hàng !";
-                    setTimeout(do_alert2, 2000);
+                    var data = JSON.parse(this.responseText);
+                    for (var item of block) {
+                        item.disabled = false;
+                        var check = 0;
+                        for (var i = 0; i < data.length; i++) {
+                            if (item.value == data[i]) {
+                                check = 1;
+                                break;
+                            }
+                        }
+                        if (check == 0) {
+                            item.disabled = true;
+                        }
+                    }
                 }
             };
         }
-    }
-    var do_alert = function () {
-        document.getElementById("alertcheck").style.display = "none";
-    };
-    var do_alert2 = function () {
-        document.getElementById("alertcheck2").style.display = "none";
-    };
-    function buyNow() {
-        if (addColorId == null || addSizeId == null) {
-            document.getElementById("alertcheck").style.display = "block";
-            document.getElementById("alertcheck").innerHTML = "Bạn chưa chọn Size hoặc Màu";
-            setTimeout(do_alert, 2000);
-        }
-    }
-    function myFunction() {
-        if (addColorId != null && addSizeId != null) {
+        //        
+        function checkSize(sizeId) {
+            addSizeId = sizeId;
+            var block2 = document.getElementsByClassName("productColor");
+            //            for (var item of block) {
+            //                item.checked = false;
+            //            }
             var xhttp;
             xhttp = new XMLHttpRequest();
-            xhttp.open("GET", "checkQuantity?sizeId=" + addSizeId + "&productId=${product.id}" + "&colorId=" + addColorId, true);
+            xhttp.open("GET", "print-color-by-size?sizeId=" + sizeId + "&productId=${product.id}", true);
             xhttp.send();
             xhttp.onreadystatechange = function () {
                 if (this.readyState === 4 && this.status === 200) {
-                    console.log(this.responseText);
-                    document.getElementById("myInput").max = Number(this.responseText);
-                    document.getElementById("soluong123").innerHTML = "Số lượng còn lại" + this.responseText;
+                    var data = JSON.parse(this.responseText);
+                    for (var item of block2) {
+                        item.disabled = false;
+                        var check = 0;
+                        for (var i = 0; i < data.length; i++) {
+                            if (item.value == data[i]) {
+                                check = 1;
+                                break;
+                            }
+                        }
+                        if (check == 0) {
+                            item.disabled = true;
+                        }
+                    }
                 }
-
             };
-
         }
-    }
 
-</script>
+        //    function setQuantity() {
+        //        var quantity2 = document.getElementById("quantity9").value;
+        //        addQuantity = quantity2;
+        //    }
+        document.getElementsByClassName('quantityvalidate')[0].oninput = function () {
+            var max = parseInt(this.max);
+            var min = parseInt(this.min);
+            if (parseInt(this.value) < min) {
+                this.value = min;
+            } else if (parseInt(this.value) > max) {
+                this.value = max;
+            }
+            var quantity2 = document.getElementById("quantity9").value;
+            addQuantity = quantity2;
+        }
+        function addCart() {
+            if (addColorId == null || addSizeId == null) {
+                document.getElementById("alertcheck").style.display = "block";
+                document.getElementById("alertcheck").innerHTML = "Bạn chưa chọn Size hoặc Màu";
+                setTimeout(do_alert, 2000);
+            } else {
+                if (addQuantity == null) {
+                    addQuantity = 1;
+                }
+                var xhttp;
+                xhttp = new XMLHttpRequest();
+                xhttp.open("GET", "add-to-cart?sizeId=" + addSizeId + "&productId=${product.id}"
+                        + "&quantity=" + addQuantity + "&colorId=" + addColorId, true);
+                xhttp.send();
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState === 4 && this.status === 200) {
+                        console.log(this.responseText);
+                        document.getElementById("cart-count2").innerHTML = this.responseText;
+                        document.getElementById("alertcheck2").style.display = "block";
+                        document.getElementById("alertcheck").style.display = "none";
+                        document.getElementById("alertcheck2").innerHTML = "Bạn đã thêm " + addQuantity + " sản phẩm vào giỏ hàng !";
+                        setTimeout(do_alert2, 2000);
+                    }
+                };
+            }
+        }
+        var do_alert = function () {
+            document.getElementById("alertcheck").style.display = "none";
+        };
+        var do_alert2 = function () {
+            document.getElementById("alertcheck2").style.display = "none";
+        };
+        function buyNow() {
+            if (addColorId == null || addSizeId == null) {
+                document.getElementById("alertcheck").style.display = "block";
+                document.getElementById("alertcheck").innerHTML = "Bạn chưa chọn Size hoặc Màu";
+                setTimeout(do_alert, 2000);
+            }
+        }
+        function myFunction() {
+            if (addColorId != null && addSizeId != null) {
+                var xhttp;
+                xhttp = new XMLHttpRequest();
+                xhttp.open("GET", "checkQuantity?sizeId=" + addSizeId + "&productId=${product.id}" + "&colorId=" + addColorId, true);
+                xhttp.send();
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState === 4 && this.status === 200) {
+                        console.log(this.responseText);
+                        document.getElementById("myInput").max = Number(this.responseText);
+                        document.getElementById("soluong123").innerHTML = "Số lượng còn lại" + this.responseText;
+                    }
+
+                };
+
+            }
+        }
+
+    </script>
 </html>

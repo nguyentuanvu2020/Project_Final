@@ -49,6 +49,9 @@ public class OrderService {
         }
 //        mailService.sendEmail(orderSaved);
     }
+    public List<OrderEntity> getAllOrderByAccountId(int accountId){
+        return orderRepository.getAllOrderByAccountId(accountId);
+    }
     
 //    code của hiệp
     public List<OrderEntity> getAllOrderProcessing(OrderStatus status){

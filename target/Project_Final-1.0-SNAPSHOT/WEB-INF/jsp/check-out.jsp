@@ -2,6 +2,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="mvc" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" class="flexbox">
     <head>
         <link rel="shortcut icon" href="//theme.hstatic.net/1000243581/1000361905/14/favicon.png?v=151" type="image/png" />
@@ -315,34 +316,35 @@
                                         <h2 class="section-title">Thông tin giao hàng</h2>
                                     </div>
                                     <div class="section-content section-customer-indivation no-mb">
-
-                                        <p class="section-content-text">
+                                        <sec:authorize access="!isAuthenticated()">
+                                         <p class="section-content-text">
                                             Bạn đã có tài khoản?
-                                            <a href="/account/login?urlredirect=%2Fcheckouts%2Ffebd6875318b4520856c4c39f213c2b4%3Fstep%3D1">Đăng nhập</a>
-                                        </p>
+                                            <a href="account">Đăng nhập</a>
+                                        </p>   
+                                        </sec:authorize>
                                         <div class="fieldset">
                                             <div class="field   ">
                                                 <div class="field-input-wrapper">
                                                     <label class="field-label" for="billing_address_full_name">Họ và tên</label>
-                                                    <input  required=""placeholder="Họ và tên" autocapitalize="off" spellcheck="false" class="field-input" size="30" type="text" id="billing_address_full_name" name="name" value="" />
+                                                    <input  required=""placeholder="Họ và tên" autocapitalize="off" spellcheck="false" class="field-input" size="30" type="text" id="billing_address_full_name" name="name" value="${customer.name}" />
                                                 </div>
                                             </div>
                                             <div class="field  field-two-thirds  ">
                                                 <div class="field-input-wrapper">
                                                     <label class="field-label" for="checkout_user_email">Email</label>
-                                                    <input placeholder="Email" autocapitalize="off" spellcheck="false" class="field-input" size="30" type="email" id="checkout_user_email" name="email" value="" />
+                                                    <input placeholder="Email" autocapitalize="off" spellcheck="false" class="field-input" size="30" type="email" id="checkout_user_email" name="email" value="${customer.email}" />
                                                 </div>
                                             </div>
                                             <div class="field field-required field-third  ">
                                                 <div class="field-input-wrapper">
                                                     <label class="field-label" for="billing_address_phone">Số điện thoại</label>
-                                                    <input required=""placeholder="Số điện thoại" autocapitalize="off" spellcheck="false" class="field-input" size="30" maxlength="11" type="tel" id="billing_address_phone" name="phoneNumber" value="" />
+                                                    <input required=""placeholder="Số điện thoại" autocapitalize="off" spellcheck="false" class="field-input" size="30" maxlength="11" type="tel" id="billing_address_phone" name="phoneNumber" value="${customer.phoneNumber}" />
                                                 </div>
                                             </div>
                                             <div class="field   ">
                                                 <div class="field-input-wrapper">
                                                     <label class="field-label" for="billing_address_address1">Địa chỉ</label>
-                                                    <input required=""placeholder="Địa chỉ" autocapitalize="off" spellcheck="false" class="field-input" size="30" type="text" id="billing_address_address1" name="address" value="" />
+                                                    <input required=""placeholder="Địa chỉ" autocapitalize="off" spellcheck="false" class="field-input" size="30" type="text" id="billing_address_address1" name="address" value="${customer.address}" />
                                                 </div>
                                             </div>
                                             <div class="field   ">

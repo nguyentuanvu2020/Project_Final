@@ -171,6 +171,8 @@
                                                         Bạn đã có tài khoản?
                                                         <a href="login">Đăng nhập</a>
                                                     </p>
+                                                    <p class="alert alert-danger" id="messageEmail" style="display: none"></p>
+
                                                     <div class="fieldset">
                                                         <div class="field   ">
                                                             <div class="field-input-wrapper">
@@ -195,10 +197,11 @@
                                                         </div>
                                                         <div class="field  field-two-thirds  ">
                                                             <div class="field-input-wrapper">
-                                                                <label class="field-label" for="checkout_user_email">Email</label>
-                                                                <input required="" placeholder="Email" autocapitalize="off" spellcheck="false" class="field-input" size="30" type="email" id="checkout_user_email" name="email" value="" />
+                                                                <label class="field-label" for="check_email">Email</label>
+                                                                <input oninput="checkEmail()" required="" placeholder="Email" autocapitalize="off" spellcheck="false" class="field-input" size="30" type="email" id="check_email" name="email" value="" />
                                                             </div>
                                                         </div>
+
                                                         <div class="field field-required field-third  ">
                                                             <div class="field-input-wrapper">
                                                                 <label class="field-label" for="billing_address_phone">Số điện thoại</label>
@@ -247,6 +250,29 @@
                 </div>
             </div>
             <jsp:include page="include/footer.jsp"/>
+            <script>
+                function checkEmail() {
+                    var email = document.getElementById("check_email").value;
+                    var xhttp;
+                    xhttp = new XMLHttpRequest();
+                    xhttp.open("GET", "check-email-isavailable?email=" + email, true);
+                    xhttp.send();
+                    xhttp.onreadystatechange = function () {
+                        if (this.readyState === 4 && this.status === 200) {
+                            let response = this.responseText;
+                            if (response === "true") {
+                                document.getElementById("messageEmail").style.display = "block";
+                                document.getElementById("messageEmail").innerHTML = "Email này đã được đăng ký";
+                                document.getElementById("submit_register").disabled = true;
+
+                            } else {
+                                document.getElementById("submit_register").disabled = false;
+                                document.getElementById("messageEmail").style.display = "none";
+                            }
+                        }
+                    };
+                }
+            </script>
             <jsp:include page="include/menu-mobile.jsp"/>
             <!--end menu mobile-->
 
@@ -259,6 +285,7 @@
                     </svg>
                 </a>
             </div>
+
             <script>
                 var allowsubmit = false;
                 $(function () {
@@ -271,8 +298,12 @@
                         //check the strings
                         if (pass == confpass) {
                             //if both are same remove the error and allow to submit
-                            $('#message').text('');
-                            allowsubmit = true;
+                            if (pass.length < 6) {
+                                $('#message').text('Mật khẩu trên 6 kí tự');
+                                allowsubmit = fasle;
+                            } else {
+                                allowsubmit = true;
+                            }
                         } else {
                             //if not matching show error and not allow to submit
                             $('#message').text('Nhập lại mật khẩu không đúng');
@@ -288,7 +319,7 @@
 
                         //just to make sure once again during submit
                         //if both are true then only allow submit
-                        if (pass == confpass) {
+                        if (pass == confpass && pass.length>=6) {
                             allowsubmit = true;
                         }
                         if (allowsubmit) {

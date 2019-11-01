@@ -18,4 +18,8 @@ public interface OrderRepository extends CrudRepository<OrderEntity, Integer>{
 //    code của hiệp
     @Query(value = "select o from OrderEntity o where o.orderStatus = ?1")
     List<OrderEntity> getAllOrderByStatus(OrderStatus s);
+    
+    
+    @Query(value = "SELECT * FROM orders o join customers c on o.customer_id = c.id where c.account_id = ?1",nativeQuery = true)
+    List<OrderEntity> getAllOrderByAccountId(int accountId);
 }

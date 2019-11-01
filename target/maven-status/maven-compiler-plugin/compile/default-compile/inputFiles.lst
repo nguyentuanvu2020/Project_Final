@@ -22,6 +22,7 @@ D:\New folder\Project_Final\src\main\java\com\ivt\controller\HomeController.java
 D:\New folder\Project_Final\src\main\java\com\ivt\entities\OrderDetailEntity.java
 D:\New folder\Project_Final\src\main\java\com\ivt\repositories\CustomerRepository.java
 D:\New folder\Project_Final\src\main\java\com\ivt\service\MailService.java
+D:\New folder\Project_Final\src\main\java\com\ivt\repositories\FavoriteRepository.java
 D:\New folder\Project_Final\src\main\java\com\ivt\repositories\SizeRepository.java
 D:\New folder\Project_Final\src\main\java\com\ivt\security\CustomAuthenticationProvider.java
 D:\New folder\Project_Final\src\main\java\com\ivt\entities\OrderEntity.java
@@ -39,6 +40,7 @@ D:\New folder\Project_Final\src\main\java\com\ivt\entities\PromotionEntity.java
 D:\New folder\Project_Final\src\main\java\com\ivt\entities\VoteEntity.java
 D:\New folder\Project_Final\src\main\java\com\ivt\controller\UserController.java
 D:\New folder\Project_Final\src\main\java\com\ivt\service\ProductService.java
+D:\New folder\Project_Final\src\main\java\com\ivt\service\FavoriteService.java
 D:\New folder\Project_Final\src\main\java\com\ivt\entities\FavoriteEntity.java
 D:\New folder\Project_Final\src\main\java\com\ivt\repositories\ColorRepository.java
 D:\New folder\Project_Final\src\main\java\com\ivt\entities\CustomerEntity.java
