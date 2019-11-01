@@ -56,7 +56,17 @@
                         <li><a href="<c:url value="#"/>"><i class="glyphicon glyphicon-repeat"></i> Update category</a></li>
                     </ul>
                 </li>
-                <li><a href="#"><i class="glyphicon glyphicon-pencil"></i> Manage order</a></li>
+                <li class="submenu">
+                    <a href="#">
+                        <i class="glyphicon glyphicon-pencil"></i> Manage order
+                        <span class="caret pull-right"></span>
+                    </a>
+                    <ul>
+                        <li><a href="<c:url value="../seller/processing-orders"/>"><i class="glyphicon glyphicon-plus"></i> New orders</a></li>
+                        <li><a href="<c:url value="#"/>"><i class="glyphicon glyphicon-repeat"></i> Shipping Orders</a></li>
+                        <li><a href="<c:url value="#"/>"><i class="glyphicon glyphicon-repeat"></i> Paid Orders</a></li>
+                    </ul>
+                </li>
                 <li><a href="#"><i class="glyphicon glyphicon-list"></i> Make order</a></li>
                 <li><a href="#"><i class="glyphicon glyphicon-tasks"></i> Make report</a></li>
                 </sec:authorize>

@@ -6,7 +6,7 @@
 package com.ivt.repositories;
 
 import com.ivt.entities.OrderEntity;
-import java.io.Serializable;
+import com.ivt.enums.OrderStatus;
 import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -17,5 +17,5 @@ public interface OrderRepository extends CrudRepository<OrderEntity, Integer>{
     
 //    code của hiệp
     @Query(value = "select o from OrderEntity o where o.orderStatus = ?1")
-    List<OrderEntity> getAllOrderByStatus(String status);
+    List<OrderEntity> getAllOrderByStatus(OrderStatus s);
 }

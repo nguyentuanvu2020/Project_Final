@@ -9,7 +9,7 @@
 <script async src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js?v=151"></script>
 <script src="${pageContext.request.contextPath}/resources/js/owl.carousel_v2.0.0-beta.2.4.js?v=151"></script>
 <script src="${pageContext.request.contextPath}/resources/js/jquery.countdown.min.js?v=151"></script>
-<script async src="${pageContext.request.contextPath}/resources/js/14/velocity.js?v=151"></script>
+<script async src="${pageContext.request.contextPath}/resources/js/velocity.js?v=151"></script>
 <script>
     var formatMoney = '{{amount}}₫';
 </script>
