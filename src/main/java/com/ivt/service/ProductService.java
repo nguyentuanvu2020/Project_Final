@@ -62,6 +62,10 @@ public class ProductService {
         return productDetailRepository.findOne(id);
     }
     
+    public ProductEntity findAWholeProductById(int id){
+        return productRepository.findWholeProductById(id);
+    }
+    
      //code của hiệp
 //    @Autowired
 //    private ProductRepository productRepository;

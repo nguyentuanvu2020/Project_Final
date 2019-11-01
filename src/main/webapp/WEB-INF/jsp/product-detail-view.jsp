@@ -71,13 +71,9 @@
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pd5">
                             <ol class="breadcrumb breadcrumb-arrow">
-                                <li><a href="/" target="_self">Trang chủ</a></li>
-
-
-
+                                <li><a href="home" target="_self">Trang chủ</a></li>
                                 <li><i class="fa fa-angle-right"></i></li>
-                                <li><a href="/collections/giay-chinh-hang" target="_self">Giày Chính Hãng</a></li>
-
+                                <li><a href="collection" target="_self">Giày Chính Hãng</a></li>
                                 <li><i class="fa fa-angle-right"></i></li>
                                 <li class="active"><span>${product.name}</span></li>
                             </ol>
@@ -91,14 +87,13 @@
                         <div id="surround" class="col-lg-6 col-md-6">
                             <div id="slider-menu" class="slider-menu">
                                 <div class="owl-carousel">
-                                    <c:forEach var="image" items="${listImage}">
+                                    <c:forEach var="image" items="${product.listImageProductDetail}">
                                         <div class="item active">
                                             <picture>
-                                                <source media="(max-width: 767px)" srcset="${pageContext.request.contextPath}/resources/image/product/${image.name}">
-                                                <source media="(min-width: 768px)" srcset="${pageContext.request.contextPath}/resources/image/product/${image.name}">
-                                                <img src="${pageContext.request.contextPath}/resources/image/product/${image.name}" alt="slide 1" title="slide 1" style="height: 330px">
+                                                <source media="(max-width: 767px)" srcset="${pageContext.request.contextPath}/resources/image/${image.name}">
+                                                <source media="(min-width: 768px)" srcset="${pageContext.request.contextPath}/resources/image/${image.name}">
+                                                <img src="${pageContext.request.contextPath}/resources/image/${image.name}" alt="slide 1" title="slide 1" style="height: 330px">
                                             </picture>
-                                            </a>
                                         </div>
                                     </c:forEach>
                                 </div>
@@ -238,6 +233,43 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-8 col-xs-12 pd5">
+                            <div class="product-comment">
+                                <!-- Nav tabs -->
+                                <ul class="product-tablist nav nav-tabs" id="tab-product-template"><li class="dropdown pull-right tabdrop hide"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-bars"></i> <b class="caret"></b></a><ul class="dropdown-menu"></ul></li>
+                                    <li class="active">
+                                        <a data-toggle="tab" data-spy="scroll" href="#description">
+                                            <span>Mô tả sản phẩm</span>
+                                        </a>
+                                    </li>
+
+                                </ul>
+                                <!-- Tab panes -->
+                                <div id="description">										
+                                    <div class="container-fluid product-description-wrapper">
+
+                                        <p>[<span>&nbsp;</span><a href="https://hangchinhhanggiare.com/collections/giay-adidas" data-mce-href="https://hangchinhhanggiare.com/collections/giay-adidas">Giày Adidas P.O.D-S3.1 "Green"</a>&nbsp;]</p><p>► Shop vừa về thêm vài mẫu giày adidas&nbsp;<a class="_58cn" href="https://www.facebook.com/hashtag/x_plr?source=feed_text&amp;story_id=1757553900935684" data-mce-href="https://www.facebook.com/hashtag/x_plr?source=feed_text&amp;story_id=1757553900935684"><span class="_5afx"><span class="_58cl _5afz">#</span><span class="_58cm">P.O.D-S3.1 "Green"</span></span></a>&nbsp;chính hãng mới nhất với phối grey nhé cả nhà! Hiện còn rất nhiều mẫu size nam tại shop! Ghé shop ngay để tham khảo nhé!&nbsp;<span class="_47e3 _5mfr"><img class="img" height="16" src="https://hstatic.net/392/1000243581/file/img-product-100055.png" width="16" data-mce-src="https://hstatic.net/392/1000243581/file/img-product-100055.png"><span class="_7oe">&lt;3</span></span>&nbsp;<span class="_47e3 _5mfr"><img class="img" height="16" src="https://hstatic.net/392/1000243581/file/img-product-100055.png" width="16" data-mce-src="https://hstatic.net/392/1000243581/file/img-product-100055.png"><span class="_7oe">&lt;3</span></span>&nbsp;<span class="_47e3 _5mfr"><img class="img" height="16" src="https://hstatic.net/392/1000243581/file/img-product-100055.png" width="16" data-mce-src="https://hstatic.net/392/1000243581/file/img-product-100055.png"><span class="_7oe">&lt;3</span></span></p><p>► Cam kết hàng chính hãng 100% Bao check, bao test&nbsp;<span class="_47e3 _5mfr"><img class="img" height="16" src="https://hstatic.net/392/1000243581/file/img-product-100055.png" width="16" data-mce-src="https://hstatic.net/392/1000243581/file/img-product-100055.png"><span class="_7oe">&lt;3</span></span></p><p>► Giá : [ Inbox hoặc tham khảo thêm tại website ]</p><div class="text_exposed_show"><p>-----------------------------------------</p><p>Hotline: 0933597986</p><p>Add: [86 Trần Hưng Đạo, P. Phạm Ngũ Lão, Q.1]</p><p>IG: hangchinhhanggiare</p><p><span style="color: rgb(255, 255, 255);" data-mce-style="color: #ffffff;">giày chính hãng, giày thể thao, giày nmd, giày nmd chính hãng, giày adidas, giày adidas chính hãng, giày chính hãng nam, hàng chính hãng nữ, giày thời trang, giày đẹp, giày real, giày chính hãng tphcm, giày chạy bộ, giày prophere, giày prophere chính hãng,,xplr. giày adidas xplr,nite jogger. POD, giày adidas POD chính hãng</span></p><p><span style="color: rgb(255, 255, 255);" data-mce-style="color: #ffffff;">ee4856</span></p><p><br></p></div>
+
+                                    </div>
+                                </div>
+
+                                <div id="comment">
+                                    <div class="group-index mb15">
+                                        <div class="title-block">
+                                            <h3 class="title-group">Bình luận</h3>
+                                        </div>
+                                    </div>
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            
+                                        </div>
+                                    </div>
+                                </div>	
+
                             </div>
                         </div>
                     </div>

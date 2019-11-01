@@ -139,12 +139,9 @@ public class HomeController {
 
     @RequestMapping(value = {"/product-detail-view"}, method = RequestMethod.GET)
     public String viewProductDetail(Model model, @RequestParam("productId") int id) {
-        ProductEntity product = productService.findProductById(id);
-        List<ImageProductEntity> listImage = imageService.getImageByProduct(product);
-        model.addAttribute("listImage", listImage);
+        model.addAttribute("product", productService.findAWholeProductById(id));
         model.addAttribute("listColor", productColorService.findListColorByProductId(id));
         model.addAttribute("listSize", productSizeService.findListSizeByProductId(id));
-        model.addAttribute("listtv", productDetailService.getListProductDetailByProductIdAndColorId(1, 1));
         model.addAttribute("genders", Gender.values());
         return "product-detail-view";
 
