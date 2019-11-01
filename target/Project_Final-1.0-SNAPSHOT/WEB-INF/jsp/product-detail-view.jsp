@@ -149,21 +149,46 @@
                                             }
                                         </style>
                                         <div class="radio-toolbar">
+                                            <div class="flex items-center _25DJo1" id="checkFavorite"onclick="checkFavorite()" style="display: flex">
+                                                <svg width="24" height="20" class="_10K0Ee">
+                                                <path d="M19.469 1.262c-5.284-1.53-7.47 4.142-7.47 4.142S9.815-.269 4.532 1.262C-1.937 3.138.44 13.832 12 19.333c11.559-5.501 13.938-16.195 7.469-18.07z" 
+                                                      stroke="#FF424F" stroke-width="1.5" fill="none" fill-rule="evenodd" stroke-linejoin="round" id="on"></path>
+                                                </svg><div class="_1-aYcb"> Đã thích (384)</div></div>
+                                            <script>
+                                                let a = document.getElementById('on');
+                                                let check = false;
+                                                function checkFavorite() {
+                                                    if (check == false) {
+                                                        a.style.fill = "#FF424F";
+                                                        check = true;
+                                                    } else {
+                                                        a.style.fill = "none";
+                                                        check = false;
+                                                    }
+                                                }
+                                            </script>
+                                        </div>
+                                        
+                                        <div class="radio-toolbar">
+                                            <p>Chọn màu</p>
                                             <c:forEach var="colors" items="${listColor}">
                                                 <input required="" type="radio" id="color${colors.productColor}" name="colorId" value="${colors.id}" class="productColor"onclick="checkColor(${colors.id})">
                                                 <label for="color${colors.productColor}">${colors.productColor}</label>
                                             </c:forEach>
                                         </div>
-                                        <br>
                                         <div class="radio-toolbar">
+                                            <p>Chọn size</p>
                                             <c:forEach var="sizes" items="${listSize}">
                                                 <input required="" type="radio" id="color${sizes.productSize}" name="sizeId" value="${sizes.id}" class="productSize" onclick="checkSize(${sizes.id})">
                                                 <label for="color${sizes.productSize}">${sizes.productSize}</label>
                                             </c:forEach>
                                         </div>
-                                        <br>
-                                        <div class="form-group col-lg-4">
-                                            <input  class="form-control" type="number" min="1" value="1" max="15" id="myInput" oninput="myFunction()"><p id="soluong123"></p>
+                                        <div class="radio-toolbar">
+                                            <p>Chọn Số lượng</p>
+                                            <input type="number" style="height: 40px;width: 100px;border: 1px solid grey;
+                                                   border-radius: 4px 4px;text-align: center;" max="10" min="1" value="1" 
+                                                   name="quantity" required="" id="quantity9" 
+                                                   class="quantityvalidate">
                                         </div>
                                     </div>
                                 </div>
@@ -265,7 +290,7 @@
                                     </div>
                                     <div class="container-fluid">
                                         <div class="row">
-                                            
+
                                         </div>
                                     </div>
                                 </div>	
@@ -299,6 +324,7 @@
 <script>
     var addColorId;
     var addSizeId;
+    var addQuantity;
     function checkColor(colorId) {
         addColorId = colorId;
         var block = document.getElementsByClassName("productSize");
@@ -358,15 +384,35 @@
             }
         };
     }
+
+//    function setQuantity() {
+//        var quantity2 = document.getElementById("quantity9").value;
+//        addQuantity = quantity2;
+//    }
+    document.getElementsByClassName('quantityvalidate')[0].oninput = function () {
+        var max = parseInt(this.max);
+        var min = parseInt(this.min);
+        if (parseInt(this.value) < min) {
+            this.value = min;
+        } else if (parseInt(this.value) > max) {
+            this.value = max;
+        }
+        var quantity2 = document.getElementById("quantity9").value;
+        addQuantity = quantity2;
+    }
     function addCart() {
         if (addColorId == null || addSizeId == null) {
             document.getElementById("alertcheck").style.display = "block";
             document.getElementById("alertcheck").innerHTML = "Bạn chưa chọn Size hoặc Màu";
             setTimeout(do_alert, 2000);
         } else {
+            if (addQuantity == null) {
+                addQuantity = 1;
+            }
             var xhttp;
             xhttp = new XMLHttpRequest();
-            xhttp.open("GET", "add-to-cart?sizeId=" + addSizeId + "&productId=${product.id}" + "&colorId=" + addColorId, true);
+            xhttp.open("GET", "add-to-cart?sizeId=" + addSizeId + "&productId=${product.id}"
+                    + "&quantity=" + addQuantity + "&colorId=" + addColorId, true);
             xhttp.send();
             xhttp.onreadystatechange = function () {
                 if (this.readyState === 4 && this.status === 200) {
@@ -374,7 +420,7 @@
                     document.getElementById("cart-count2").innerHTML = this.responseText;
                     document.getElementById("alertcheck2").style.display = "block";
                     document.getElementById("alertcheck").style.display = "none";
-                    document.getElementById("alertcheck2").innerHTML = "Bạn đã thêm 1 sản phẩm vào giỏ hàng !";
+                    document.getElementById("alertcheck2").innerHTML = "Bạn đã thêm " + addQuantity + " sản phẩm vào giỏ hàng !";
                     setTimeout(do_alert2, 2000);
                 }
             };
@@ -410,23 +456,6 @@
 
         }
     }
-//    function checkQuantityStore(){
-////        if (addColorId != null && addSizeId != null) {
-////            var xhttp;
-////            xhttp = new XMLHttpRequest();
-////            xhttp.open("GET", "checkQuantity?sizeId=" + addSizeId + "&productId=${product.id}" + "&colorId=" + addColorId, true);
-////            xhttp.send();
-////            xhttp.onreadystatechange = function () {
-////                if (this.readyState === 4 && this.status === 200) {
-////                    console.log(this.responseText);
-////                    document.getElementById("alertcheck2").style.display = "block";
-////                    document.getElementById("alertcheck2").innerHTML = 15;
-////                }
-////            };
-//            document.getElementById("soluong123").innerHTML = "15";
-//            
-////        }
-//    }
 
 </script>
 </html>

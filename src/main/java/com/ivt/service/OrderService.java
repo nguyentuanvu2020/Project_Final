@@ -10,7 +10,10 @@ import com.ivt.repositories.CustomerRepository;
 import com.ivt.repositories.OrderDetailRepository;
 import com.ivt.repositories.OrderRepository;
 import com.ivt.repositories.ProductDetailRepository;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
+import javax.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,8 +32,11 @@ public class OrderService {
     @Autowired
     private CustomerRepository customerRepository;
     
+    @Autowired
+    private MailService mailService;
+    
     @Transactional(rollbackFor = Exception.class)
-    public OrderEntity AddOrder(OrderEntity order,List<ProductDetailEntity> listProductDetailStore){
+    public void AddOrder(OrderEntity order,List<ProductDetailEntity> listProductDetailStore) throws MessagingException, FileNotFoundException, IOException{
         CustomerEntity customerSaved = customerRepository.save(order.getCustomer());
         order.setCustomer(customerSaved);
         OrderEntity orderSaved = orderRepository.save(order);
@@ -41,7 +47,7 @@ public class OrderService {
         for (ProductDetailEntity productDetailEntity : listProductDetailStore) {
             productDetailRepository.save(productDetailEntity);
         }
-        return orderSaved;
+//        mailService.sendEmail(orderSaved);
     }
     
 //    code của hiệp

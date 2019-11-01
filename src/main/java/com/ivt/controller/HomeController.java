@@ -1,19 +1,16 @@
 package com.ivt.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ivt.entities.AccountEntity;
 import com.ivt.entities.AccountRoleEntity;
 import com.ivt.entities.Cart;
 import com.ivt.entities.ColorEntity;
 import com.ivt.entities.CustomerEntity;
-import com.ivt.entities.ImageProductEntity;
 import com.ivt.entities.OrderDetailEntity;
 import com.ivt.entities.OrderEntity;
 import com.ivt.entities.ProductDetailEntity;
 import com.ivt.entities.ProductEntity;
 import com.ivt.entities.SizeEntity;
 import com.ivt.enums.Gender;
-import com.ivt.enums.ProductStatus;
 import com.ivt.service.AccountService;
 import com.ivt.service.CategoryService;
 import com.ivt.service.ImageService;
@@ -28,6 +25,7 @@ import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -90,6 +88,19 @@ public class HomeController {
     public String viewCheckOut() {
         return "check-out";
     }
+    
+    @RequestMapping("/account")
+    public String viewAccount(Model model) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof AccountEntity) {
+            String currentUserName = ((AccountEntity) principal).getName();
+            // principal
+            model.addAttribute("username", principal);
+        }else{
+            return "redirect:/login";
+        }
+        return "account";
+    }
 
     @RequestMapping("/login")
     public String viewLoginx(Model model,
@@ -97,9 +108,9 @@ public class HomeController {
         model.addAttribute("action", "j_spring_security_check");
         if (isError) {
             model.addAttribute("message", "Tài khoản hoặc mật khẩu không đúng");
-            return "account-login";
+            return "login";
         }
-        return "account-login";
+        return "login";
     }
 
     @RequestMapping(value = {"/addproduct-detail"}, method = RequestMethod.GET)
@@ -184,9 +195,10 @@ public class HomeController {
     @RequestMapping(value = {"/buynow"}, method = RequestMethod.POST)
     public String viewCart(Model model, @RequestParam("colorId") int colorId,
             @RequestParam("sizeId") int sizeId,
-            @RequestParam("productId") int productId, HttpSession session) {
+            @RequestParam("productId") int productId,@RequestParam("quantity") int quantity,
+            HttpSession session) {
         ProductDetailEntity newProductDetail = productDetailService.findProductDetailByProductIdAndColorIdAndSizeId(productId, colorId, sizeId);
-        newProductDetail.setProductQuantity(1);
+        newProductDetail.setProductQuantity(quantity);
         boolean check = (session.getAttribute("cart") == null);
 
         if (check) {
@@ -206,10 +218,10 @@ public class HomeController {
     @ResponseBody
     public String addToCart(Model model, @RequestParam("colorId") int colorId,
             @RequestParam("sizeId") int sizeId,
-            @RequestParam("productId") int productId, HttpSession session) {
+            @RequestParam("productId") int productId,@RequestParam("quantity") int quantity, HttpSession session) {
 
         ProductDetailEntity newProductDetail = productDetailService.findProductDetailByProductIdAndColorIdAndSizeId(productId, colorId, sizeId);
-        newProductDetail.setProductQuantity(1);
+        newProductDetail.setProductQuantity(quantity);
         boolean check = (session.getAttribute("cart") == null);
         int count = 0;
         if (check) {
@@ -277,8 +289,7 @@ public class HomeController {
         newOrder.setTotalPrice(cart.getTotal());
         newOrder.setNote(note);
         try {
-            OrderEntity orderSaved = orderService.AddOrder(newOrder, listProductDetailStore);
-            mailService.sendEmail(orderSaved);
+            orderService.AddOrder(newOrder, listProductDetailStore);
             session.removeAttribute("cart");
             return "redirect:/home";
         } catch (Exception e) {

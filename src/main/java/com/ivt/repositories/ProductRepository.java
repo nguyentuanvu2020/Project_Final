@@ -27,4 +27,5 @@ public interface ProductRepository extends CrudRepository<ProductEntity, Integer
 
     @Query(value = "SELECT p FROM ProductEntity p JOIN p.listPromotion pm WHERE pm.id = ?1")
     public List<ProductEntity> getByPromotionId(int id);
+    
 }
