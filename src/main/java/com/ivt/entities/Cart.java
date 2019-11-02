@@ -45,7 +45,7 @@ public class Cart {
         int check = 0;
         for (ProductDetailEntity item : cart) {
             if (item.getId() == productDetail.getId()) {
-                item.setProductQuantity(item.getProductQuantity() + 1);
+                item.setProductQuantity(item.getProductQuantity() + productDetail.getProductQuantity());
                 check = 1;
             }
         }
@@ -54,7 +54,7 @@ public class Cart {
         }
         for (ProductDetailEntity item : cart) {
             a += (item.getProductQuantity() * item.getProduct().getPrice());
-            b += (item.getProductQuantity() * 1);
+            b += item.getProductQuantity();
         }
         total = a;
         count = b;

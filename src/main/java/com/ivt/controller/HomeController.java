@@ -1,25 +1,24 @@
 package com.ivt.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ivt.entities.AccountEntity;
 import com.ivt.entities.AccountRoleEntity;
 import com.ivt.entities.Cart;
 import com.ivt.entities.ColorEntity;
 import com.ivt.entities.CustomerEntity;
-import com.ivt.entities.ImageProductEntity;
+import com.ivt.entities.FavoriteEntity;
 import com.ivt.entities.OrderDetailEntity;
 import com.ivt.entities.OrderEntity;
 import com.ivt.entities.ProductDetailEntity;
 import com.ivt.entities.ProductEntity;
 import com.ivt.entities.SizeEntity;
 import com.ivt.enums.Gender;
-import com.ivt.enums.ProductStatus;
 import com.ivt.service.AccountService;
 import com.ivt.service.CategoryService;
 import com.ivt.service.ImageService;
 import com.ivt.service.MailService;
 import com.ivt.service.OrderService;
 import com.ivt.service.ColorService;
+import com.ivt.service.FavoriteService;
 import com.ivt.service.ProductDetailService;
 import com.ivt.service.ProductService;
 import com.ivt.service.SizeService;
@@ -28,6 +27,7 @@ import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -66,9 +66,12 @@ public class HomeController {
 
     @Autowired
     private MailService mailService;
-    
+
     @Autowired
     private BCryptPasswordEncoder passwordEndcoder;
+
+    @Autowired
+    private FavoriteService favoriteService;
 
     @RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
     public String viewHome(Model model) {
@@ -76,9 +79,9 @@ public class HomeController {
         return "home";
     }
 
-    @RequestMapping(value = {"/categoryz"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/dashboard"}, method = RequestMethod.GET)
     public String viewHome2(Model model) {
-        return "collections";
+        return "dashboard";
     }
 
     @RequestMapping(value = {"/howtochoosesize"}, method = RequestMethod.GET)
@@ -91,15 +94,29 @@ public class HomeController {
         return "check-out";
     }
 
+    @RequestMapping("/account")
+    public String viewAccount(Model model) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof AccountEntity) {
+            String currentUserName = ((AccountEntity) principal).getName();
+            // principal
+            model.addAttribute("username", principal);
+            model.addAttribute("listOrder", orderService.getAllOrderByAccountId(((AccountEntity) principal).getId()));
+        } else {
+            return "redirect:/login";
+        }
+        return "account";
+    }
+
     @RequestMapping("/login")
     public String viewLoginx(Model model,
             @RequestParam(value = "error", required = false) boolean isError) {
         model.addAttribute("action", "j_spring_security_check");
         if (isError) {
             model.addAttribute("message", "Tài khoản hoặc mật khẩu không đúng");
-            return "account-login";
+            return "login";
         }
-        return "account-login";
+        return "login";
     }
 
     @RequestMapping(value = {"/addproduct-detail"}, method = RequestMethod.GET)
@@ -124,11 +141,15 @@ public class HomeController {
     public String Register(Model model, @ModelAttribute("account") AccountEntity account) {
         try {
             AccountRoleEntity accountRole = new AccountRoleEntity();
-            accountRole.setId(1);
+            accountRole.setId(2);
             List<AccountRoleEntity> listRole = new ArrayList<>();
             listRole.add(accountRole);
             account.setAccountRoles(listRole);
             account.setPassword(passwordEndcoder.encode(account.getPassword()));
+            if (accountService.isAvailable(account.getEmail())) {
+
+                return "redirect:/account-form";
+            }
             accountService.registerAccount(account);
         } catch (Exception e) {
         }
@@ -139,7 +160,18 @@ public class HomeController {
 
     @RequestMapping(value = {"/product-detail-view"}, method = RequestMethod.GET)
     public String viewProductDetail(Model model, @RequestParam("productId") int id) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof AccountEntity) {
+            if (favoriteService.checkIsFavorite(productService.findProductById(id), accountService.findAccountById(((AccountEntity) principal).getId()))) {
+                model.addAttribute("style", "#FF424F");
+            } else {
+                model.addAttribute("style", "none");
+            }
+        } else {
+            model.addAttribute("style", "none");
+        }
         model.addAttribute("product", productService.findAWholeProductById(id));
+        model.addAttribute("favoriteTotal", favoriteService.favoriteTotalbyProductId(id));
         model.addAttribute("listColor", productColorService.findListColorByProductId(id));
         model.addAttribute("listSize", productSizeService.findListSizeByProductId(id));
         model.addAttribute("genders", Gender.values());
@@ -184,9 +216,10 @@ public class HomeController {
     @RequestMapping(value = {"/buynow"}, method = RequestMethod.POST)
     public String viewCart(Model model, @RequestParam("colorId") int colorId,
             @RequestParam("sizeId") int sizeId,
-            @RequestParam("productId") int productId, HttpSession session) {
+            @RequestParam("productId") int productId, @RequestParam("quantity") int quantity,
+            HttpSession session) {
         ProductDetailEntity newProductDetail = productDetailService.findProductDetailByProductIdAndColorIdAndSizeId(productId, colorId, sizeId);
-        newProductDetail.setProductQuantity(1);
+        newProductDetail.setProductQuantity(quantity);
         boolean check = (session.getAttribute("cart") == null);
 
         if (check) {
@@ -206,10 +239,10 @@ public class HomeController {
     @ResponseBody
     public String addToCart(Model model, @RequestParam("colorId") int colorId,
             @RequestParam("sizeId") int sizeId,
-            @RequestParam("productId") int productId, HttpSession session) {
+            @RequestParam("productId") int productId, @RequestParam("quantity") int quantity, HttpSession session) {
 
         ProductDetailEntity newProductDetail = productDetailService.findProductDetailByProductIdAndColorIdAndSizeId(productId, colorId, sizeId);
-        newProductDetail.setProductQuantity(1);
+        newProductDetail.setProductQuantity(quantity);
         boolean check = (session.getAttribute("cart") == null);
         int count = 0;
         if (check) {
@@ -254,6 +287,10 @@ public class HomeController {
             @ModelAttribute("customer") CustomerEntity customer, @RequestParam("note") String note) {
         Cart cart = (Cart) session.getAttribute("cart");
         OrderEntity newOrder = new OrderEntity();
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal != null) {
+            customer.setAccount((AccountEntity) principal);
+        }
         newOrder.setOrderDate(new Date());
         List<OrderDetailEntity> listOrderDetail = new ArrayList<>();
         List<ProductDetailEntity> listProductDetailStore = new ArrayList<>();
@@ -277,8 +314,7 @@ public class HomeController {
         newOrder.setTotalPrice(cart.getTotal());
         newOrder.setNote(note);
         try {
-            OrderEntity orderSaved = orderService.AddOrder(newOrder, listProductDetailStore);
-            mailService.sendEmail(orderSaved);
+            orderService.AddOrder(newOrder, listProductDetailStore);
             session.removeAttribute("cart");
             return "redirect:/home";
         } catch (Exception e) {
@@ -307,9 +343,22 @@ public class HomeController {
     @RequestMapping(value = {"/check-out"}, method = RequestMethod.GET)
     public String viewCheckOut(HttpSession session, Model model) {
         Cart cart = (Cart) session.getAttribute("cart");
-        model.addAttribute("action", "create-order");
-        model.addAttribute("customer", new CustomerEntity());
-        model.addAttribute("includeShipping", cart.getTotal() + 40000);
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof AccountEntity) {
+            String currentUserName = ((AccountEntity) principal).getName();
+            // principal
+            model.addAttribute("customer", principal);
+            model.addAttribute("check", "acc");
+            model.addAttribute("action", "create-order");
+            model.addAttribute("includeShipping", cart.getTotal() + 40000);
+
+        } else {
+            model.addAttribute("action", "create-order");
+            model.addAttribute("customer", new CustomerEntity());
+            model.addAttribute("includeShipping", cart.getTotal() + 40000);
+            model.addAttribute("check", "cus");
+            return "check-out";
+        }
         return "check-out";
 
     }
@@ -332,5 +381,42 @@ public class HomeController {
         model.addAttribute("allProduct", productService.getAllProductAndImage());
         return "collection";
 
+    }
+
+//    addfavorite................................................
+    @RequestMapping(value = {"/check-email-isavailable"}, method = RequestMethod.GET)
+    @ResponseBody
+    public String checkEmail(@RequestParam("email") String email) {
+        if (accountService.isAvailable(email)) {
+            return "true";
+        } else {
+            return "fasle";
+        }
+
+    }
+
+    @RequestMapping(value = {"/add-favorite"}, method = RequestMethod.GET)
+    @ResponseBody
+    public String addFavorite(@RequestParam("productId") int productId) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        FavoriteEntity newFavorite = new FavoriteEntity();
+        newFavorite.setAccount((AccountEntity) principal);
+        newFavorite.setProduct(productService.findProductById(productId));
+        favoriteService.addFavorite(newFavorite);
+        int totalFavorite = favoriteService.favoriteTotalbyProductId(productId);
+        String response = String.valueOf(totalFavorite);
+        return response;
+    }
+
+    @RequestMapping(value = {"/remove-favorite"}, method = RequestMethod.GET)
+    @ResponseBody
+    public String removeFavorite(@RequestParam("productId") int productId) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof AccountEntity) {
+            favoriteService.deleteFavorite(productService.findProductById(productId), accountService.findAccountById(((AccountEntity) principal).getId()));
+        }
+        int totalFavorite = favoriteService.favoriteTotalbyProductId(productId);
+        String response = String.valueOf(totalFavorite);
+        return response;
     }
 }

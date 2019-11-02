@@ -3,6 +3,7 @@ package com.ivt.repositories;
 
 import com.ivt.entities.AccountEntity;
 import java.io.Serializable;
+import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -26,4 +27,7 @@ public interface AccountRepository extends
             + "Join fetch acc.accountRoles "
             + "Where acc.email = ?1 ")
     AccountEntity findByEmail(String email);
+    
+    @Query("Select acc.email From AccountEntity acc Where acc.email = ?1 ")
+    List<AccountEntity> findByEmail2(String email);
 }

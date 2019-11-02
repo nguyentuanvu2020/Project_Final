@@ -37,8 +37,8 @@ public class OrderEntity implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date deliveredDate;
 
-    @Enumerated(EnumType.STRING)
-    private OrderStatus orderStatus = OrderStatus.PROCESSING;
+    
+    private String orderStatus = String.valueOf(OrderStatus.PROCESSING);
     private String note;
 
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
@@ -84,11 +84,11 @@ public class OrderEntity implements Serializable {
         this.deliveredDate = deliveredDate;
     }
 
-    public OrderStatus getOrderStatus() {
+    public String getOrderStatus() {
         return orderStatus;
     }
 
-    public void setOrderStatus(OrderStatus orderStatus) {
+    public void setOrderStatus(String orderStatus) {
         this.orderStatus = orderStatus;
     }
 

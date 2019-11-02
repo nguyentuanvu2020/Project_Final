@@ -8,7 +8,10 @@ import com.ivt.repositories.CustomerRepository;
 import com.ivt.repositories.OrderDetailRepository;
 import com.ivt.repositories.OrderRepository;
 import com.ivt.repositories.ProductDetailRepository;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
+import javax.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,9 +30,18 @@ public class OrderService {
 
     @Autowired
     private CustomerRepository customerRepository;
+<<<<<<< HEAD
 
     @Transactional(rollbackFor = Exception.class)
     public OrderEntity AddOrder(OrderEntity order, List<ProductDetailEntity> listProductDetailStore) {
+=======
+    
+    @Autowired
+    private MailService mailService;
+    
+    @Transactional(rollbackFor = Exception.class)
+    public void AddOrder(OrderEntity order,List<ProductDetailEntity> listProductDetailStore) throws MessagingException, FileNotFoundException, IOException{
+>>>>>>> 6b769d66f7d064ee421a0f8e4e5033b74bd5347d
         CustomerEntity customerSaved = customerRepository.save(order.getCustomer());
         order.setCustomer(customerSaved);
         OrderEntity orderSaved = orderRepository.save(order);
@@ -40,7 +52,10 @@ public class OrderService {
         for (ProductDetailEntity productDetailEntity : listProductDetailStore) {
             productDetailRepository.save(productDetailEntity);
         }
-        return orderSaved;
+//        mailService.sendEmail(orderSaved);
+    }
+    public List<OrderEntity> getAllOrderByAccountId(int accountId){
+        return orderRepository.getAllOrderByAccountId(accountId);
     }
 
 //    code của hiệp
