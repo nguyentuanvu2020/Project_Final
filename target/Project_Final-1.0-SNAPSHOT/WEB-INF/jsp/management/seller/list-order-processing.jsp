@@ -21,6 +21,9 @@
                                     <div class="panel-title">List Processing Order</div>
                                 </div>
                                 <div class="panel-body">
+                                    <div style="margin-bottom: 5px;">
+                                        <input id="from-date" type="date"><span>&nbsp;to&nbsp;</span><input id="to-date" class="control-label" type="date">&nbsp;&#9679;&nbsp;<input class="btn btn-xs btn-primary" type="button" onclick="searchOrderByDate()" value="Search">
+                                    </div>
                                     <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example">
                                         <thead>
                                             <tr>
@@ -31,15 +34,15 @@
                                                 <th>Total price</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody id="new-data">
                                             <c:set var="i" value="1"/>
-                                            <c:forEach var="order" items="${processingOrders}">
-                                                <tr class="odd gradeX">
+                                            <c:forEach var="order" items="${processingOders}">
+                                                <tr class="odd gradeX mouser-hover" onclick="location.href = '<c:url value="order-detail/${order.id}"/>'">
                                                     <td>${i}</td>
                                                     <td>${order.id}</td>
                                                     <td>${order.orderDate}</td>
                                                     <td>${order.note}</td>
-                                                    <td>${order.totalPrice}</td>
+                                                    <td><fmt:formatNumber minFractionDigits="0" type="number" value="${order.totalPrice}"/></td>
                                                 </tr>
                                                 <c:set var="i" value="${i+1}"/>
                                             </c:forEach>
@@ -49,7 +52,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="row">
                         <div class="col-md-12 panel-danger" style="margin: auto;">
 
@@ -61,5 +63,6 @@
         </div>
         <!--include footer-->
         <%@include file="../../include-management/footer.jsp" %>
+       
     </body>
 </html>

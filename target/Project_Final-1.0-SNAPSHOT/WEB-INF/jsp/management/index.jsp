@@ -26,28 +26,25 @@
                                         <a href="<c:url value="seller/processing-orders"/>">
                                             <li>
                                                 <span class="glyphicon glyphicon-list-alt"></span>
-                                                <span class="glyphicon-class">New order</span>
+                                                <h4 class="glyphicon-class">${orderProcessing} New order</h4>
+                                            </li>
+                                        </a>
+                                            <a href="#">
+                                            <li>
+                                                <span class="glyphicon glyphicon-send"></span>
+                                                <h4 class="glyphicon-class">${orderProcessing} Sending order</h4>
                                             </li>
                                         </a>
                                         <a href="<c:url value="seller/list-order-processing"/>">
                                             <li>
                                                 <span class="glyphicon glyphicon-ok-sign"></span>
-                                                <h1 class="glyphicon-class">Order paid</h1>
-                                                <span class="glyphicon-class">Order paid</span>
-                                            </li>
-                                        </a>
-                                        <a href="#">
-                                            <li>
-                                                <span class="glyphicon glyphicon-send"></span>
-                                                <h1 class="glyphicon-class">Order send</h1>
-                                                <span class="glyphicon-class">Order send</span>
+                                                <h4 class="glyphicon-class">${orderProcessing} Paid Order</h4>
                                             </li>
                                         </a>
                                         <a href="#">
                                             <li>
                                                 <span class="glyphicon glyphicon-usd"></span>
-                                                <h1 class="glyphicon-class">Total amount</h1>
-                                                <span class="glyphicon-class">Total amount</span>
+                                                <h4 class="glyphicon-class">${orderProcessing} Total amount in this month</h4>
                                             </li>
                                         </a>
                                     </ul>

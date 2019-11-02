@@ -6,16 +6,24 @@
 package com.ivt.repositories;
 
 import com.ivt.entities.OrderEntity;
-import com.ivt.enums.OrderStatus;
 import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface OrderRepository extends CrudRepository<OrderEntity, Integer>{
-    
+public interface OrderRepository extends CrudRepository<OrderEntity, Integer> {
+
 //    code của hiệp
-    @Query(value = "select o from OrderEntity o where o.orderStatus = ?1")
-    List<OrderEntity> getAllOrderByStatus(OrderStatus s);
+    @Query(value = "SELECT * FROM project_final.orders where orderStatus like 'PROCESSING'", nativeQuery = true)
+    List<OrderEntity> getAllOrderByStatus();
+
+    @Query(value = "select count(id) from project_final.orders where orderStatus like 'PROCESSING'", nativeQuery = true)
+    int counOrderEntityProcessing();
+
+//    @Query(value = "select o from OrderEntity o where o.orderDate between ?1 and ?2 and o.orderStatus = 'PROCESSING'")
+//    List<OrderEntity> searchByDate(String fromDate, String toDate);
+    @Query(value = "SELECT * FROM project_final.orders where orderDate between ?1 and ?2 "
+            + "and orderStatus = 'PROCESSING'", nativeQuery = true)
+    List<OrderEntity> searchByDate(String fromDate, String toDate);
 }

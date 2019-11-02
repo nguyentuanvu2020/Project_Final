@@ -1,11 +1,9 @@
-
 package com.ivt.service;
 
 import com.ivt.entities.CustomerEntity;
 import com.ivt.entities.OrderDetailEntity;
 import com.ivt.entities.OrderEntity;
 import com.ivt.entities.ProductDetailEntity;
-import com.ivt.enums.OrderStatus;
 import com.ivt.repositories.CustomerRepository;
 import com.ivt.repositories.OrderDetailRepository;
 import com.ivt.repositories.OrderRepository;
@@ -17,20 +15,21 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class OrderService {
+
     @Autowired
     private OrderRepository orderRepository;
-    
+
     @Autowired
     private OrderDetailRepository orderDetailRepository;
-    
+
     @Autowired
     private ProductDetailRepository productDetailRepository;
-    
+
     @Autowired
     private CustomerRepository customerRepository;
-    
+
     @Transactional(rollbackFor = Exception.class)
-    public OrderEntity AddOrder(OrderEntity order,List<ProductDetailEntity> listProductDetailStore){
+    public OrderEntity AddOrder(OrderEntity order, List<ProductDetailEntity> listProductDetailStore) {
         CustomerEntity customerSaved = customerRepository.save(order.getCustomer());
         order.setCustomer(customerSaved);
         OrderEntity orderSaved = orderRepository.save(order);
@@ -43,9 +42,24 @@ public class OrderService {
         }
         return orderSaved;
     }
-    
+
 //    code của hiệp
-    public List<OrderEntity> getAllOrderProcessing(OrderStatus status){
-        return orderRepository.getAllOrderByStatus(status);
+    public List<OrderEntity> getAllOrderProcessing() {
+        //status = "'"+status+"'";
+        return (List<OrderEntity>) orderRepository.getAllOrderByStatus();
+    }
+
+    public int getTotalOrderProcessing() {
+        return (int) orderRepository.counOrderEntityProcessing();
+    }
+
+    public List<OrderEntity> getListByDate(String fromDate, String toDate) {
+        fromDate = fromDate + " 00:00:00";
+        toDate = toDate + " 23:59:59";
+        return (List<OrderEntity>) orderRepository.searchByDate(fromDate, toDate);
+    }
+    
+    public OrderEntity getOrderByID(int id){
+        return orderRepository.findOne(id);
     }
 }
