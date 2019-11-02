@@ -30,18 +30,12 @@ public class OrderService {
 
     @Autowired
     private CustomerRepository customerRepository;
-<<<<<<< HEAD
 
-    @Transactional(rollbackFor = Exception.class)
-    public OrderEntity AddOrder(OrderEntity order, List<ProductDetailEntity> listProductDetailStore) {
-=======
-    
     @Autowired
     private MailService mailService;
     
     @Transactional(rollbackFor = Exception.class)
     public void AddOrder(OrderEntity order,List<ProductDetailEntity> listProductDetailStore) throws MessagingException, FileNotFoundException, IOException{
->>>>>>> 6b769d66f7d064ee421a0f8e4e5033b74bd5347d
         CustomerEntity customerSaved = customerRepository.save(order.getCustomer());
         order.setCustomer(customerSaved);
         OrderEntity orderSaved = orderRepository.save(order);
