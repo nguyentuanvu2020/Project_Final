@@ -5,8 +5,10 @@
  */
 package com.ivt.controller;
 
+import com.ivt.entities.CustomerEntity;
 import com.ivt.entities.OrderDetailEntity;
 import com.ivt.entities.OrderEntity;
+import com.ivt.service.CustomerService;
 import com.ivt.service.OrderDetailService;
 import com.ivt.service.OrderService;
 import java.util.ArrayList;
@@ -17,7 +19,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  *
@@ -29,9 +30,13 @@ public class SellerController {
 
     @Autowired
     private OrderService orderService;
+    
     @Autowired
     private OrderDetailService orderDetailService;
-
+    
+    @Autowired
+    private CustomerService customerService;
+    
     @RequestMapping("/processing-orders")
     public String viewListOrderProcessing(Model model) {
         List<OrderEntity> ListProcessing = new ArrayList<OrderEntity>();
@@ -39,7 +44,7 @@ public class SellerController {
         model.addAttribute("processingOders", ListProcessing);
         return "management/seller/list-order-processing";
     }
-
+//ajax
     @RequestMapping("/search-by-date")
     public String searchByDate(Model model,@RequestParam("fromDate") String fromDate,
             @RequestParam("toDate") String toDate) {
@@ -51,7 +56,7 @@ public class SellerController {
             model.addAttribute("processingOders",ListProcessing);
             return "management/seller/ajaxDate";
         } else {
-            return "nodata";
+            return "management/seller/ajaxDate";
         }
     }
 
@@ -59,6 +64,7 @@ public class SellerController {
     public String viewOrderDetail(Model model, @PathVariable("ordernum") int ordernumber) {
         OrderEntity order = orderService.getOrderByID(ordernumber);
         if (order.getId() > 0) {
+//            CustomerEntity customer  = customerService.getCustomerById(order.getCustomer().getId());
             List<OrderDetailEntity> orderdetails = orderDetailService.getDetailByID(order);
             order.setListOrderDetail(orderdetails);
             model.addAttribute("orderDetail", order);

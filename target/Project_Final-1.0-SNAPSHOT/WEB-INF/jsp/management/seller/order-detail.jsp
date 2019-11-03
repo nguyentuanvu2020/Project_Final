@@ -12,7 +12,7 @@
         <div class="page-content">
             <div class="row">
                 <!--include menu-->
-                <%@include file="../../include-management/menumanagement-back.jsp" %>
+                <%@include file="../../include-management/menumanagement-back-2.jsp" %>
                 <div class="col-md-9">
                     <div class="row">
                         <div class="col-md-12">
@@ -34,22 +34,21 @@
                                                             <label class="l">Oder number :</label>
                                                         </div>
                                                         <div class="col-lg-6">
-                                                            <p class="s">123001</p>
+                                                            <p class="s">${orderDetail.id}</p>
                                                         </div>
                                                         <div class="col-lg-6">
                                                             <label class="l">Order date :</label>
                                                         </div>
                                                         <div class="col-lg-6">
-                                                            <p class="s">2019-10-10</p>
+                                                            <p class="s">${orderDetail.orderDate}</p>
                                                         </div>
                                                         <div class="col-lg-6">
                                                             <label class="l">Order status :</label>
                                                         </div>
                                                         <div class="col-lg-6">
-                                                            <p class="s">PROCESSING</p>
+                                                            <p class="s">${orderDetail.orderStatus}</p>
                                                         </div>
                                                     </div>
-
                                                 </div>
                                                 <div class="col-md-8" style="">
                                                     <div class="col-md-12" style="text-align: left;">
@@ -57,38 +56,38 @@
                                                             <label class="l">Name :</label>
                                                         </div>
                                                         <div class="col-lg-8">
-                                                            <p class="s">Phan Dinh Hiep</p>
+                                                            <p class="s">${orderDetail.customer.name}</p>
                                                         </div>
                                                         <div class="col-lg-4">
                                                             <label class="l">Phone number :</label>
                                                         </div>
                                                         <div class="col-lg-8">
-                                                            <p class="s">0935946258</p>
+                                                            <p class="s">${orderDetail.customer.phoneNumber}</p>
                                                         </div>
                                                         <div class="col-lg-4">
                                                             <label class="l">Email address :</label>
                                                         </div>
                                                         <div class="col-lg-8">
-                                                            <p class="s">phandinhhiep94@gmail.com</p>
+                                                            <p class="s">${orderDetail.customer.email}</p>
                                                         </div>
                                                         <div class="col-lg-4">
                                                             <label class="l">Address :</label>
                                                         </div>
                                                         <div class="col-lg-8">
-                                                            <p>79 Quang Trung, Hai Chau, TP Da Nang</p>
+                                                            <p>${orderDetail.customer.address}</p>
                                                         </div>
                                                         <div class="col-lg-4">
                                                             <label class="l">Note :</label>
                                                         </div>
                                                         <div class="col-lg-8">
-                                                            <p>Trung tam dao tao lap trinh vien chuyen nghiep Iviettech</p>
+                                                            <p>${orderDetail.note}</p>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-md-12" style="text-align: left;">
-                                                    <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example-test">
+                                                <div class="col-md-12 table-responsive" style="text-align: left;">
+                                                    <table cellpadding="0" cellspacing="0" border="0" class="table table-responsive table-striped table-bordered" id="example-test">
                                                         <thead>
                                                             <tr>
                                                                 <th>#</th>

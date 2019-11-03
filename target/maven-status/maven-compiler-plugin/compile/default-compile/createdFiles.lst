@@ -1,5 +1,6 @@
 com\ivt\controller\ManagementCotroller.class
 com\ivt\entities\FavoriteEntity.class
+com\ivt\repositories\FavoriteRepository.class
 com\ivt\repositories\OrderRepository.class
 com\ivt\enums\Gender.class
 com\ivt\enums\AccountRole.class
@@ -18,9 +19,11 @@ com\ivt\controller\HomeController.class
 com\ivt\entities\ProductDetailEntity.class
 com\ivt\controller\SellerController.class
 com\ivt\repositories\CategoryRepository.class
+com\ivt\service\FavoriteService.class
 com\ivt\enums\AccountStatus.class
 com\ivt\service\ColorService.class
 com\ivt\entities\OrderEntity.class
+com\ivt\service\OrderDetailService.class
 com\ivt\controller\AdminController.class
 com\ivt\entities\AccountEntity.class
 com\ivt\controller\ManagerController.class

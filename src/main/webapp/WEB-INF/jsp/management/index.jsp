@@ -35,7 +35,7 @@
                                                 <h4 class="glyphicon-class">${orderProcessing} Sending order</h4>
                                             </li>
                                         </a>
-                                        <a href="<c:url value="seller/list-order-processing"/>">
+                                        <a href="<c:url value="seller/processing-orders"/>">
                                             <li>
                                                 <span class="glyphicon glyphicon-ok-sign"></span>
                                                 <h4 class="glyphicon-class">${orderProcessing} Paid Order</h4>
