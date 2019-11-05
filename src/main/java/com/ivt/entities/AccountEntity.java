@@ -4,7 +4,6 @@ import com.ivt.enums.Gender;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -24,7 +23,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "account")
-public class AccountEntity extends PersonalInfo {
+public class AccountEntity extends PersonalInfo implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -10,6 +10,7 @@ import com.ivt.repositories.OrderRepository;
 import com.ivt.repositories.ProductDetailRepository;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 import javax.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,18 +58,47 @@ public class OrderService {
         //status = "'"+status+"'";
         return (List<OrderEntity>) orderRepository.getAllOrderByStatus();
     }
-
+//
     public int getTotalOrderProcessing() {
         return (int) orderRepository.counOrderEntityProcessing();
     }
-
+    
+//
     public List<OrderEntity> getListByDate(String fromDate, String toDate) {
         fromDate = fromDate + " 00:00:00";
         toDate = toDate + " 23:59:59";
         return (List<OrderEntity>) orderRepository.searchByDate(fromDate, toDate);
     }
     
+//
     public OrderEntity getOrderByID(int id){
         return orderRepository.findOne(id);
+    }
+    
+//
+    public int getTotalOrderShipping() {
+        LocalDate date = LocalDate.now();
+        String fromDate =  date.getYear() + "-" + date.getMonthValue() + "-01 " + "00:00:00";
+        String toDate = date.getYear() + "-" + date.getMonthValue() +"-"+ date.lengthOfMonth()+" 23:59:59";
+        return (int) orderRepository.getAllOrderShipping(fromDate, toDate);
+    }
+    
+//  get order by status
+    public List<OrderEntity> getAllOrderByStatusParameter(String status) {
+        //status = "'"+status+"'";
+        return (List<OrderEntity>) orderRepository.getAllOrderByStatusParameter(status);
+    }
+    
+ //get totalprice in this month
+    public double getTotalPriceInThisMonth(){
+        LocalDate date = LocalDate.now();
+        String fromDate =  date.getYear() + "-" + date.getMonthValue() + "-01 " + "00:00:00";
+        String toDate = date.getYear() + "-" + date.getMonthValue() +"-"+ date.lengthOfMonth()+" 23:59:59";
+        return orderRepository.getTotalPrice(fromDate, toDate);
+    }
+    
+ // get total order paid
+    public int getTotalPaid(){
+        return orderRepository.getTotalOrderPaid();
     }
 }

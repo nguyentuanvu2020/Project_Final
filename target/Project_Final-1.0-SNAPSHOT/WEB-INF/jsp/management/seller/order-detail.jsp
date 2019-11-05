@@ -115,9 +115,9 @@
                                                                 </tr>
                                                                 <c:set var="i" value="${i+1}"/>
                                                             </c:forEach>
-                                                            <tr class="odd gradeX">
+                                                            <tr>
                                                                 <td colspan="7">
-                                                                    <p class="ss txt-center">Total:</p>
+                                                                    <p class="txt-center">Total:</p>
                                                                 </td>
                                                                 <td>
                                                                     <p class="ss"><fmt:formatNumber minFractionDigits="0" type="number" value="${orderDetail.totalPrice}"/></p>
@@ -128,6 +128,16 @@
                                                 </div>
                                             </div>
                                         </fieldset>
+                                        <div style="text-align: center;">
+                                            <button class="btn btn-sm btn-primary">
+                                                <i class="glyphicon glyphicon glyphicon-ok"></i>
+                                                Confirm
+                                            </button>
+                                            <button class="btn btn-sm btn-primary">
+                                                <i class="glyphicon glyphicon-print"></i>
+                                                Export order
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -154,6 +164,8 @@
             }
             .txt-center{
                 text-align: center;
+                text-decoration: underline;
+                font-size: 16px;
             }
         </style>
         <!--include footer-->

@@ -5,10 +5,10 @@
  */
 package com.ivt.controller;
 
-import com.ivt.entities.CustomerEntity;
 import com.ivt.entities.OrderDetailEntity;
 import com.ivt.entities.OrderEntity;
-import com.ivt.service.CustomerService;
+import com.ivt.enums.OrderStatus;
+import com.ivt.enums.ProductStatus;
 import com.ivt.service.OrderDetailService;
 import com.ivt.service.OrderService;
 import java.util.ArrayList;
@@ -34,14 +34,13 @@ public class SellerController {
     @Autowired
     private OrderDetailService orderDetailService;
     
-    @Autowired
-    private CustomerService customerService;
-    
+    //processing orders
     @RequestMapping("/processing-orders")
     public String viewListOrderProcessing(Model model) {
         List<OrderEntity> ListProcessing = new ArrayList<OrderEntity>();
         ListProcessing = orderService.getAllOrderProcessing();
         model.addAttribute("processingOders", ListProcessing);
+        model.addAttribute("status",  OrderStatus.values());
         return "management/seller/list-order-processing";
     }
 //ajax
@@ -54,23 +53,45 @@ public class SellerController {
         ListProcessing = orderService.getListByDate(fromDate, toDate);
         if (ListProcessing.size() > 0) {
             model.addAttribute("processingOders",ListProcessing);
+            model.addAttribute("status",  OrderStatus.values());
             return "management/seller/ajaxDate";
         } else {
             return "management/seller/ajaxDate";
         }
     }
-
+// details by id
     @RequestMapping("/order-detail/{ordernum}")
     public String viewOrderDetail(Model model, @PathVariable("ordernum") int ordernumber) {
         OrderEntity order = orderService.getOrderByID(ordernumber);
         if (order.getId() > 0) {
 //            CustomerEntity customer  = customerService.getCustomerById(order.getCustomer().getId());
             List<OrderDetailEntity> orderdetails = orderDetailService.getDetailByID(order);
+            model.addAttribute("status",  OrderStatus.values());
             order.setListOrderDetail(orderdetails);
             model.addAttribute("orderDetail", order);
             return "management/seller/order-detail";
         } else {
             return "redirect:../management/seller/list-order-processing";
         }
+    }
+    
+    //shipping orders
+    @RequestMapping("/shipping-orders")
+    public String viewListOrderShipping(Model model) {
+        List<OrderEntity> ListShipping = new ArrayList<OrderEntity>();
+        ListShipping = orderService.getAllOrderByStatusParameter(OrderStatus.SHIPPING.toString());
+        model.addAttribute("status", OrderStatus.values());
+        model.addAttribute("shippingOrders", ListShipping);
+        return "management/seller/list-order-shipping";
+    }
+    
+    //paid orders
+    @RequestMapping("/paid-orders")
+    public String viewListOrderPaid(Model model) {
+        List<OrderEntity> ListPaid = new ArrayList<OrderEntity>();
+        ListPaid = orderService.getAllOrderByStatusParameter(OrderStatus.PAID.toString());
+        model.addAttribute("status",  OrderStatus.values());
+        model.addAttribute("listPaidOrders", ListPaid);
+        return "management/seller/list-order-paid";
     }
 }

@@ -1,5 +1,6 @@
 G:\Project_Final\src\main\java\com\ivt\entities\SizeEntity.java
 G:\Project_Final\src\main\java\com\ivt\entities\OrderEntity.java
+G:\Project_Final\src\main\java\com\ivt\service\CustomerService.java
 G:\Project_Final\src\main\java\com\ivt\repositories\FavoriteRepository.java
 G:\Project_Final\src\main\java\com\ivt\repositories\OrderRepository.java
 G:\Project_Final\src\main\java\com\ivt\controller\AdminController.java

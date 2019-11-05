@@ -26,25 +26,25 @@
                                         <a href="<c:url value="seller/processing-orders"/>">
                                             <li>
                                                 <span class="glyphicon glyphicon-list-alt"></span>
-                                                <h4 class="glyphicon-class">${orderProcessing} New order</h4>
+                                                <h4 class="glyphicon-class">${orderProcessing} New orders in this month</h4>
                                             </li>
                                         </a>
                                             <a href="#">
                                             <li>
                                                 <span class="glyphicon glyphicon-send"></span>
-                                                <h4 class="glyphicon-class">${orderProcessing} Sending order</h4>
+                                                <h4 class="glyphicon-class">${orderShipping} Shipping orders in this month</h4>
                                             </li>
                                         </a>
                                         <a href="<c:url value="seller/processing-orders"/>">
                                             <li>
                                                 <span class="glyphicon glyphicon-ok-sign"></span>
-                                                <h4 class="glyphicon-class">${orderProcessing} Paid Order</h4>
+                                                <h4 class="glyphicon-class">${totalOrderPaid} Paid Order</h4>
                                             </li>
                                         </a>
                                         <a href="#">
                                             <li>
                                                 <span class="glyphicon glyphicon-usd"></span>
-                                                <h4 class="glyphicon-class">${orderProcessing} Total amount in this month</h4>
+                                                <h4 class="glyphicon-class"> Total amount in this month <fmt:formatNumber minIntegerDigits="0" value="${totalPrice}"/></h4>
                                             </li>
                                         </a>
                                     </ul>

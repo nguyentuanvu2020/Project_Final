@@ -26,6 +26,9 @@ public class ManagementCotroller {
     @RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
     public String viewManagementHome(Model model,HttpSession session) {
         model.addAttribute("orderProcessing", orderService.getTotalOrderProcessing());
+        model.addAttribute("orderShipping", orderService.getTotalOrderShipping());
+        model.addAttribute("totalPrice", orderService.getTotalPriceInThisMonth());
+        model.addAttribute("totalOrderPaid", orderService.getTotalPaid());
         session.removeAttribute("listdetail");
         session.removeAttribute("listDetail");
         session.removeAttribute("images");

@@ -31,6 +31,7 @@
                     <ul>
                         <li><a href="<c:url value="../../manager/add-new-product"/>"><i class="glyphicon glyphicon-plus"></i> Add product</a></li>
                         <li><a href="<c:url value="../../manager/list-product"/>"><i class="glyphicon glyphicon-list"></i> List product</a></li>
+                        <li><a href="<c:url value="../../manager/list-product"/>"><i class="glyphicon glyphicon-list"></i> List best selling product</a></li>
                     </ul>
                 </li>
                 <li class="submenu">
@@ -62,8 +63,8 @@
                     </a>
                     <ul>
                         <li><a href="<c:url value="../../seller/processing-orders"/>"><i class="glyphicon glyphicon-plus"></i> New orders</a></li>
-                        <li><a href="<c:url value="#"/>"><i class="glyphicon glyphicon-repeat"></i> Shipping Orders</a></li>
-                        <li><a href="<c:url value="#"/>"><i class="glyphicon glyphicon-repeat"></i> Paid Orders</a></li>
+                        <li><a href="<c:url value="../../seller/shipping-orders"/>"><i class="glyphicon glyphicon-road"></i> Shipping Orders</a></li>
+                        <li><a href="<c:url value="../../seller/paid-orders"/>"><i class="glyphicon glyphicon-ok-circle"></i> Paid Orders</a></li>
                     </ul>
                 </li>
                 <li><a href="#"><i class="glyphicon glyphicon-list"></i> Make order</a></li>

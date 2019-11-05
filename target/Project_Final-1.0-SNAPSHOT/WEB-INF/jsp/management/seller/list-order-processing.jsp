@@ -29,6 +29,7 @@
                                             <tr>
                                                 <th>#</th>
                                                 <th>Order number</th>
+                                                <th>Status</th>
                                                 <th>Order date</th>
                                                 <th>Note</th>
                                                 <th>Total price</th>
@@ -37,12 +38,23 @@
                                         <tbody id="new-data">
                                             <c:set var="i" value="1"/>
                                             <c:forEach var="order" items="${processingOders}">
-                                                <tr class="odd gradeX mouser-hover" onclick="location.href = '<c:url value="order-detail/${order.id}"/>'">
-                                                    <td>${i}</td>
-                                                    <td>${order.id}</td>
-                                                    <td>${order.orderDate}</td>
-                                                    <td>${order.note}</td>
-                                                    <td><fmt:formatNumber minFractionDigits="0" type="number" value="${order.totalPrice}"/></td>
+                                                <tr class="odd gradeX mouser-hover">
+                                                    <td onclick="location.href = '<c:url value="order-detail/${order.id}"/>'">${i}</td>
+                                                    <td onclick="location.href = '<c:url value="order-detail/${order.id}"/>'">${order.id}</td>
+                                                    <td>
+                                                        <select class="input-sm">
+                                                            <c:forEach var="stt" items="${status}">
+                                                                <c:if test="${order.orderStatus == stt}">
+                                                                    <option class="btn btn-default" selected="">${order.orderStatus}</option>
+                                                                </c:if>
+                                                                <option>${stt}</option>
+                                                            </c:forEach>
+                                                        </select>&nbsp;
+                                                        <button class="btn btn-sm btn-warning">Update status</button>
+                                                    </td>
+                                                    <td onclick="location.href = '<c:url value="order-detail/${order.id}"/>'">${order.orderDate}</td>
+                                                    <td onclick="location.href = '<c:url value="order-detail/${order.id}"/>'">${order.note}</td>
+                                                    <td onclick="location.href = '<c:url value="order-detail/${order.id}"/>'"><fmt:formatNumber minFractionDigits="0" type="number" value="${order.totalPrice}"/></td>
                                                 </tr>
                                                 <c:set var="i" value="${i+1}"/>
                                             </c:forEach>
@@ -63,6 +75,6 @@
         </div>
         <!--include footer-->
         <%@include file="../../include-management/footer.jsp" %>
-       
+
     </body>
 </html>

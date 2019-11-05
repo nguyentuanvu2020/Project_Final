@@ -34,6 +34,7 @@ com\ivt\service\PromotionService.class
 com\ivt\entities\ImageProductEntity.class
 com\ivt\security\CustomAuthenticationProvider.class
 com\ivt\repositories\OrderDetailRepository.class
+com\ivt\service\CustomerService.class
 com\ivt\service\AccountService.class
 com\ivt\entities\CustomerEntity.class
 com\ivt\service\ImageService.class
