@@ -1,7 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib  uri="http://www.springframework.org/security/tags" prefix="sec" %>
-<div class="col-md-3">
+<div class="col-md-2">
     <div class="sidebar content-box" style="display: block;">
         <ul class="nav">
             <!-- Main menu -->
@@ -24,19 +24,18 @@
             <sec:authorize access="hasRole('ROLE_MANAGER')">
                 <li class="submenu">
                     <a href="#">
-                        <i class="glyphicon glyphicon-pencil"></i> Manage Product
+                        <i class="glyphicon glyphicon-pencil"></i> Product
                         <span class="caret pull-right"></span>
                     </a>
                     <!-- Sub menu -->
                     <ul>
                         <li><a href="<c:url value="../../manager/add-new-product"/>"><i class="glyphicon glyphicon-plus"></i> Add product</a></li>
                         <li><a href="<c:url value="../../manager/list-product"/>"><i class="glyphicon glyphicon-list"></i> List product</a></li>
-                        <li><a href="<c:url value="../../manager/list-product"/>"><i class="glyphicon glyphicon-list"></i> List best selling product</a></li>
                     </ul>
                 </li>
                 <li class="submenu">
                     <a href="#">
-                        <i class="glyphicon glyphicon-pencil"></i> Manage Promotion
+                        <i class="glyphicon glyphicon-pencil"></i> Promotion
                         <span class="caret pull-right"></span>
                     </a>
                     <!-- Sub menu -->
@@ -47,7 +46,7 @@
                 </li>
                 <li class="submenu">
                     <a href="#">
-                        <i class="glyphicon glyphicon-pencil"></i> Manage Category
+                        <i class="glyphicon glyphicon-pencil"></i> Category
                         <span class="caret pull-right"></span>
                     </a>
                     <!-- Sub menu -->
@@ -58,7 +57,7 @@
                 </li>
                 <li class="submenu">
                     <a href="#">
-                        <i class="glyphicon glyphicon-pencil"></i> Manage order
+                        <i class="glyphicon glyphicon-pencil"></i> Order
                         <span class="caret pull-right"></span>
                     </a>
                     <ul>
@@ -71,7 +70,7 @@
                 <li><a href="#"><i class="glyphicon glyphicon-tasks"></i> Make report</a></li>
                 </sec:authorize>
                 <sec:authorize access="hasRole('ROLE_SELLER')">
-                <li><a href="#"><i class="glyphicon glyphicon-pencil"></i> Manage order</a></li>
+                <li><a href="#"><i class="glyphicon glyphicon-pencil"></i> Order</a></li>
                 <li><a href="#"><i class="glyphicon glyphicon-list"></i> Make order</a></li>
                 <li><a href="#"><i class="glyphicon glyphicon-tasks"></i> Make report</a></li>
                 </sec:authorize>

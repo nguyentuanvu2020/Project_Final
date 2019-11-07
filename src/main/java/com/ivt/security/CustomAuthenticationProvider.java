@@ -48,7 +48,6 @@ public class CustomAuthenticationProvider implements
                     );
                 }
                 return new UsernamePasswordAuthenticationToken(account, account.getEmail(), roles);
-
             } else {
                 return null;
             }

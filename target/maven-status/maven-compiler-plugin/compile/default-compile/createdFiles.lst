@@ -17,6 +17,7 @@ com\ivt\service\ProductDetailService.class
 com\ivt\repositories\ProductRepository.class
 com\ivt\controller\HomeController.class
 com\ivt\entities\ProductDetailEntity.class
+com\ivt\model\PdfReportView.class
 com\ivt\controller\SellerController.class
 com\ivt\repositories\CategoryRepository.class
 com\ivt\service\FavoriteService.class

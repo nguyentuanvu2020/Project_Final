@@ -47,6 +47,6 @@ public interface OrderRepository extends CrudRepository<OrderEntity, Integer> {
     @Query(value = "SELECT SUM(totalPrice) FROM project_final.orders where orderDate between ?1 and ?2 and orderStatus like 'PAID'", nativeQuery = true)
     double getTotalPrice(String from, String to);
     
-    @Query("select count(o.id) from OrderEntity o where o.orderStatus = 'PAID'")
+    @Query(value = "select count(o.id) from orders o where o.orderStatus = 'PAID'", nativeQuery = true)
     int getTotalOrderPaid();
 }

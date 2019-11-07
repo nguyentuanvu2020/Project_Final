@@ -9,6 +9,7 @@ G:\Project_Final\src\main\java\com\ivt\entities\ReviewEntity.java
 G:\Project_Final\src\main\java\com\ivt\repositories\CustomerRepository.java
 G:\Project_Final\src\main\java\com\ivt\entities\AccountRoleEntity.java
 G:\Project_Final\src\main\java\com\ivt\entities\ProductEntity.java
+G:\Project_Final\src\main\java\com\ivt\model\PdfReportView.java
 G:\Project_Final\src\main\java\com\ivt\service\SizeService.java
 G:\Project_Final\src\main\java\com\ivt\controller\ManagerController.java
 G:\Project_Final\src\main\java\com\ivt\repositories\ProductDetailRepository.java

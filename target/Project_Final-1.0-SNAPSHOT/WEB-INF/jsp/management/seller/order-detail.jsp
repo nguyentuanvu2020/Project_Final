@@ -13,7 +13,7 @@
             <div class="row">
                 <!--include menu-->
                 <%@include file="../../include-management/menumanagement-back-2.jsp" %>
-                <div class="col-md-9">
+                <div class="col-md-10">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="content-box-large">
@@ -133,9 +133,9 @@
                                                 <i class="glyphicon glyphicon glyphicon-ok"></i>
                                                 Confirm
                                             </button>
-                                            <button class="btn btn-sm btn-primary">
+                                            <button onclick="location.href='<c:url value="../export-file/${orderDetail.id}"/>'" class="btn btn-sm btn-primary">
                                                 <i class="glyphicon glyphicon-print"></i>
-                                                Export order
+                                                Print order
                                             </button>
                                         </div>
                                     </div>

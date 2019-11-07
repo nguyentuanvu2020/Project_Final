@@ -13,7 +13,7 @@
             <div class="row">
                 <!--include menu-->
                 <%@include file="../../include-management/menumanagement-back.jsp" %>
-                <div class="col-md-9">
+                <div class="col-md-10">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="content-box-large">
@@ -29,24 +29,29 @@
                                             <tr>
                                                 <th>#</th>
                                                 <th>Order number</th>
-                                                <th>Status</th>
                                                 <th>Order date</th>
                                                 <th>Note</th>
                                                 <th>Total price</th>
+                                                <th>Status</th>
+                                                <th>Options</th>
                                             </tr>
                                         </thead>
                                         <tbody id="new-data">
                                             <c:set var="i" value="1"/>
                                             <c:forEach var="order" items="${listPaidOrders}">
-                                                <tr class="odd gradeX mouser-hover" onclick="location.href = '<c:url value="order-detail/${order.id}"/>'">
-                                                    <td>${i}</td>
-                                                    <td>${order.id}</td>
+                                                <tr class="odd gradeX">
+                                                    <td class="mouser-hover" onclick="location.href = '<c:url value="order-detail/${order.id}"/>'">${i}</td>
+                                                    <td class="mouser-hover" onclick="location.href = '<c:url value="order-detail/${order.id}"/>'">${order.id}</td>
+                                                    <td class="mouser-hover" onclick="location.href = '<c:url value="order-detail/${order.id}"/>'">${order.orderDate}</td>
+                                                    <td class="mouser-hover"onclick="location.href = '<c:url value="order-detail/${order.id}"/>'">${order.note}</td>
+                                                    <td onclick="location.href = '<c:url value="order-detail/${order.id}"/>'"><fmt:formatNumber minFractionDigits="0" type="number" value="${order.totalPrice}"/></td>
                                                     <td>
-                                                        ${order.orderStatus}
+                                                        <p class="input-sm">${order.orderStatus}</p>
                                                     </td>
-                                                    <td>${order.orderDate}</td>
-                                                    <td>${order.note}</td>
-                                                    <td><fmt:formatNumber minFractionDigits="0" type="number" value="${order.totalPrice}"/></td>
+                                                    <td>
+                                                        <button class="btn btn-xs btn-warning" onclick="location.href = '<c:url value="update-status-new/${order.id}"/>'">RETURN</button>
+                                                        <button class="btn btn-xs btn-danger" onclick="location.href = '<c:url value="cancel-order/${order.id}"/>'">CANCEL</button>
+                                                    </td>
                                                 </tr>
                                                 <c:set var="i" value="${i+1}"/>
                                             </c:forEach>

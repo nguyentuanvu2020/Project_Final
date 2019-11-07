@@ -34,9 +34,9 @@ public class OrderService {
 
     @Autowired
     private MailService mailService;
-    
+
     @Transactional(rollbackFor = Exception.class)
-    public void AddOrder(OrderEntity order,List<ProductDetailEntity> listProductDetailStore) throws MessagingException, FileNotFoundException, IOException{
+    public void AddOrder(OrderEntity order, List<ProductDetailEntity> listProductDetailStore) throws MessagingException, FileNotFoundException, IOException {
         CustomerEntity customerSaved = customerRepository.save(order.getCustomer());
         order.setCustomer(customerSaved);
         OrderEntity orderSaved = orderRepository.save(order);
@@ -49,7 +49,8 @@ public class OrderService {
         }
 //        mailService.sendEmail(orderSaved);
     }
-    public List<OrderEntity> getAllOrderByAccountId(int accountId){
+
+    public List<OrderEntity> getAllOrderByAccountId(int accountId) {
         return orderRepository.getAllOrderByAccountId(accountId);
     }
 
@@ -59,46 +60,60 @@ public class OrderService {
         return (List<OrderEntity>) orderRepository.getAllOrderByStatus();
     }
 //
+
     public int getTotalOrderProcessing() {
         return (int) orderRepository.counOrderEntityProcessing();
     }
-    
+
 //
     public List<OrderEntity> getListByDate(String fromDate, String toDate) {
         fromDate = fromDate + " 00:00:00";
         toDate = toDate + " 23:59:59";
         return (List<OrderEntity>) orderRepository.searchByDate(fromDate, toDate);
     }
-    
+
 //
-    public OrderEntity getOrderByID(int id){
+    public OrderEntity getOrderByID(int id) {
         return orderRepository.findOne(id);
     }
-    
+
 //
     public int getTotalOrderShipping() {
         LocalDate date = LocalDate.now();
-        String fromDate =  date.getYear() + "-" + date.getMonthValue() + "-01 " + "00:00:00";
-        String toDate = date.getYear() + "-" + date.getMonthValue() +"-"+ date.lengthOfMonth()+" 23:59:59";
+        String fromDate = date.getYear() + "-" + date.getMonthValue() + "-01 " + "00:00:00";
+        String toDate = date.getYear() + "-" + date.getMonthValue() + "-" + date.lengthOfMonth() + " 23:59:59";
         return (int) orderRepository.getAllOrderShipping(fromDate, toDate);
     }
-    
+
 //  get order by status
     public List<OrderEntity> getAllOrderByStatusParameter(String status) {
         //status = "'"+status+"'";
         return (List<OrderEntity>) orderRepository.getAllOrderByStatusParameter(status);
     }
-    
- //get totalprice in this month
-    public double getTotalPriceInThisMonth(){
+
+    //get totalprice in this month
+    public double getTotalPriceInThisMonth() {
+        try{
         LocalDate date = LocalDate.now();
-        String fromDate =  date.getYear() + "-" + date.getMonthValue() + "-01 " + "00:00:00";
-        String toDate = date.getYear() + "-" + date.getMonthValue() +"-"+ date.lengthOfMonth()+" 23:59:59";
+        String fromDate = date.getYear() + "-" + date.getMonthValue() + "-01 " + "00:00:00";
+        String toDate = date.getYear() + "-" + date.getMonthValue() + "-" + date.lengthOfMonth() + " 23:59:59";
         return orderRepository.getTotalPrice(fromDate, toDate);
+        }catch(Exception e){
+            return 0;
+        }
     }
-    
- // get total order paid
-    public int getTotalPaid(){
+
+    // get total order paid
+    public int getTotalPaid() {
         return orderRepository.getTotalOrderPaid();
+    }
+// update order
+    public boolean updateOrder(OrderEntity order) {
+        OrderEntity o = orderRepository.save(order);
+        if (o.getId() != 0 && o.getId() > 0) {
+            return true;
+        } else {
+            return true;
+        }
     }
 }
