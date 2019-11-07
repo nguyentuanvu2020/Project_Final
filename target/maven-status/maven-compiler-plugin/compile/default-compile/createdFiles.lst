@@ -1,5 +1,6 @@
 com\ivt\controller\ManagementCotroller.class
 com\ivt\entities\FavoriteEntity.class
+com\ivt\repositories\FavoriteRepository.class
 com\ivt\repositories\OrderRepository.class
 com\ivt\enums\Gender.class
 com\ivt\enums\AccountRole.class
@@ -16,11 +17,14 @@ com\ivt\service\ProductDetailService.class
 com\ivt\repositories\ProductRepository.class
 com\ivt\controller\HomeController.class
 com\ivt\entities\ProductDetailEntity.class
+com\ivt\model\PdfReportView.class
 com\ivt\controller\SellerController.class
 com\ivt\repositories\CategoryRepository.class
+com\ivt\service\FavoriteService.class
 com\ivt\enums\AccountStatus.class
 com\ivt\service\ColorService.class
 com\ivt\entities\OrderEntity.class
+com\ivt\service\OrderDetailService.class
 com\ivt\controller\AdminController.class
 com\ivt\entities\AccountEntity.class
 com\ivt\controller\ManagerController.class
@@ -31,6 +35,7 @@ com\ivt\service\PromotionService.class
 com\ivt\entities\ImageProductEntity.class
 com\ivt\security\CustomAuthenticationProvider.class
 com\ivt\repositories\OrderDetailRepository.class
+com\ivt\service\CustomerService.class
 com\ivt\service\AccountService.class
 com\ivt\entities\CustomerEntity.class
 com\ivt\service\ImageService.class

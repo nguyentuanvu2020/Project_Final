@@ -13,7 +13,7 @@
             <div class="row">
                 <!--include menu-->
                 <%@include file="../../include-management/menumanagement-back-2.jsp" %>
-                <div class="col-md-8">
+                <div class="col-md-10">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="content-box-large">

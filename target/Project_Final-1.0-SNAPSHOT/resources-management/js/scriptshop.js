@@ -125,6 +125,22 @@ function deleteImage(imageId, name) {
         }
     };
 }
-
+function searchOrderByDate() {
+    var fromDate = document.getElementById("from-date").value;
+    var toDate = document.getElementById("to-date").value;
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("GET", "search-by-date?fromDate="+fromDate+"&toDate="+toDate);
+    xhttp.send();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            console.log(this.responseText);
+            if(this.responseText === "nodata"){
+                document.getElementById("new-data").innerHTML = "Not find!!!";
+            }else{
+                document.getElementById("new-data").innerHTML = this.responseText;
+            }
+        }
+    };
+}
 
 

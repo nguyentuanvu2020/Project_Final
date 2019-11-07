@@ -12,7 +12,7 @@
             <div class="row">
                 <!--include menu-->
                 <%@include file="../include-management/menumanagement.jsp" %>
-                <div class="col-md-9">
+                <div class="col-md-10">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="content-box-large">
@@ -23,31 +23,28 @@
                                 </div>
                                 <div class="row">
                                     <ul class="bs-glyphicons">
-                                        <a href="#">
+                                        <a href="<c:url value="seller/processing-orders"/>">
                                             <li>
                                                 <span class="glyphicon glyphicon-list-alt"></span>
-                                                <span class="glyphicon-class">New order</span>
+                                                <h4 class="glyphicon-class">${orderProcessing} New orders in this month</h4>
                                             </li>
                                         </a>
-                                        <a href="#">
-                                            <li>
-                                                <span class="glyphicon glyphicon-ok-sign"></span>
-                                                <h1 class="glyphicon-class">Order paid</h1>
-                                                <span class="glyphicon-class">Order paid</span>
-                                            </li>
-                                        </a>
-                                        <a href="#">
+                                        <a href="<c:url value="seller/shipping-orders"/>">
                                             <li>
                                                 <span class="glyphicon glyphicon-send"></span>
-                                                <h1 class="glyphicon-class">Order send</h1>
-                                                <span class="glyphicon-class">Order send</span>
+                                                <h4 class="glyphicon-class">${orderShipping} Shipping orders in this month</h4>
+                                            </li>
+                                        </a>
+                                        <a href="<c:url value="seller/paid-orders"/>">
+                                            <li>
+                                                <span class="glyphicon glyphicon-ok-sign"></span>
+                                                <h4 class="glyphicon-class">${totalOrderPaid} Paid Order</h4>
                                             </li>
                                         </a>
                                         <a href="#">
                                             <li>
                                                 <span class="glyphicon glyphicon-usd"></span>
-                                                <h1 class="glyphicon-class">Total amount</h1>
-                                                <span class="glyphicon-class">Total amount</span>
+                                                <h4 class="glyphicon-class"> Total amount in this month <fmt:formatNumber minIntegerDigits="0" value="${totalPrice}"/>&#8363;</h4>
                                             </li>
                                         </a>
                                     </ul>
@@ -64,9 +61,7 @@
                 </div>
             </div>
         </div>
-    </div>
-
-    <!--include footer-->
-    <%@include file="../include-management/footer.jsp" %>
-</body>
+        <!--include footer-->
+        <%@include file="../include-management/footer.jsp" %>
+    </body>
 </html>

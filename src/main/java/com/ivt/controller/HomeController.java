@@ -79,10 +79,10 @@ public class HomeController {
         return "home";
     }
 
-    @RequestMapping(value = {"/dashboard"}, method = RequestMethod.GET)
-    public String viewHome2(Model model) {
-        return "dashboard";
-    }
+//    @RequestMapping(value = {"/dashboard"}, method = RequestMethod.GET)
+//    public String viewHome2(Model model) {
+//        return "dashboard";
+//    }
 
     @RequestMapping(value = {"/howtochoosesize"}, method = RequestMethod.GET)
     public String viewHome22() {
@@ -109,7 +109,7 @@ public class HomeController {
             @RequestParam(value = "error", required = false) boolean isError) {
         model.addAttribute("action", "j_spring_security_check");
         if (isError) {
-            model.addAttribute("message", "Tài khoản hoặc mật khẩu không đúng");
+            model.addAttribute("message", "Wrong password");
             return "login";
         }
         return "login";

@@ -27,7 +27,7 @@
                     <nav class="collapse navbar-collapse bs-navbar-collapse navbar-right" role="navigation">
                         <ul class="nav navbar-nav">
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><sec:authentication property="principal.name"/><b class="caret"></b></a>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> &nbsp;<sec:authentication property="principal.name"/><b class="caret"></b></a>
                                 <ul class="dropdown-menu animated fadeInUp">
                                     <li><a href="profile.html">Profile</a></li>
                                     <li><a href="<c:url value="/logout" />">Logout</a></li>
