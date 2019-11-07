@@ -8,13 +8,18 @@ package com.ivt.service;
 import com.ivt.entities.AccountEntity;
 import com.ivt.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class AccountService {
 
     @Autowired
     private AccountRepository accountRepository;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     public AccountEntity
             findAccountByEmailAndPassword(String email, String password) {
@@ -23,6 +28,27 @@ public class AccountService {
 
     public void registerAccount(AccountEntity account) {
         accountRepository.save(account);
+    }
+
+    public void updateAccount(AccountEntity account) {
+        AccountEntity updateAccount = accountRepository.findOne(account.getId());
+        updateAccount.setName(account.getName());
+        updateAccount.setBirthDate(account.getBirthDate());
+        updateAccount.setGender(account.getGender());
+        updateAccount.setAddress(account.getAddress());
+        accountRepository.save(updateAccount);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public boolean changePassword(int id, String oldPassword, String newPassword) {
+        AccountEntity updateAccount = accountRepository.findOne(id);
+        if (passwordEncoder.matches(oldPassword, updateAccount.getPassword()) == true) {
+            updateAccount.setPassword(passwordEncoder.encode(newPassword));
+            accountRepository.save(updateAccount);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public AccountEntity findAccountById(int id) {

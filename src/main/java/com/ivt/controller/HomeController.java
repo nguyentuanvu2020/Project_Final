@@ -98,14 +98,10 @@ public class HomeController {
     public String viewAccount(Model model) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof AccountEntity) {
-            String currentUserName = ((AccountEntity) principal).getName();
-            // principal
-            model.addAttribute("username", principal);
-            model.addAttribute("listOrder", orderService.getAllOrderByAccountId(((AccountEntity) principal).getId()));
         } else {
             return "redirect:/login";
         }
-        return "account";
+        return "redirect:/user/account";
     }
 
     @RequestMapping("/login")
