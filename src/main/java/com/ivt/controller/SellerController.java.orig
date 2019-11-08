@@ -153,6 +153,12 @@ public class SellerController {
 
     @RequestMapping(value = "/export-file/{orderId}", method = RequestMethod.GET)
     public ModelAndView reportPdf(@PathVariable("orderId") int ordernumber) {
+<<<<<<< HEAD
+        OrderEntity order = orderService.getOrderByID(ordernumber);
+        List<OrderDetailEntity> orderdetails = orderDetailService.findByOrder(order);
+        order.setListOrderDetail(orderdetails);
+        return new ModelAndView("PdfRevenueSummary", "revenueData", order);
+=======
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Object roles = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
         boolean check = false;
@@ -171,5 +177,6 @@ public class SellerController {
         }else{
              return new ModelAndView("redirect:../../../home", "message","Not Allows");
         }
+>>>>>>> 4ef55f9d198e1c75e63f72c545e526ddd2cc18da
     }
 }

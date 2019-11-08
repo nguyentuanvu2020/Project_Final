@@ -25,4 +25,12 @@ public class CategoryService {
     public List<CategoryEntity> getAll(){
         return (List<CategoryEntity>) categoryRepository.findAll();   
     } 
+    
+    public CategoryEntity saveCategory(CategoryEntity newCategory){
+        return categoryRepository.save(newCategory);
+    }
+    
+     public CategoryEntity getById(int id){
+        return categoryRepository.findOne(id);
+    }
 }
