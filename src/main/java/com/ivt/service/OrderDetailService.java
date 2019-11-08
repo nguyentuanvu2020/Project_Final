@@ -18,10 +18,11 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class OrderDetailService {
+
     @Autowired
     private OrderDetailRepository detailRepository;
-    
-    public List<OrderDetailEntity> getDetailByID(OrderEntity order){
+
+    public List<OrderDetailEntity> findByOrder(OrderEntity order) {
         return (List<OrderDetailEntity>) detailRepository.findByOrder(order);
     }
 }

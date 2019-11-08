@@ -26,8 +26,14 @@ public class AccountService {
         return accountRepository.findAccountByEmailAndPassword(email, password);
     }
 
-    public void registerAccount(AccountEntity account) {
+    public boolean registerAccount(AccountEntity account) {
+        AccountEntity accountData = accountRepository.findByEmail(account.getEmail());
+        if (accountData != null && accountData.getId() > 0) {
+
+            return false;
+        }
         accountRepository.save(account);
+        return true;
     }
 
     public void updateAccount(AccountEntity account) {

@@ -101,12 +101,28 @@
                                     </div>
                                     <div id="description">										
                                         <div class="container-fluid product-description-wrapper">
-                                            <div class="form-group">
-                                                <label class="control-label col-sm-2" for="confirm-password">Nhập lại mật khẩu</label>
-                                                <div class="col-sm-10">
-                                                    <input type="password" class="form-control" id="confirm-password" placeholder="Nhập lại mật khẩu mới">
-                                                </div>
-                                            </div>
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Mã đơn hàng</th>
+                                                        <th>Ngày đặt đơn</th>
+                                                        <th>Tổng giá</th>
+                                                        <th>Trạng thái</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <c:forEach var="order" items="${listOrder}">
+                                                        <tr>
+                                                            <td>${order.id}</td>
+                                                            <td>${order.orderDate}</td>
+                                                            <td>${order.totalPrice}</td>
+                                                            <td>${order.orderStatus}</td>
+                                                            <td><a href="detail-order?id=${order.id}" class="btn btn-info" role="button">Info</a></td>
+                                                        </tr>
+                                                    </c:forEach>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>

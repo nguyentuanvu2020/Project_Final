@@ -83,7 +83,6 @@ public class HomeController {
 //    public String viewHome2(Model model) {
 //        return "dashboard";
 //    }
-
     @RequestMapping(value = {"/howtochoosesize"}, method = RequestMethod.GET)
     public String viewHome22() {
         return "howtochoosesize";
@@ -112,6 +111,10 @@ public class HomeController {
             model.addAttribute("message", "Wrong password");
             return "login";
         }
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof AccountEntity) {
+            return "redirect:/user/account";
+        }
         return "login";
     }
 
@@ -135,23 +138,17 @@ public class HomeController {
 
     @RequestMapping(value = {"/save-account"}, method = RequestMethod.POST)
     public String Register(Model model, @ModelAttribute("account") AccountEntity account) {
-        try {
-            AccountRoleEntity accountRole = new AccountRoleEntity();
-            accountRole.setId(2);
-            List<AccountRoleEntity> listRole = new ArrayList<>();
-            listRole.add(accountRole);
-            account.setAccountRoles(listRole);
-            account.setPassword(passwordEndcoder.encode(account.getPassword()));
-            if (accountService.isAvailable(account.getEmail())) {
-
-                return "redirect:/account-form";
-            }
-            accountService.registerAccount(account);
-        } catch (Exception e) {
+        AccountRoleEntity accountRole = new AccountRoleEntity();
+        accountRole.setId(2);
+        List<AccountRoleEntity> listRole = new ArrayList<>();
+        listRole.add(accountRole);
+        account.setAccountRoles(listRole);
+        account.setPassword(passwordEndcoder.encode(account.getPassword()));
+        if (accountService.registerAccount(account)) {
+            return "redirect:/login";
+        } else {
+            return "redirect:/register-account";
         }
-
-        return "redirect:/home";
-
     }
 
     @RequestMapping(value = {"/product-detail-view"}, method = RequestMethod.GET)
@@ -283,10 +280,6 @@ public class HomeController {
             @ModelAttribute("customer") CustomerEntity customer, @RequestParam("note") String note) {
         Cart cart = (Cart) session.getAttribute("cart");
         OrderEntity newOrder = new OrderEntity();
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal != null) {
-            customer.setAccount((AccountEntity) principal);
-        }
         newOrder.setOrderDate(new Date());
         List<OrderDetailEntity> listOrderDetail = new ArrayList<>();
         List<ProductDetailEntity> listProductDetailStore = new ArrayList<>();
@@ -309,6 +302,10 @@ public class HomeController {
         newOrder.setCustomer(customer);
         newOrder.setTotalPrice(cart.getTotal());
         newOrder.setNote(note);
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof AccountEntity) {
+            customer.setAccount((AccountEntity) principal);
+        }
         try {
             orderService.AddOrder(newOrder, listProductDetailStore);
             session.removeAttribute("cart");

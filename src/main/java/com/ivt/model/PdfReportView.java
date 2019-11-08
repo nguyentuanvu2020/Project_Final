@@ -35,7 +35,7 @@ public class PdfReportView extends AbstractPdfView {
         Paragraph tenshop = new Paragraph("VH Shoes");
         Paragraph diachishop = new Paragraph("01 Nguyen Van Linh, Hai Chau, TP Da Nang \n Contact: 0900000000 - 0900000001");
         Chapter chapter1 = new Chapter(tenshop, 1);
-        Font fontbt = new Font(BaseFont.createFont("F:\\JAVA\\java2\\vu-arial-vp\\vuArial.ttf", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED));
+        Font fontbt = new Font(BaseFont.createFont("D:\\test\\vuArial.ttf", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED));
         chapter1.setNumberDepth(0);
         Paragraph title1 = new Paragraph("ORDER DETAIL");
         title1.setAlignment(Element.ALIGN_CENTER);

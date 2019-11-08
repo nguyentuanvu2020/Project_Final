@@ -42,45 +42,106 @@
             <section id="collection" class="clearfix">
                 <div class="container">
                     <div class="row">
-                        <div class="col-lg-12 col-xs-12 pd5">
+                        <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                            <div class="group-collection" aria-expanded="true">
+                                <div class="title-block dropdown-filter">
+                                    <h3 class="title-group">Quản Lý Thông tin</h3>
+                                    <h5>${account.email}</h5>
+                                    <i class="fa fa-minus flexbox-grid-default flexbox-justifyContent-center flexbox-alignItems-center" aria-hidden="true"></i>
+                                </div>
+                                <div class="filter-box">
+                                    <ul id="menusidebarleft" class="menu-collection clearfix mb15">
+                                        <li class=" submenu-parent" aria-expanded="false">
+                                            <a href="javascript:void(0);" title="Personal Info">Thông tin cá nhân</a>
+                                            <svg class="svg-next-icon svg-next-icon-size-10" style="fill:#333">
+                                            <use xlink:href="#icon-right-owlCarousel"></use>
+                                            </svg>
+                                            <ul class="dropdown-menu default-none-dropdown-menu pd-l-10">
+                                                <li class="">
+                                                    <a href="account" title="Giày Nike">Hồ sơ</a>
+                                                </li>
+                                                <li class="">
+                                                    <a href="manage-address" title="Giày Jordan">Quản lý địa chỉ</a>
+                                                </li>
+                                                <li class="">
+                                                    <a href="change-password" title="Giày Timberland">Thay đổi mật khẩu</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="">
+                                            <a href="manage-order" title="Balo Chính Hãng">Lịch sử đơn hàng</a>
+                                        </li>
+                                        <li class="">
+                                            <a href="#" title="Chăm Sóc Giày">Quản lý ví "Đang Update</a>
+                                        </li><li class="">
+                                            <a href="logout" title="Chăm Sóc Giày">Đăng xuất</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-9 col-xs-12 pd5">
                             <div id="product-related" class="mb10">
                                 <div class="wrapper-product-related">
                                     <div class="title-group-related">
                                         <h3 class="title-group">
-                                            Đánh giá đơn hàng
+                                            Đánh giá sản phẩm
                                         </h3>
                                     </div>
                                     <div class="list-product-related">
-                                        <h5>Để bảo mật tài khoản, vui lòng không chia sẻ mật khẩu cho người khác</h5>
                                         <mvc:form  id="form" action="${action}" class="form-horizontal" method="post">
-                                            <br>
                                             <div class="form-group">
-                                                <label class="control-label col-sm-2" for="message"></label>
+                                                <div class="col-sm-1"></div>
                                                 <div class="col-sm-10">
-                                                    <h5>${message}</h5>
+                                                    <div id="rating">
+                                                        <input type="radio" id="star5" name="rating" value="1" />
+                                                        <label class = "fa fa-star" for="star5" title="Sucks big time - 1 star"></label>
+
+                                                        <input type="radio" id="star4" name="rating" value="2" />
+                                                        <label class = "fa fa-star" for="star4" title="Kinda bad - 2 stars"></label>
+
+                                                        <input type="radio" id="star3" name="rating" value="3" />
+                                                        <label class = "fa fa-star" for="star3" title="Meh - 3 stars"></label>
+
+                                                        <input type="radio" id="star2" name="rating" value="4" />
+                                                        <label class = "fa fa-star" for="star2" title="Pretty good - 4 stars"></label>
+
+                                                        <input type="radio" id="star1" name="rating" value="5" />
+                                                        <label class = "fa fa-star" for="star1" title="Awesome - 5 stars"></label>
+                                                    </div>
+                                                    <style>
+                                                        #rating{border:none;float:left;}
+                                                        #rating>input{display:none;}/*ẩn input radio - vì chúng ta đã có label là GUI*/
+                                                        #rating>label:before{margin:5px;font-size:3.25em;font-family:FontAwesome;display:inline-block;content:"\f005";}/*1 ngôi sao*/
+                                                        #rating>.half:before{content:"\f089";position:absolute;}/*0.5 ngôi sao*/
+                                                        #rating>label{color:#ddd;float:right;}/*float:right để lật ngược các ngôi sao lại đúng theo thứ tự trong thực tế*/
+                                                        /*thêm màu cho sao đã chọn và các ngôi sao phía trước*/
+                                                        #rating>input:checked~label,
+                                                        #rating:not(:checked)>label:hover, 
+                                                        #rating:not(:checked)>label:hover~label{color:#FFD700;}
+                                                        /* Hover vào các sao phía trước ngôi sao đã chọn*/
+                                                        #rating>input:checked+label:hover,
+                                                        #rating>input:checked~label:hover,
+                                                        #rating>label:hover~input:checked~label,
+                                                        #rating>input:checked~label:hover~label{color:#FFED85;}
+                                                    </style>
                                                 </div>
+                                                <div class="col-sm-1"></div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="control-label col-sm-2" for="old-password">Mật khẩu cũ</label>
+                                                <div class="col-sm-1"></div>
                                                 <div class="col-sm-10">
-                                                    <input required="" type="password" name="old-password"class="form-control" id="old-password" placeholder="Nhập mật khẩu cũ">
+                                                    <label for="comment">Bình luận:</label>
+                                                    <textarea class="form-control" rows="5" id="comment" placeholder="Gửi đánh giá của bạn về sản phẩm"></textarea>
                                                 </div>
+                                                <div class="col-sm-1"></div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="control-label col-sm-2" for="new-password">Mật khẩu mới</label>
+
+                                                <div class="col-sm-1"></div>
                                                 <div class="col-sm-10">
-                                                    <input required=""type="password" name="new-password"class="form-control" id="new-password" placeholder="Nhập mật khẩu mới">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-sm-2" for="confirm-password">Nhập lại mật khẩu</label>
-                                                <div class="col-sm-10">
-                                                    <input type="password" class="form-control" id="confirm-password" placeholder="Nhập lại mật khẩu mới">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="col-sm-offset-2 col-sm-10">
-                                                    <button type="submit" class="btn btn-default">Thay đổi mật khẩu</button>
+                                                    <button type="submit" class="btn btn-default">Gửi đánh giá của bạn</button>
+                                                    <button type="reset" class="btn btn-default">Hủy bỏ</button>
                                                 </div>
                                             </div>
                                         </mvc:form>

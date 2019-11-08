@@ -3,11 +3,14 @@ package com.ivt.controller;
 import com.ivt.entities.AccountEntity;
 import com.ivt.enums.Gender;
 import com.ivt.service.AccountService;
+import com.ivt.service.OrderDetailService;
+import com.ivt.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,6 +21,12 @@ public class UserController {
 
     @Autowired
     private AccountService accountService;
+    
+    @Autowired
+    private OrderService orderService;
+    
+    @Autowired
+    private OrderDetailService orderDetailService;
 
     @RequestMapping("/account")
     public String viewInfo(Model model) {
@@ -61,8 +70,18 @@ public class UserController {
     }
 
     @RequestMapping("/manage-order")
-    public String viewManageOrder(Model model) {;
+    public String viewManageOrder(Model model) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof AccountEntity) {
+           model.addAttribute("listOrder", orderService.getAllOrderByAccountId(((AccountEntity) principal).getId())); 
+        }
         return "user/manage-order";
+    }
+    
+    @RequestMapping("/detail-order")
+    public String viewDetailOrder(Model model,@RequestParam("id")int id) {
+        model.addAttribute("listOrderDetail",orderDetailService.findByOrder(orderService.getOrderByID(id)));
+        return "user/detail-order";
     }
     
     @RequestMapping("/order-review")

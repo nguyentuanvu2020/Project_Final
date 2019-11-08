@@ -37,6 +37,11 @@ public class OrderService {
 
     @Transactional(rollbackFor = Exception.class)
     public void AddOrder(OrderEntity order, List<ProductDetailEntity> listProductDetailStore) throws MessagingException, FileNotFoundException, IOException {
+        CustomerEntity customer = order.getCustomer();
+        CustomerEntity customerData = customerRepository.findByEmail(customer.getEmail());
+        if (customerData != null && customerData.getId() > 0) {
+            customer.setId(customerData.getId());
+        }
         CustomerEntity customerSaved = customerRepository.save(order.getCustomer());
         order.setCustomer(customerSaved);
         OrderEntity orderSaved = orderRepository.save(order);
@@ -47,11 +52,15 @@ public class OrderService {
         for (ProductDetailEntity productDetailEntity : listProductDetailStore) {
             productDetailRepository.save(productDetailEntity);
         }
-//        mailService.sendEmail(orderSaved);
+        mailService.sendEmail(orderSaved);
     }
 
     public List<OrderEntity> getAllOrderByAccountId(int accountId) {
         return orderRepository.getAllOrderByAccountId(accountId);
+    }
+
+    public CustomerEntity findByEmail(String email) {
+        return customerRepository.findByEmail(email);
     }
 
 //    code của hiệp
@@ -93,12 +102,12 @@ public class OrderService {
 
     //get totalprice in this month
     public double getTotalPriceInThisMonth() {
-        try{
-        LocalDate date = LocalDate.now();
-        String fromDate = date.getYear() + "-" + date.getMonthValue() + "-01 " + "00:00:00";
-        String toDate = date.getYear() + "-" + date.getMonthValue() + "-" + date.lengthOfMonth() + " 23:59:59";
-        return orderRepository.getTotalPrice(fromDate, toDate);
-        }catch(Exception e){
+        try {
+            LocalDate date = LocalDate.now();
+            String fromDate = date.getYear() + "-" + date.getMonthValue() + "-01 " + "00:00:00";
+            String toDate = date.getYear() + "-" + date.getMonthValue() + "-" + date.lengthOfMonth() + " 23:59:59";
+            return orderRepository.getTotalPrice(fromDate, toDate);
+        } catch (Exception e) {
             return 0;
         }
     }
@@ -108,6 +117,7 @@ public class OrderService {
         return orderRepository.getTotalOrderPaid();
     }
 // update order
+
     public boolean updateOrder(OrderEntity order) {
         OrderEntity o = orderRepository.save(order);
         if (o.getId() != 0 && o.getId() > 0) {

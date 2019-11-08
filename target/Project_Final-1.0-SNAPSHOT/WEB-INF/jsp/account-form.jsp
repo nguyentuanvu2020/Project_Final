@@ -298,14 +298,17 @@
                         if (pass == confpass) {
                             //if both are same remove the error and allow to submit
                             if (pass.length < 6) {
-                                $('#message').text('Mật khẩu trên 6 kí tự');
+                                $('#messageEmail').show();
+                                $('#messageEmail').text('Mật khẩu trên 6 kí tự');
                                 allowsubmit = fasle;
                             } else {
                                 allowsubmit = true;
+                                $('#messageEmail').hide();
                             }
                         } else {
                             //if not matching show error and not allow to submit
-                            $('#message').text('Nhập lại mật khẩu không đúng');
+                            $('#messageEmail').text('Nhập lại mật khẩu không đúng');
+                            $('#messageEmail').show();
                             allowsubmit = false;
                         }
                     });

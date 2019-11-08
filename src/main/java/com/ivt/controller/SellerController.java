@@ -66,7 +66,7 @@ public class SellerController {
         OrderEntity order = orderService.getOrderByID(ordernumber);
         if (order.getId() > 0) {
 //            CustomerEntity customer  = customerService.getCustomerById(order.getCustomer().getId());
-            List<OrderDetailEntity> orderdetails = orderDetailService.getDetailByID(order);
+            List<OrderDetailEntity> orderdetails = orderDetailService.findByOrder(order);
             order.setListOrderDetail(orderdetails);
             model.addAttribute("orderDetail", order);
             return "management/seller/order-detail";
@@ -149,7 +149,7 @@ public class SellerController {
     @RequestMapping(value = "/export-file/{orderId}", method = RequestMethod.GET)
     public ModelAndView reportPdf(@PathVariable("orderId") int ordernumber) {
         OrderEntity order = orderService.getOrderByID(ordernumber);
-        List<OrderDetailEntity> orderdetails = orderDetailService.getDetailByID(order);
+        List<OrderDetailEntity> orderdetails = orderDetailService.findByOrder(order);
         order.setListOrderDetail(orderdetails);
         return new ModelAndView("PdfRevenueSummary", "revenueData", order);
     }
