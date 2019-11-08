@@ -182,7 +182,7 @@
                                                     <div class="field   ">
                                                         <div class="field-input-wrapper">
                                                             <label class="field-label" for="password">Mật Khẩu</label>
-                                                            <input required="" placeholder="Mật Khẩu" autocapitalize="off" spellcheck="false" class="field-input" size="30" type="text" id="billing_address_full_name" name="password" value="" />
+                                                            <input required="" placeholder="Mật Khẩu" autocapitalize="off" spellcheck="false" class="field-input" size="30" type="password" id="billing_address_full_name" name="password" value="" />
                                                         </div>
                                                     </div>
                                                 </div>

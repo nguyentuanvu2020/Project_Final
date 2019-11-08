@@ -6,7 +6,6 @@
 package com.ivt.repositories;
 
 import com.ivt.entities.CategoryEntity;
-import java.io.Serializable;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

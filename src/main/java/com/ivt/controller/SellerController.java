@@ -5,14 +5,19 @@
  */
 package com.ivt.controller;
 
+import com.ivt.entities.AccountEntity;
+import com.ivt.entities.AccountRoleEntity;
 import com.ivt.entities.OrderDetailEntity;
 import com.ivt.entities.OrderEntity;
+import com.ivt.enums.AccountRole;
 import com.ivt.enums.OrderStatus;
 import com.ivt.service.OrderDetailService;
 import com.ivt.service.OrderService;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -148,9 +153,23 @@ public class SellerController {
 
     @RequestMapping(value = "/export-file/{orderId}", method = RequestMethod.GET)
     public ModelAndView reportPdf(@PathVariable("orderId") int ordernumber) {
-        OrderEntity order = orderService.getOrderByID(ordernumber);
-        List<OrderDetailEntity> orderdetails = orderDetailService.getDetailByID(order);
-        order.setListOrderDetail(orderdetails);
-        return new ModelAndView("PdfRevenueSummary", "revenueData", order);
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Object roles = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        boolean check = false;
+        if (principal instanceof AccountEntity) {
+            for (AccountRoleEntity accountRole : ((AccountEntity) principal).getAccountRoles()) {
+                if (accountRole.getRole().equals(AccountRole.ROLE_MANAGER)) {
+                    check = true;
+                }
+            }
+        }
+        if (check) {
+            OrderEntity order = orderService.getOrderByID(ordernumber);
+            List<OrderDetailEntity> orderdetails = orderDetailService.getDetailByID(order);
+            order.setListOrderDetail(orderdetails);
+            return new ModelAndView("PdfRevenueSummary", "revenueData", order);
+        }else{
+             return new ModelAndView("redirect:../../../home", "message","Not Allows");
+        }
     }
 }

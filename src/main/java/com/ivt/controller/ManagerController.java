@@ -5,6 +5,7 @@
  */
 package com.ivt.controller;
 
+import com.ivt.entities.CategoryEntity;
 import com.ivt.entities.ColorEntity;
 import com.ivt.entities.ImageProductEntity;
 import com.ivt.entities.ProductDetailEntity;
@@ -86,7 +87,7 @@ public class ManagerController {
         newProduct.setStatus("YES");
         LocalDateTime n = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss");
-        
+
         List<ImageProductEntity> listImage = new ArrayList<ImageProductEntity>();
         List<ProductDetailEntity> listDetail = (List<ProductDetailEntity>) session.getAttribute("listdetail");
         ProductEntity newProductEntity = new ProductEntity();
@@ -442,7 +443,7 @@ public class ManagerController {
     @RequestMapping(value = "/update-product-promotion", method = RequestMethod.POST)
     public String doAddProductPromotion(Model model,
             @ModelAttribute("promotionid") int promotionId,
-            HttpServletRequest request, @RequestParam(name = "productId",defaultValue = "0") int[] product) {
+            HttpServletRequest request, @RequestParam(name = "productId", defaultValue = "0") int[] product) {
         PromotionEntity p = promotionService.getPromotionById(promotionId);
         List<ProductEntity> lpr = new ArrayList<>();
         if (product.length != 0) {
@@ -467,12 +468,71 @@ public class ManagerController {
         model.addAttribute("products", productService.getAll());
         return "management/manager/update-promotion";
     }
-    
+
     // update promotion
     @RequestMapping(value = "/detail-promotion/{prmid}", method = RequestMethod.GET)
     public String viewDetailProductPromotion(Model model, @PathVariable("prmid") int promotionId) {
         PromotionEntity promotion = promotionService.getPromotionById(promotionId);
         model.addAttribute("promotion", promotion);
         return "management/manager/detail-promotion";
+    }
+
+    // add new category
+    @RequestMapping(value = "/add-new-category", method = RequestMethod.GET)
+    public String viewAddNewCategory(Model model) {
+        model.addAttribute("action", "management/manager/add-category");
+        model.addAttribute("category", new CategoryEntity());
+        return "management/manager/add-new-category";
+    }
+
+   
+    @RequestMapping(value = "/add-category", method = RequestMethod.POST)
+    public String viewAddNewCategory2(Model model, @ModelAttribute("caregory") CategoryEntity newCategory) {
+        try {
+            CategoryEntity a = categoryService.saveCategory(newCategory);
+            int check = a.getId();
+            if (check > 0) {
+                return "redirect:list-category";
+            }else{
+                 throw new Exception("Cant save new category!!!");
+            }
+        } catch (Exception e) {
+            model.addAttribute("message", "Error please check category name!!!");
+            model.addAttribute("style", "alert alert-danger");
+            return "management/manager/add-new-category";
+        }
+    }
+    
+     // update category
+    @RequestMapping(value = "/edit-category/{cateId}", method = RequestMethod.GET)
+    public String viewUpdateNewCategory(Model model, @PathVariable("cateId") int categoryId) {
+        model.addAttribute("action", "management/manager/edit-category");
+        CategoryEntity editCategoy = categoryService.getById(categoryId);
+        model.addAttribute("category", editCategoy);
+        return "management/manager/update-category";
+    }
+    
+    @RequestMapping(value = "/edit-category", method = RequestMethod.POST)
+    public String updateCategory(Model model, @ModelAttribute("caregory") CategoryEntity newCategory) {
+        try {
+            CategoryEntity a = categoryService.saveCategory(newCategory);
+            int check = a.getId();
+            if (check > 0) {
+                return "redirect:list-category";
+            }else{
+                 throw new Exception("Cant save new category!!!");
+            }
+        } catch (Exception e) {
+            model.addAttribute("message", "Error please check category name!!!");
+            model.addAttribute("style", "alert alert-danger");
+            return "management/manager/add-new-category";
+        }
+    }
+    
+    // list category
+    @RequestMapping(value = "/list-category", method = RequestMethod.GET)
+    public String viewListCategory(Model model) {
+        model.addAttribute("caregorys", categoryService.getAll());
+        return "management/manager/list-category";
     }
 }
