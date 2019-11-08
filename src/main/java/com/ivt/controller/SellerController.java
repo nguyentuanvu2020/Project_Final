@@ -165,7 +165,7 @@ public class SellerController {
         }
         if (check) {
             OrderEntity order = orderService.getOrderByID(ordernumber);
-            List<OrderDetailEntity> orderdetails = orderDetailService.getDetailByID(order);
+            List<OrderDetailEntity> orderdetails = orderDetailService.findByOrder(order);
             order.setListOrderDetail(orderdetails);
             return new ModelAndView("PdfRevenueSummary", "revenueData", order);
         }else{
