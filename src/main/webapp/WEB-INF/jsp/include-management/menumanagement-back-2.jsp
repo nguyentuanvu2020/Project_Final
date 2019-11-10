@@ -67,7 +67,7 @@
                     </ul>
                 </li>
                 <li><a href="#"><i class="glyphicon glyphicon-list"></i> Make order</a></li>
-                <li><a href="#"><i class="glyphicon glyphicon-tasks"></i> Make report</a></li>
+                <li><a href="<c:url value="../seller/make-report"/>"><i class="glyphicon glyphicon-tasks"></i> Make report</a></li>
                 </sec:authorize>
                 <sec:authorize access="hasRole('ROLE_SELLER')">
                 <li><a href="#"><i class="glyphicon glyphicon-pencil"></i> Order</a></li>

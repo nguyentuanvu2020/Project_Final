@@ -137,7 +137,7 @@ function searchOrderByDate() {
             if(this.responseText === "nodata"){
                 document.getElementById("new-data").innerHTML = "Not find!!!";
             }else{
-                document.getElementById("new-data").innerHTML = this.responseText;
+                document.getElementById("contain-tabble").innerHTML = this.responseText;
             }
         }
     };

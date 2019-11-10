@@ -22,7 +22,16 @@
                                 </div>
                                 <div class="panel-body">
                                     <div style="margin-bottom: 5px;">
-                                        <input id="from-date" type="date"><span>&nbsp;to&nbsp;</span><input id="to-date" class="control-label" type="date">&nbsp;&#9679;&nbsp;<input class="btn btn-xs btn-primary" type="button" onclick="searchOrderByDate()" value="Search">
+                                        <f:form action="search" method="get">
+                                            <select name="ods" class="btn btn-default btn-xs">
+                                                <c:forEach var="s" items="${oderStatus}">
+                                                    <option value="${s}">${s}</option> 
+                                                </c:forEach>
+                                            </select>
+                                            <input class="btn btn-default btn-xs" name="s-date" type="date"><span>&nbsp;to&nbsp;</span>
+                                            <input class="btn btn-default btn-xs" name="e-date" class="control-label" type="date"><span>&nbsp;&#9679;&nbsp;</span>
+                                            <input class="btn btn-xs btn-primary" type="submit" value="Search">
+                                        </f:form>
                                     </div>
                                     <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example">
                                         <thead>

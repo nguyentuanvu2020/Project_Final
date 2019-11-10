@@ -16,7 +16,7 @@
         base-package="com.ivt" />
         
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="order" value="2"></property>
+        <property name="order" value="3"></property>
         <property name="prefix" value="/WEB-INF/jsp/" />
         <property name="suffix" value=".jsp" />
     </bean>
@@ -26,6 +26,13 @@
         <property name="order" value="1"></property>
         <property name = "location">
             <value>/WEB-INF/spring-pdf-views.xml</value>
+        </property>
+    </bean>
+    
+    <bean class = "org.springframework.web.servlet.view.XmlViewResolver">
+        <property name="order" value="2"></property>
+        <property name = "location">
+            <value>/WEB-INF/excel-view.xml</value>
         </property>
     </bean>
     
