@@ -27,7 +27,7 @@
                                 <div class="panel-body">
                                     <f:form method="POST" enctype="multipart/form-data" action="${pageContext.request.contextPath}/${action}" 
                                             modelAttribute="newPromotion">
-                                        <c:if test="${action =='edit-promotion'}">
+                                        <c:if test="${check =='edit'}">
                                             <input class="form-control" name="id" type="number" value="${newPromotion.id}">
                                         </c:if>
                                         <div class="form-group">
@@ -92,7 +92,6 @@
                                         </div>
                                     </div>
                                     <div class="content-box-large box-with-header">
-
                                         Pellentesque luctus quam quis consequat vulputate. Sed sit amet diam ipsum. Praesent in pellentesque diam, sit amet dignissim erat. Aliquam erat volutpat. Aenean laoreet metus leo, laoreet feugiat enim suscipit quis. Praesent mauris mauris, ornare vitae tincidunt sed, hendrerit eget augue. Nam nec vestibulum nisi, eu dignissim nulla.
                                         <br /><br />
                                     </div>

@@ -41,12 +41,21 @@
                                                 <tr class="odd gradeX">
                                                     <td>${i}</td>
                                                     <td>${promotion.id}</td>
-                                                    <td class="mouser-hover" onclick="location.href='<c:url value="detail-promotion/${promotion.id}"/>'">${promotion.description}</td>
+                                                    <td class="mouser-hover" onclick="location.href = '<c:url value="detail-promotion/${promotion.id}"/>'">${promotion.description}</td>
                                                     <td>${promotion.startDate}</td>
                                                     <td>${promotion.endDate}</td>
                                                     <td>${promotion.discount}%</td>
                                                     <td>${promotion.status}</td>
-                                                    <td><img height="50" width="50px" src="<c:url value="/resources/image/${promotion.image}"/>"></td>
+                                                    <td>
+                                                        <c:choose>
+                                                            <c:when test="${promotion.image==null}">
+                                                                <img height="50" width="50px" src="<c:url value="/resources/image/noneimage.jpg"/>">
+                                                            </c:when>
+                                                            <c:when test="${promotion.image!=''}">
+                                                                <img height="50" width="50px" src="<c:url value="/resources/image/${promotion.image}"/>">
+                                                            </c:when>
+                                                        </c:choose>
+                                                    </td>
                                                     <td>
                                                         <button class="btn btn-primary btn-xs" onclick="location.href = '<c:url value="update-promotion/${promotion.id}"/>'">
                                                             <i class="glyphicon glyphicon-refresh"></i> 

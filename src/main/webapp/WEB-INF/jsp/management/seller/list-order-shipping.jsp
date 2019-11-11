@@ -1,5 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib  uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@taglib prefix="f" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
@@ -22,6 +22,11 @@
                                 </div>
                                 <div class="panel-body">
                                     <div style="margin-bottom: 5px;">
+<!--                                        <select class="btn btn-xs btn-default" name="loai" id="">
+                                            <c:forEach var="os" items="${oderStatus}">
+                                                <option value="${os}">${os}</option>
+                                            </c:forEach>
+                                        </select>-->
                                         <input id="from-date" type="date"><span>&nbsp;to&nbsp;</span><input id="to-date" class="control-label" type="date">&nbsp;&#9679;&nbsp;<input class="btn btn-xs btn-primary" type="button" onclick="searchOrderByDate()" value="Search">
                                     </div>
                                     <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example">

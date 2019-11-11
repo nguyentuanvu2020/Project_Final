@@ -26,29 +26,29 @@
                                 </div>
                                 <div class="panel-body">
                                     <f:form method="POST" enctype="multipart/form-data" action="${pageContext.request.contextPath}/${action}" 
-                                            modelAttribute="promotion">
-                                        <c:if test="${action =='edit-promotion'}">
-                                            <input class="form-control" name="id" type="number" value="${promotion.id}">
+                                            modelAttribute="newPromotion">
+                                        <c:if test="${check =='edit'}">
+                                            <input class="form-control" name="id" value="${newPromotion.id}" type="hidden">
                                         </c:if>
                                         <div class="form-group">
                                             <label>Discount</label>
-                                            <input class="form-control" name="discount" type="number"  value="${promotion.discount}">
+                                            <input class="form-control" name="discount" type="number"  value="${newPromotion.discount}">
                                         </div>
                                         <div class="form-group">
                                             <label>Start date</label>
-                                            <input class="form-control" id="start-date" name="startDate" type="date" value="${promotion.startDate}">
+                                            <input class="form-control" id="start-date" name="startDate" type="date" value="${newPromotion.startDate}">
                                         </div>
                                         <div class="form-group">
                                             <label>End date</label>
-                                            <input class="form-control" id="end-date" name="endDate" type="date" value="${promotion.endDate}">
+                                            <input class="form-control" id="end-date" name="endDate" type="date" value="${newPromotion.endDate}">
                                         </div>
                                         <div class="form-group">
                                             <label>Description</label>
-                                            <textarea class="form-control" name="description" rows="3" >${promotion.description}</textarea>
+                                            <textarea class="form-control" name="description" rows="3" >${newPromotion.description}</textarea>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="col-md-4">
-                                                <img id="image" src="<c:url value="/resources/image/${promotion.image}"/>" alt="..."  class="img-thumbnail" style="height: 150px; width: 200px">
+                                                <img id="image" src="<c:url value="/resources/image/${newPromotion.image}"/>" alt="..."  class="img-thumbnail" style="height: 150px; width: 200px">
                                                 <br>
                                                 <button type="button" class="btn btn-danger btn-xs" onclick="display()">Delete</button>
                                             </div>

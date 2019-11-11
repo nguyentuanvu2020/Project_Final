@@ -18,7 +18,7 @@
                         <div class="col-md-12">
                             <div class="content-box-large">
                                 <div class="panel-heading">
-                                    <div class="panel-title">List Processing Order</div>
+                                    <div class="panel-title">Results</div>
                                 </div>
                                 <div class="panel-body">
                                     <div style="margin-bottom: 5px;">
@@ -32,6 +32,9 @@
                                             <input class="btn btn-default btn-xs" name="e-date" class="control-label" type="date"><span>&nbsp;&#9679;&nbsp;</span>
                                             <input class="btn btn-xs btn-primary" type="submit" value="Search">
                                         </f:form>
+                                        <br>
+                                        <p>${infomation}</p>
+                                        <input class="btn btn-xs btn-primary" type="button" value="Export file Excel" onclick="location.href = '<c:url value="export-file-excel"/>'">
                                     </div>
                                     <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example">
                                         <thead>
@@ -47,7 +50,7 @@
                                         </thead>
                                         <tbody id="new-data">
                                             <c:set var="i" value="1"/>
-                                            <c:forEach var="order" items="${processingOders}">
+                                            <c:forEach var="order" items="${orders}">
                                                 <tr class="odd gradeX">
                                                     <td class="mouser-hover" onclick="location.href = '<c:url value="order-detail/${order.id}"/>'">${i}</td>
                                                     <td class="mouser-hover" onclick="location.href = '<c:url value="order-detail/${order.id}"/>'">${order.id}</td>

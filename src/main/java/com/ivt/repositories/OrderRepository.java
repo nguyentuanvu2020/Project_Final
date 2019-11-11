@@ -8,6 +8,7 @@ package com.ivt.repositories;
 
 import com.ivt.entities.OrderEntity;
 import com.ivt.enums.OrderStatus;
+import java.util.Date;
 import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -51,4 +52,8 @@ public interface OrderRepository extends CrudRepository<OrderEntity, Integer>{
     
     @Query(value = "select count(o.id) from orders o where o.orderStatus = 'PAID'", nativeQuery = true)
     int getTotalOrderPaid();
+    // get betwen date
+    List<OrderEntity> findByOrderDateBetween(Date sd, Date ed);
+    // get betwen date adn status
+    List<OrderEntity> findByOrderDateBetweenAndOrderStatusLike(Date sd, Date ed,String status);
 }

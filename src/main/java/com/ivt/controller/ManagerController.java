@@ -397,24 +397,30 @@ public class ManagerController {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss");
         String date = String.valueOf(n.format(formatter));
         if (newPromotion.getEndDate().after(newPromotion.getStartDate())) {
-
             try {
-                byte[] byteImage = file.getBytes();
-                ServletContext context = request.getServletContext();
-                String urlImage = context.getRealPath("/image");
-                int index = urlImage.indexOf("target");
-                String pathFolder = urlImage.substring(0, index) + "src\\main\\webapp\\resources\\image\\";
-                String filename = file.getOriginalFilename();
-                int duoifile = filename.indexOf(".");
-                String fileType = filename.substring(duoifile);
-                filename = filename.substring(0, duoifile);
-                filename = newPromotion.getDescription() + filename + date + fileType;
-                Path path = Paths.get(pathFolder + filename);
-                Files.write(path, byteImage);
-                newPromotion.setImage(filename);
-                newPromotion.setStatus("YES");
-                promotionService.saveNewPromotion(newPromotion);
-                return "redirect:../../management/manager/list-promotion";
+                if (file.isEmpty()) {
+                    newPromotion.setImage(null);
+                    newPromotion.setStatus("YES");
+                    promotionService.saveNewPromotion(newPromotion);
+                    return "redirect:../../management/manager/list-promotion";
+                } else {
+                    byte[] byteImage = file.getBytes();
+                    ServletContext context = request.getServletContext();
+                    String urlImage = context.getRealPath("/image");
+                    int index = urlImage.indexOf("target");
+                    String pathFolder = urlImage.substring(0, index) + "src\\main\\webapp\\resources\\image\\";
+                    String filename = file.getOriginalFilename();
+                    int duoifile = filename.indexOf(".");
+                    String fileType = filename.substring(duoifile);
+                    filename = filename.substring(0, duoifile);
+                    filename = newPromotion.getDescription() + filename + date + fileType;
+                    Path path = Paths.get(pathFolder + filename);
+                    Files.write(path, byteImage);
+                    newPromotion.setImage(filename);
+                    newPromotion.setStatus("YES");
+                    promotionService.saveNewPromotion(newPromotion);
+                    return "redirect:../../management/manager/list-promotion";
+                }
             } catch (IOException e) {
                 return "../../management/manager/add-promotion";
             }
@@ -462,9 +468,10 @@ public class ManagerController {
     // update promotion
     @RequestMapping(value = "/update-promotion/{prmid}", method = RequestMethod.GET)
     public String viewUpdateProductPromotion(Model model, @PathVariable("prmid") int promotionId) {
-        model.addAttribute("action", "management/manager/update-promotion");
+        model.addAttribute("action", "management/manager/add-promotion");
+        model.addAttribute("check", "edit");
         PromotionEntity promotion = promotionService.getPromotionById(promotionId);
-        model.addAttribute("promotion", promotion);
+        model.addAttribute("newPromotion", promotion);
         model.addAttribute("products", productService.getAll());
         return "management/manager/update-promotion";
     }
@@ -485,7 +492,6 @@ public class ManagerController {
         return "management/manager/add-new-category";
     }
 
-   
     @RequestMapping(value = "/add-category", method = RequestMethod.POST)
     public String viewAddNewCategory2(Model model, @ModelAttribute("caregory") CategoryEntity newCategory) {
         try {
@@ -493,8 +499,8 @@ public class ManagerController {
             int check = a.getId();
             if (check > 0) {
                 return "redirect:list-category";
-            }else{
-                 throw new Exception("Cant save new category!!!");
+            } else {
+                throw new Exception("Cant save new category!!!");
             }
         } catch (Exception e) {
             model.addAttribute("message", "Error please check category name!!!");
@@ -502,8 +508,8 @@ public class ManagerController {
             return "management/manager/add-new-category";
         }
     }
-    
-     // update category
+
+    // update category
     @RequestMapping(value = "/edit-category/{cateId}", method = RequestMethod.GET)
     public String viewUpdateNewCategory(Model model, @PathVariable("cateId") int categoryId) {
         model.addAttribute("action", "management/manager/edit-category");
@@ -511,7 +517,7 @@ public class ManagerController {
         model.addAttribute("category", editCategoy);
         return "management/manager/update-category";
     }
-    
+
     @RequestMapping(value = "/edit-category", method = RequestMethod.POST)
     public String updateCategory(Model model, @ModelAttribute("caregory") CategoryEntity newCategory) {
         try {
@@ -519,8 +525,8 @@ public class ManagerController {
             int check = a.getId();
             if (check > 0) {
                 return "redirect:list-category";
-            }else{
-                 throw new Exception("Cant save new category!!!");
+            } else {
+                throw new Exception("Cant save new category!!!");
             }
         } catch (Exception e) {
             model.addAttribute("message", "Error please check category name!!!");
@@ -528,7 +534,7 @@ public class ManagerController {
             return "management/manager/add-new-category";
         }
     }
-    
+
     // list category
     @RequestMapping(value = "/list-category", method = RequestMethod.GET)
     public String viewListCategory(Model model) {

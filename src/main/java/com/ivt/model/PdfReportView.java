@@ -31,7 +31,7 @@ public class PdfReportView extends AbstractPdfView {
     @Override
     protected void buildPdfDocument(Map model, Document document,
             PdfWriter writer, HttpServletRequest hsr, HttpServletResponse hsr1) throws Exception {
-        OrderEntity order = (OrderEntity) model.get("revenueData");
+        OrderEntity order = (OrderEntity) model.get("Data");
         Paragraph tenshop = new Paragraph("VH Shoes");
         Paragraph diachishop = new Paragraph("01 Nguyen Van Linh, Hai Chau, TP Da Nang \n Contact: 0900000000 - 0900000001");
         Chapter chapter1 = new Chapter(tenshop, 1);

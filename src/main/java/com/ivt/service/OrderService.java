@@ -11,6 +11,7 @@ import com.ivt.repositories.ProductDetailRepository;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import javax.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -125,5 +126,15 @@ public class OrderService {
         } else {
             return true;
         }
+    }
+
+    // get order between date
+    public List<OrderEntity> getBetween(Date sd, Date ed) {
+        return (List<OrderEntity>) orderRepository.findByOrderDateBetween(sd, ed);
+    }
+    
+    // get order between date an stauts
+    public List<OrderEntity> getBetweenLike(Date sd, Date ed, String status) {
+        return (List<OrderEntity>) orderRepository.findByOrderDateBetweenAndOrderStatusLike(sd, ed, status);
     }
 }

@@ -7,8 +7,10 @@
           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
 ">
 
-    <bean id="Pdf"
-          class="com.ivt.model.PdfReportView">
+    <!--    <bean id="ExcelRevenueSummary"
+          class="com.ivt.model.ExcelFileReportView">
+    </bean>-->
+    <bean id="ExcelView"
+           class="com.ivt.model.ExcelFileReportView">
     </bean>
-    
 </beans>

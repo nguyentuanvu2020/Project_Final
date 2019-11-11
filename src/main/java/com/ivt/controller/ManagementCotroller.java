@@ -32,6 +32,7 @@ public class ManagementCotroller {
         session.removeAttribute("listdetail");
         session.removeAttribute("listDetail");
         session.removeAttribute("images");
+        session.removeAttribute("order");
         return "management/index";
     }
 }
