@@ -1,4 +1,3 @@
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <div class="container mb30 hidden-xs">
     <div class="row">
@@ -21,7 +20,7 @@
                     </svg>
                 </div>
                 <div class="title-service">Đổi trả hàng</div>
-                <div class="content-service">Không áp dụng đổi trả cho sản phẩm sale off</div>
+                <div class="content-service">Không áp dụng đổi trả cho sản phẩm đã qua sử dụng</div>
             </div>
         </div>
         <div class="col-md-3 col-sm-3 col-xs-12 pd-l-5 text-center pd5">
@@ -32,7 +31,7 @@
                     </svg>
                 </div>
                 <div class="title-service">Giao hàng nhận tiền</div>
-                <div class="content-service">Thanh toán đơn hàng bằng hình thức trực tiếp ở Tp.HCM </div>
+                <div class="content-service">Kiểm tra hàng và thánh toán sau khi hài lòng</div>
             </div>
         </div>
         <div class="col-md-3 col-sm-3 col-xs-12 pd-l-5 text-center pd5">
@@ -43,7 +42,7 @@
                     </svg>
                 </div>
                 <div class="title-service">Đặt hàng online</div>
-                <div class="content-service">0933880767 - 01222980259</div>
+                <div class="content-service">0988696969 - 0977696969</div>
             </div>
         </div>
     </div>

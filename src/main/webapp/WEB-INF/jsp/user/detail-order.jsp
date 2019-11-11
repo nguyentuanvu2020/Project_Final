@@ -39,95 +39,63 @@
         <!--end header-->
         <main>
             <hr>
-            <section id="collection" class="clearfix">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-                            <div class="group-collection" aria-expanded="true">
-                                <div class="title-block dropdown-filter">
-                                    <h3 class="title-group">Quản Lý Thông tin</h3>
-                                    <h5>${account.email}</h5>
-                                    <i class="fa fa-minus flexbox-grid-default flexbox-justifyContent-center flexbox-alignItems-center" aria-hidden="true"></i>
-                                </div>
-                                <div class="filter-box">
-                                    <ul id="menusidebarleft" class="menu-collection clearfix mb15">
-                                        <li class=" submenu-parent" aria-expanded="false">
-                                            <a href="javascript:void(0);" title="Personal Info">Thông tin cá nhân</a>
-                                            <svg class="svg-next-icon svg-next-icon-size-10" style="fill:#333">
-                                            <use xlink:href="#icon-right-owlCarousel"></use>
-                                            </svg>
-                                            <ul class="dropdown-menu default-none-dropdown-menu pd-l-10">
-                                                <li class="">
-                                                    <a href="account" title="Giày Nike">Hồ sơ</a>
-                                                </li>
-                                                <li class="">
-                                                    <a href="manage-address" title="Giày Jordan">Quản lý địa chỉ</a>
-                                                </li>
-                                                <li class="">
-                                                    <a href="change-password" title="Giày Timberland">Thay đổi mật khẩu</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li class="">
-                                            <a href="manage-order" title="Balo Chính Hãng">Lịch sử đơn hàng</a>
-                                        </li>
-                                        <li class="">
-                                            <a href="#" title="Chăm Sóc Giày">Quản lý ví "Đang Update</a>
-                                        </li><li class="">
-                                            <a href="logout" title="Chăm Sóc Giày">Đăng xuất</a>
-                                        </li>
-                                    </ul>
-                                </div>
+            <div class="container">
+                <div class="row">
+                    <div id="product-related" class="mb10">
+
+                        <div class="wrapper-product-related">
+                            <div class="title-group-related">
+                                <h3 class="title-group">
+                                    Chi tiết đơn hàng
+                                </h3>
                             </div>
-                        </div>
-                        <div class="col-lg-9 col-xs-12 pd5">
-                            <div class="row">
-                                <div class="col-xs-12 pd5">
-                                    <div class="group-collection">
-                                        <div class="title-block">
-                                            <h1 class="title-group">Tất Cả Đơn Hàng</h1>
-                                            <div class="browse-tags pull-right hidden-xs">
-                                                <span class="mr5">Xem chi tiết theo :</span>
-                                                <span class="custom-dropdown custom-dropdown--white">
-                                                    <select class="sort-by custom-dropdown__select custom-dropdown__select--white">
-                                                        <option value="processing">Đang xử lý</option>
-                                                        <option value="shipping">Đang giao hàng</option>
-                                                        <option value="paid">Đã giao</option>
-                                                        <option value="cancel">Đã Hủy</option>
-                                                    </select>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div id="description">										
-                                        <div class="container-fluid product-description-wrapper">
-                                            <table class="table">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Mã đơn hàng</th>
-                                                        <th>Ngày đặt đơn</th>
-                                                        <th>Tổng giá</th>
-                                                        <th>Trạng thái</th>
-                                                        <th></th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <c:forEach var="orderDetail" items="${listOrderDetail}">
-                                                        <tr>
-                                                            <td>${orderDetail.id}</td>
-                                                            <td><button type="button" class="btn btn-info">Info</button></td>
-                                                        </tr>
-                                                    </c:forEach>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
+                            <div class="list-product-related">
+                                <div class="clearfix overflow-cart">
+                                    <table id="table-cart">
+                                        <tbody>
+                                            <tr>
+                                                <th></th>
+                                                <th>Sản phẩm</th>
+                                                <th>Đơn giá</th>
+                                                <th>Số lượng</th>
+                                                <th>Tổng tạm</th>
+                                                <th>Kích cỡ</th>
+                                                <th>Màu Sắc</th>
+                                                <th></th>
+                                            </tr>
+                                            <c:forEach var="orderDetail" items="${listOrderDetail}">
+                                                <tr>
+                                                    <td><div class="product-thumbnail-wrapper">
+                                                            <img class="product-thumbnail-image" alt=" " style="width: 100px;height: 80px"src="${pageContext.request.contextPath}/resources/image/${orderDetail.product.listImageProductDetail[0].name}" class="img-rounded" />
+                                                        </div></td>
+                                                    <td>${orderDetail.product.name}</td>
+                                                    <td>${orderDetail.unitPrice}</td>
+                                                    <td>${orderDetail.quantity}</td>
+                                                    <td>${orderDetail.price}</td>
+                                                    <td>${orderDetail.size}</td>
+                                                    <td>${orderDetail.color}</td>
+                                                    <c:if test="${orderDetail.order.orderStatus==status&&orderDetail.isReviewed==false}">
+                                                        <td><a href="order-review?orderDetailId=${orderDetail.id}" class="btn btn-info" role="button">Review</a></td>
+                                                    </c:if>
+                                                    <c:if test="${orderDetail.order.orderStatus!=status}">
+                                                        <td><button type="button" class="btn" disabled>Review</button></td>
+                                                    </c:if>
+                                                    <c:if test="${orderDetail.isReviewed==true}">
+                                                        <td><button type="button" class="btn" disabled>Reviewed</button></td>
+                                                    </c:if>
+                                                </tr>
+                                            </c:forEach>
+                                        </tbody>
+                                    </table>
                                 </div>
-                            </div>
+                                <div class="clearfix">
+                                    <a class="continue-shopping" title="Mua tiếp" href="manage-order">Quay lại</a>
+                                </div>
+                            </div>  
                         </div>
                     </div>
                 </div>
-            </section>
+            </div>
         </main>
         <!--footer-->
         <jsp:include page="../include/footer.jsp"/>

@@ -29,12 +29,6 @@
             <li class="">
                 <a href="/pages/huong-dan-chon-size-giay" title="Hướng dẫn chọn size giày">Hướng dẫn chọn size giày</a>
             </li>
-            <li class="">
-                <a href="/pages/huong-dan-dat-hang" title="Hướng dẫn đặt hàng">Hướng dẫn đặt hàng</a>
-            </li>
-            <li class="">
-                <a href="/collections/giay-khuyen-mai" title="SALE UP TO 70%">SALE UP TO 70%</a>
-            </li>
         </ul>
     </div>	
 </div>

@@ -4,9 +4,9 @@ com\ivt\repositories\FavoriteRepository.class
 com\ivt\repositories\OrderRepository.class
 com\ivt\enums\Gender.class
 com\ivt\enums\AccountRole.class
-com\ivt\entities\VoteEntity.class
 com\ivt\repositories\ProductDetailRepository.class
 com\ivt\enums\OrderStatus.class
+com\ivt\service\ReviewService.class
 com\ivt\entities\Cart.class
 com\ivt\repositories\ImageProductRepository.class
 com\ivt\repositories\SizeRepository.class
@@ -40,6 +40,7 @@ com\ivt\service\AccountService.class
 com\ivt\entities\CustomerEntity.class
 com\ivt\service\ImageService.class
 com\ivt\service\SizeService.class
+com\ivt\repositories\ReviewRepository.class
 com\ivt\service\ProductService.class
 com\ivt\entities\PersonalInfo.class
 com\ivt\entities\SizeEntity.class

@@ -22,6 +22,7 @@ public class OrderDetailEntity implements Serializable {
     private double price;
     private int size;
     private String color;
+    private boolean isReviewed = false;
 
     @ManyToOne
     @JoinColumn(name = "order_id")
@@ -40,6 +41,14 @@ public class OrderDetailEntity implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public boolean isIsReviewed() {
+        return isReviewed;
+    }
+
+    public void setIsReviewed(boolean isReviewed) {
+        this.isReviewed = isReviewed;
     }
 
     public int getQuantity() {
@@ -98,5 +107,4 @@ public class OrderDetailEntity implements Serializable {
         this.product = product;
     }
 
-    
 }

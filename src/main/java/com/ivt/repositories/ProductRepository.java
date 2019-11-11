@@ -20,6 +20,9 @@ public interface ProductRepository extends CrudRepository<ProductEntity, Integer
 
     @Query(value = "SELECT distinct p FROM ProductEntity p INNER JOIN FETCH p.listImageProductDetail pi where p.id = ?1")
     public ProductEntity findWholeProductById(int id);
+    
+    @Query(value = "SELECT  p FROM ProductEntity p INNER JOIN  OrderDetailEntity od on p.id = od.product.id where od.id = ?1")
+    public ProductEntity findProductByOrderDetailId(int id);
 
 //    code của hiệp
     @Query(value = "SELECT distinct p FROM ProductEntity p INNER JOIN FETCH p.listProductDetail pd")

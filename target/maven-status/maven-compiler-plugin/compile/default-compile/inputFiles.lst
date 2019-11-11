@@ -5,9 +5,11 @@ D:\New folder\Project_Final\src\main\java\com\ivt\service\ImageService.java
 D:\New folder\Project_Final\src\main\java\com\ivt\entities\ColorEntity.java
 D:\New folder\Project_Final\src\main\java\com\ivt\repositories\ProductRepository.java
 D:\New folder\Project_Final\src\main\java\com\ivt\service\AccountService.java
+D:\New folder\Project_Final\src\main\java\com\ivt\service\ReviewService.java
 D:\New folder\Project_Final\src\main\java\com\ivt\repositories\ProductDetailRepository.java
 D:\New folder\Project_Final\src\main\java\com\ivt\service\CategoryService.java
 D:\New folder\Project_Final\src\main\java\com\ivt\enums\Gender.java
+D:\New folder\Project_Final\src\main\java\com\ivt\repositories\ReviewRepository.java
 D:\New folder\Project_Final\src\main\java\com\ivt\entities\ProductDetailEntity.java
 D:\New folder\Project_Final\src\main\java\com\ivt\controller\SellerController.java
 D:\New folder\Project_Final\src\main\java\com\ivt\entities\Cart.java
@@ -39,7 +41,6 @@ D:\New folder\Project_Final\src\main\java\com\ivt\entities\ProductEntity.java
 D:\New folder\Project_Final\src\main\java\com\ivt\service\PromotionService.java
 D:\New folder\Project_Final\src\main\java\com\ivt\repositories\PromotionRepository.java
 D:\New folder\Project_Final\src\main\java\com\ivt\entities\PromotionEntity.java
-D:\New folder\Project_Final\src\main\java\com\ivt\entities\VoteEntity.java
 D:\New folder\Project_Final\src\main\java\com\ivt\model\PdfReportView.java
 D:\New folder\Project_Final\src\main\java\com\ivt\controller\UserController.java
 D:\New folder\Project_Final\src\main\java\com\ivt\service\ProductService.java

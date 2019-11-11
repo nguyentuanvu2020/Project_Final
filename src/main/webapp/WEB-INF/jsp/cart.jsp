@@ -59,6 +59,13 @@
                     <div class="row" id="cart">
                         <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 pd5">
                             <h1 class="title-head-cart">Giỏ hàng</h1>
+                            <p class="${style}" id="message">${message}</p>
+                            <script>
+                                setTimeout(function () {
+                                    document.getElementById("message").style.display = "none";
+                                }, 2000);
+                            </script>
+
                             <div class="clearfix overflow-cart">
                                 <table id="table-cart">
                                     <tbody>
@@ -74,7 +81,9 @@
                                         <c:forEach var="item" items="${cart.cart}">
                                             <tr>
                                                 <td>
-                                                    <img src="//product.hstatic.net/1000243581/product/giay-puma-rsx-36932904.wht_36932904_wht_01_242556_ff31b786c9af4699b69e5c0ab41cf526_small.jpg" alt="Giày Puma RS-X ">
+                                                    <div class="product-thumbnail-wrapper">
+                                                        <img class="product-thumbnail-image" alt=" " style="max-width: 100px;max-height: 80px"src="${pageContext.request.contextPath}/resources/image/${item.product.listImageProductDetail[0].name}" class="img-rounded" />
+                                                    </div>
                                                 </td>
                                                 <td style="text-align:left;max-width:300px;">
                                                     <strong>${item.product.name}</strong>
@@ -83,6 +92,7 @@
                                                                   maxFractionDigits = "3" value = "${item.product.price}" />₫</td>
                                                 <td class="qty">
                                                     <input type="number" class="form-control" name="updates[]" min="1" id="quantity${item.id}" value="${item.productQuantity}" oninput="updateQuantity(${item.id})">
+                                                    
                                                 </td>
                                                 <td class="price">${item.color.productColor}</td>
                                                 <td>${item.productSize.productSize}</td>
@@ -111,7 +121,7 @@
                                                                                                                    maxFractionDigits = "3" value = "${cart.total}"/>₫</label></c:if>
                                     </h2> 
                                 <c:if test="${cart.cart.size()>= 1}"><a class="checkout" href="check-out">Thanh toán</a></c:if>
-                                <c:if test="${cart.cart.size()== 0}"><a class="checkout" href="home">Giỏ Hàng Trống</a></c:if>  
+                                <c:if test="${cart.cart.size()== 0||cart==null}"><a class="checkout" href="home">Giỏ Hàng Trống</a></c:if>  
                                 </div>
                             </div>
                         </div>
@@ -132,16 +142,17 @@
     <script>
         function updateQuantity(itemId) {
             var quantity = document.getElementById("quantity" + itemId).value;
+
             var xhttp;
             xhttp = new XMLHttpRequest();
             xhttp.open("GET", "update-quantity?id=" + itemId + "&quantity=" + quantity, true);
             xhttp.send();
-
             xhttp.onreadystatechange = function () {
                 if (this.readyState === 4 && this.status === 200) {
                     var data = JSON.parse(this.responseText);
+                    document.getElementById("quantity" + itemId).max = data[2];
                     document.getElementById("cart-count2").innerHTML = data[0];
-                    document.getElementById("total-price").innerHTML = formatNumber(data[1])+"₫";
+                    document.getElementById("total-price").innerHTML = formatNumber(data[1]) + "₫";
                 }
             };
         }
