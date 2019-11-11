@@ -26,7 +26,8 @@ public class ExcelFileReportView extends AbstractXlsView {
     @Override
     protected void buildExcelDocument(Map map, Workbook workbook, HttpServletRequest hsr, HttpServletResponse response) throws Exception {
         List<OrderEntity> orders = (List<OrderEntity>) map.get("order");
-        response.setHeader("Content-Disposition", "attachment; filename=forex-rates.xls");
+        String name = (String) map.get("name");
+        response.setHeader("Content-Disposition", "attachment; filename="+name+".xls");
         Sheet sheet = workbook.createSheet("List Orders");
         Sheet sheet2 = workbook.createSheet("Detail Order");
 

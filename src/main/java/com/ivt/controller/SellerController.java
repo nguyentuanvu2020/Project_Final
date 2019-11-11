@@ -15,6 +15,7 @@ import com.ivt.service.OrderDetailService;
 import com.ivt.service.OrderService;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -61,18 +62,21 @@ public class SellerController {
         if (startDate.isEmpty() || endDate.isEmpty()) {
             model.addAttribute("infomation", "List order of status " + status);
             List<OrderEntity> a = orderService.getAllOrderByStatusParameter(status);
+            LocalDate t = LocalDate.now();
+            session.setAttribute("name", status+t);
             session.setAttribute("order", a);
             model.addAttribute("orders", a);
 
         } else {
             SimpleDateFormat fmd = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Date sd = fmd.parse(startDate+" 00:00:00");
-            Date ed = fmd.parse(endDate+" 23:59:59");
+            Date sd = fmd.parse(startDate + " 00:00:00");
+            Date ed = fmd.parse(endDate + " 23:59:59");
             if (ed.before(sd)) {
                 model.addAttribute("message", "Please reenter date!!!");
             } else {
                 model.addAttribute("infomation", "List order in " + sd + "  to " + ed + " and status: " + status);
                 List<OrderEntity> aa = orderService.getBetweenLike(sd, ed, status);
+                session.setAttribute("name", status+" - "+sd+" - "+ed);
                 session.setAttribute("order", aa);
                 model.addAttribute("orders", aa);
             }
@@ -221,8 +225,7 @@ public class SellerController {
 
     //make-report
     @RequestMapping("/make-report")
-    public String viewMakeReport(Model model
-    ) {
+    public String viewMakeReport(Model model) {
         model.addAttribute("oderStatus", OrderStatus.values());
         return "management/seller/make-report";
     }
@@ -232,9 +235,11 @@ public class SellerController {
     public ModelAndView reportFileExcel(Model model, HttpSession session) {
         ModelAndView modelAndView = new ModelAndView("ExcelView");
         List<OrderEntity> orders = (List<OrderEntity>) session.getAttribute("order");
+        String name = (String) session.getAttribute("name");
         for (OrderEntity item : orders) {
             item.setListOrderDetail(orderDetailService.findByOrder(item));
         }
+        modelAndView.addObject("name", name);
         modelAndView.addObject("order", orders);
         return modelAndView;
     }

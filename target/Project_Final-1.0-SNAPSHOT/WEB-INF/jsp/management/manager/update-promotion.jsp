@@ -27,8 +27,8 @@
                                 <div class="panel-body">
                                     <f:form method="POST" enctype="multipart/form-data" action="${pageContext.request.contextPath}/${action}" 
                                             modelAttribute="newPromotion">
-                                        <c:if test="${action =='edit-promotion'}">
-                                            <input class="form-control" name="id" type="number" value="${newPromotion.id}">
+                                        <c:if test="${check =='edit'}">
+                                            <input class="form-control" name="id" value="${newPromotion.id}" type="hidden">
                                         </c:if>
                                         <div class="form-group">
                                             <label>Discount</label>

@@ -398,22 +398,29 @@ public class ManagerController {
         String date = String.valueOf(n.format(formatter));
         if (newPromotion.getEndDate().after(newPromotion.getStartDate())) {
             try {
-                byte[] byteImage = file.getBytes();
-                ServletContext context = request.getServletContext();
-                String urlImage = context.getRealPath("/image");
-                int index = urlImage.indexOf("target");
-                String pathFolder = urlImage.substring(0, index) + "src\\main\\webapp\\resources\\image\\";
-                String filename = file.getOriginalFilename();
-                int duoifile = filename.indexOf(".");
-                String fileType = filename.substring(duoifile);
-                filename = filename.substring(0, duoifile);
-                filename = newPromotion.getDescription() + filename + date + fileType;
-                Path path = Paths.get(pathFolder + filename);
-                Files.write(path, byteImage);
-                newPromotion.setImage(filename);
-                newPromotion.setStatus("YES");
-                promotionService.saveNewPromotion(newPromotion);
-                return "redirect:../../management/manager/list-promotion";
+                if (file.isEmpty()) {
+                    newPromotion.setImage(null);
+                    newPromotion.setStatus("YES");
+                    promotionService.saveNewPromotion(newPromotion);
+                    return "redirect:../../management/manager/list-promotion";
+                } else {
+                    byte[] byteImage = file.getBytes();
+                    ServletContext context = request.getServletContext();
+                    String urlImage = context.getRealPath("/image");
+                    int index = urlImage.indexOf("target");
+                    String pathFolder = urlImage.substring(0, index) + "src\\main\\webapp\\resources\\image\\";
+                    String filename = file.getOriginalFilename();
+                    int duoifile = filename.indexOf(".");
+                    String fileType = filename.substring(duoifile);
+                    filename = filename.substring(0, duoifile);
+                    filename = newPromotion.getDescription() + filename + date + fileType;
+                    Path path = Paths.get(pathFolder + filename);
+                    Files.write(path, byteImage);
+                    newPromotion.setImage(filename);
+                    newPromotion.setStatus("YES");
+                    promotionService.saveNewPromotion(newPromotion);
+                    return "redirect:../../management/manager/list-promotion";
+                }
             } catch (IOException e) {
                 return "../../management/manager/add-promotion";
             }
@@ -462,6 +469,7 @@ public class ManagerController {
     @RequestMapping(value = "/update-promotion/{prmid}", method = RequestMethod.GET)
     public String viewUpdateProductPromotion(Model model, @PathVariable("prmid") int promotionId) {
         model.addAttribute("action", "management/manager/add-promotion");
+        model.addAttribute("check", "edit");
         PromotionEntity promotion = promotionService.getPromotionById(promotionId);
         model.addAttribute("newPromotion", promotion);
         model.addAttribute("products", productService.getAll());
