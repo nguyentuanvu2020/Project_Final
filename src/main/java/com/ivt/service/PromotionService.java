@@ -1,4 +1,3 @@
-
 package com.ivt.service;
 
 import com.ivt.entities.PromotionEntity;
@@ -13,22 +12,29 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class PromotionService {
-    @Autowired 
+
+    @Autowired
     private PromotionRepository promotionRepository;
-    
-    @Autowired 
+
+    @Autowired
     private ProductService productService;
-    
-    public void saveNewPromotion(PromotionEntity newPromotionEntity){
+
+    public void saveNewPromotion(PromotionEntity newPromotionEntity) {
         promotionRepository.save(newPromotionEntity);
     }
-    public List<PromotionEntity> getAll(){
+
+    public List<PromotionEntity> getAll() {
         return (List<PromotionEntity>) promotionRepository.findAll();
     }
-    public PromotionEntity getPromotionById(int id){
+
+    public PromotionEntity getPromotionById(int id) {
         PromotionEntity promotion = promotionRepository.findOne(id);
         promotion.setListProduct(productService.getByPromotionId(promotion.getId()));
         return promotion;
     }
-    
+
+    public List<PromotionEntity> findListPromotionByProductId(int productId) {
+        return promotionRepository.findListPromotionByProductId(productId);
+    }
+
 }

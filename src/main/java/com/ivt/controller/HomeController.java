@@ -21,6 +21,7 @@ import com.ivt.service.ColorService;
 import com.ivt.service.FavoriteService;
 import com.ivt.service.ProductDetailService;
 import com.ivt.service.ProductService;
+import com.ivt.service.ReviewService;
 import com.ivt.service.SizeService;
 import java.util.ArrayList;
 import java.util.Date;
@@ -73,9 +74,13 @@ public class HomeController {
     @Autowired
     private FavoriteService favoriteService;
 
+    @Autowired
+    private ReviewService reviewService;
+
     @RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
     public String viewHome(Model model) {
-        model.addAttribute("allProduct", productService.getAllProductAndImage());
+        List<ProductEntity> allProduct = productService.getAllProductAndImage();
+        model.addAttribute("allProduct", allProduct);
         return "home";
     }
 
@@ -163,11 +168,15 @@ public class HomeController {
         } else {
             model.addAttribute("style", "none");
         }
-        model.addAttribute("product", productService.findAWholeProductById(id));
+        ProductEntity product = productService.findAWholeProductById(id);
+        model.addAttribute("product", product);
+        model.addAttribute("reviewTotal", reviewService.CountReviewByProductId(id));
+        model.addAttribute("avgRate", reviewService.AvgRateReviewByProductId(id));
         model.addAttribute("favoriteTotal", favoriteService.favoriteTotalbyProductId(id));
         model.addAttribute("listColor", productColorService.findListColorByProductId(id));
         model.addAttribute("listSize", productSizeService.findListSizeByProductId(id));
         model.addAttribute("genders", Gender.values());
+        model.addAttribute("listReview", reviewService.getAllReviewByProduct(product));
         return "product-detail-view";
 
     }
@@ -212,19 +221,26 @@ public class HomeController {
             @RequestParam("productId") int productId, @RequestParam("quantity") int quantity,
             HttpSession session) {
         ProductDetailEntity newProductDetail = productDetailService.findProductDetailByProductIdAndColorIdAndSizeId(productId, colorId, sizeId);
-        newProductDetail.setProductQuantity(quantity);
         boolean check = (session.getAttribute("cart") == null);
-
+        int count = 0;
         if (check) {
             Cart cart = new Cart();
+            newProductDetail.setProductQuantity(quantity);
             cart.addProductDetail(newProductDetail);
             session.setAttribute("cart", cart);
+            return "cart";
         } else {
             Cart cart = (Cart) session.getAttribute("cart");
-            cart.addProductDetail(newProductDetail);
-            session.setAttribute("cart", cart);
+            int quantityInCart = cart.checkQuantity(newProductDetail.getId());
+            if (quantityInCart + quantity > newProductDetail.getProductQuantity()) {
+                return "redirect:/product-detail-view?productId=" + productId;
+            } else {
+                newProductDetail.setProductQuantity(quantity);
+                cart.addProductDetail(newProductDetail);
+                session.setAttribute("cart", cart);
+                return "cart";
+            }
         }
-        return "cart";
 
     }
 
@@ -235,22 +251,28 @@ public class HomeController {
             @RequestParam("productId") int productId, @RequestParam("quantity") int quantity, HttpSession session) {
 
         ProductDetailEntity newProductDetail = productDetailService.findProductDetailByProductIdAndColorIdAndSizeId(productId, colorId, sizeId);
-        newProductDetail.setProductQuantity(quantity);
         boolean check = (session.getAttribute("cart") == null);
         int count = 0;
         if (check) {
             Cart cart = new Cart();
+            newProductDetail.setProductQuantity(quantity);
             cart.addProductDetail(newProductDetail);
             session.setAttribute("cart", cart);
             count = cart.getCount();
+            return "" + count;
         } else {
             Cart cart = (Cart) session.getAttribute("cart");
-            cart.addProductDetail(newProductDetail);
-            session.setAttribute("cart", cart);
-            count = cart.getCount();
+            int quantityInCart = cart.checkQuantity(newProductDetail.getId());
+            if (quantityInCart + quantity > newProductDetail.getProductQuantity()) {
+                return "fail";
+            } else {
+                newProductDetail.setProductQuantity(quantity);
+                cart.addProductDetail(newProductDetail);
+                session.setAttribute("cart", cart);
+                count = cart.getCount();
+                return "" + count;
+            }
         }
-        return "" + count;
-
     }
 
     @RequestMapping(value = {"/update-cart"}, method = RequestMethod.GET)
@@ -316,7 +338,12 @@ public class HomeController {
     }
 
     @RequestMapping(value = {"/cart"}, method = RequestMethod.GET)
-    public String viewCartAll(HttpSession session, Model model) {
+    public String viewCartAll(HttpSession session, Model model,
+            @RequestParam(value = "error", required = false) boolean error,
+            @RequestParam(value = "message", required = false) String message,
+            @RequestParam(value = "style", required = false) String style) {
+        model.addAttribute("message", message);
+        model.addAttribute("style", style);
         Cart cart = (Cart) session.getAttribute("cart");
         return "cart";
 
@@ -326,9 +353,10 @@ public class HomeController {
     @ResponseBody
     public String updateQuantity(HttpSession session, Model model, @RequestParam("id") int id,
             @RequestParam("quantity") int quantity) {
+        ProductDetailEntity productDetail = productDetailService.findProductDetailById(id);
         Cart cart = (Cart) session.getAttribute("cart");
         cart.updateQuantity(id, quantity);
-        String responseBody = "[" + cart.getCount() + "," + cart.getTotal() + "]";
+        String responseBody = "[" + cart.getCount() + "," + cart.getTotal() + "," + productDetail.getProductQuantity() + "]";
         return responseBody;
 
     }
@@ -336,10 +364,17 @@ public class HomeController {
     @RequestMapping(value = {"/check-out"}, method = RequestMethod.GET)
     public String viewCheckOut(HttpSession session, Model model) {
         Cart cart = (Cart) session.getAttribute("cart");
+        if (cart.getCart().size() == 0 || cart == null) {
+            return "redirect:/home";
+        }
+        for (ProductDetailEntity item : cart.getCart()) {
+            if (item.getProductQuantity() > productDetailService.findProductDetailById(item.getId()).getProductQuantity()) {
+                return "redirect:/cart?error=true&message=Quantity is not Correct!&style=alert alert-danger";
+            }
+        }
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof AccountEntity) {
             String currentUserName = ((AccountEntity) principal).getName();
-            // principal
             model.addAttribute("customer", principal);
             model.addAttribute("check", "acc");
             model.addAttribute("action", "create-order");
@@ -363,9 +398,8 @@ public class HomeController {
             @RequestParam("sizeId") int sizeId,
             @RequestParam("productId") int productId, HttpSession session) {
 
-        ProductDetailEntity newProductDetail = productDetailService.findProductDetailByProductIdAndColorIdAndSizeId(productId, colorId, sizeId);
-        newProductDetail.getProductQuantity();
-        return "" + newProductDetail.getProductQuantity();
+        ProductDetailEntity ProductDetail = productDetailService.findProductDetailByProductIdAndColorIdAndSizeId(productId, colorId, sizeId);
+        return "" + ProductDetail.getProductQuantity();
 
     }
 

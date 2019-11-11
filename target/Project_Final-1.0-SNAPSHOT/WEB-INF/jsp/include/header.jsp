@@ -1,6 +1,15 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<header class="hidden-xs">
+    <div class="container">
+        <div class="row">
+            <a href="home">
+                <img src="${pageContext.request.contextPath}/resources/image/logo/logomain.png" alt="TV SHOP"/>
+            </a>
+        </div>
+    </div>
+</header>
 <nav class="navbar-main navbar navbar-default cl-pri">
     <!-- MENU MAIN -->
     <div class="container nav-wrapper">
@@ -47,12 +56,8 @@
                     </div>
                 </div>
             </div>
+
             <div id="navbar" class="navbar-collapse collapse">
-                <div class="row clearfix">
-                    <a href="home">
-                        <img src="${pageContext.request.contextPath}/resources/image/logo/logomain.png" style="height: 80px;margin-bottom: -19px;" alt="TV SHOP"/>
-                    </a>
-                </div>
                 <div class="row clearfix">
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <ul class="nav navbar-nav clearfix flexbox-grid flexbox-justifyContent-center">
@@ -128,9 +133,6 @@
                                 <a href="/pages/huong-dan-chon-size-giay" title="Hướng dẫn chọn size giày">Hướng dẫn chọn size giày</a>
                             </li>
                             <li class="">
-                                <a href="/pages/huong-dan-dat-hang" title="Hướng dẫn đặt hàng">Hướng dẫn đặt hàng</a>
-                            </li>
-                            <li class="">
                                 <a href="/collections/giay-khuyen-mai" title="SALE UP TO 70%">Khuyến mãi</a>
                             </li>
                             <li id="cart-target" class="cart">
@@ -138,7 +140,8 @@
                                     <svg class="svg-next-icon svg-next-icon-size-24">
                                     <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-cart-header"></use>
                                     </svg>					
-                                    <span id="cart-count2" class="csscart">${cart.count}</span>
+                                    <c:if test="${cart!=null}"><span id="cart-count2" class="csscart">${cart.count}</span></c:if>
+                                    <c:if test="${cart==null}"><span id="cart-count2" class="csscart">0</span></c:if>
                                 </a>
                             </li>
                             <li>
@@ -147,6 +150,21 @@
                                     <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-user"></use>
                                     </svg>
                                 </a>
+                            </li>
+                            <li class="search-header">
+                                <div class="dropdown btn-group">
+                                    <a href="#" data-toggle="dropdown"style="margin-top: 9px;">TÌM KIẾM... 
+                                        <svg class="svg-next-icon svg-next-icon-size-24" >
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-search-filter"></use>
+                                        </svg>
+                                    </a>
+                                    <div class="dropdown-menu">
+                                        <form action="/search">
+                                            <input type="hidden" name="type" value="product">
+                                            <input type="text" class="form-control" name="q" placeholder="Tìm kiếm...">
+                                        </form>
+                                    </div>
+                                </div>
                             </li>
                         </ul>
                     </div>

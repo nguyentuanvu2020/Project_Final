@@ -90,9 +90,9 @@
                                     <c:forEach var="image" items="${product.listImageProductDetail}">
                                         <div class="item active">
                                             <picture>
-                                                <source media="(max-width: 767px)" srcset="${pageContext.request.contextPath}/resources/image/${image.name}">
-                                                <source media="(min-width: 768px)" srcset="${pageContext.request.contextPath}/resources/image/${image.name}">
-                                                <img src="${pageContext.request.contextPath}/resources/image/${image.name}" alt="slide 1" title="slide 1" style="height: 330px">
+                                                <source media="(max-width: 800px)" srcset="${pageContext.request.contextPath}/resources/image/${image.name}">
+                                                <source media="(min-width: 600px)" srcset="${pageContext.request.contextPath}/resources/image/${image.name}">
+                                                <img src="${pageContext.request.contextPath}/resources/image/${image.name}" alt="slide 1" title="slide 1">
                                             </picture>
                                         </div>
                                     </c:forEach>
@@ -190,12 +190,16 @@
                                             </sec:authorize>
                                         </div>
                                         <div class="radio-toolbar">
-                                            <span>(4.1)</span>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star"></span> <span>Đánh giá(10)</span>
+                                            <span>(${avgRate})</span>
+                                            <c:forEach var="x" begin="1" end="5" >
+                                                <c:if test="${x<=Math.round(avgRate)}">
+                                                    <span class="fa fa-star checked"></span>     
+                                                </c:if>
+                                                <c:if test="${x>Math.round(avgRate)}">
+                                                    <span class="fa fa-star"></span>     
+                                                </c:if>
+                                            </c:forEach>    
+                                            <span>Đánh giá(${reviewTotal})</span>
 
                                             <style>
                                                 .checked {
@@ -219,9 +223,9 @@
                                             <div class="radio-toolbar">
                                                 <p>Chọn Số lượng</p>
                                                 <input type="number" style="height: 40px;width: 100px;border: 1px solid grey;
-                                                       border-radius: 4px 4px;text-align: center;" max="10" min="1" value="1" 
+                                                       border-radius: 4px 4px;text-align: center;" max="100" min="1" value="1" 
                                                        name="quantity" required="" id="quantity9" 
-                                                       class="quantityvalidate">
+                                                       class="quantityvalidate"><span id="quantity-remaining"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -309,24 +313,33 @@
                                         <!-- Tab panes -->
                                         <div id="description">										
                                             <div class="container-fluid product-description-wrapper">
-
-                                                <p>Chứa thông tin mô tả</p>
+                                                <p>${product.description}</p>
                                             </div>
                                         </div>
 
                                         <div id="comment">
                                             <div class="group-index mb15">
                                                 <div class="title-block">
+                                                    <h3 id="quantitymaxxx" class="title-group"></h3>
+                                                </div>
+                                                <div class="title-block">
                                                     <h3 class="title-group">Bình luận</h3>
                                                 </div>
                                             </div>
-                                            <div class="container-fluid">
-                                                <div class="row">
+                                            <c:forEach var="review" items="${listReview}">
+                                                <div class="container-fluid">
+                                                    <div class="row">
+                                                        <h4>Khách hàng: ${review.account.name}</h4>
+                                                        <p>Phân loại hàng: ${review.typeOfShoes}    ${review.dateReview}</p>
+                                                        <p></p>
+                                                        <p><c:forEach begin="1" end="${review.rate}"><span class="fa fa-star checked"></span></c:forEach></p>
 
+                                                            <p>${review.content}</p>
+                                                        <hr>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            </c:forEach>
                                         </div>	
-
                                     </div>
                                 </div>
                             </div>
@@ -379,17 +392,35 @@
                         if (check == 0) {
                             item.disabled = true;
                         }
+                        if (addSizeId != null) {
+                            xhttp.open("GET", "checkQuantity?sizeId=" + addSizeId + "&productId=${product.id}" + "&colorId=" + addColorId, true);
+                            xhttp.send();
+                            xhttp.onreadystatechange = function () {
+                                if (this.readyState === 4 && this.status === 200) {
+                                    document.getElementById("quantity-remaining").innerHTML = " Số lượng còn lại: " + Number(this.responseText);
+                                    document.getElementById("quantity9").max = Number(this.responseText);
+                                    document.getElementsByClassName('quantityvalidate')[0].oninput = function () {
+                                        var max = parseInt(this.max);
+                                        var min = parseInt(this.min);
+                                        if (parseInt(this.value) < min) {
+                                            this.value = min;
+                                        } else if (parseInt(this.value) > max) {
+                                            this.value = max;
+                                        }
+                                        addQuantity = this.value;
+                                    }
+                                }
+                            };
+                        }
                     }
                 }
             };
+
         }
         //        
         function checkSize(sizeId) {
             addSizeId = sizeId;
             var block2 = document.getElementsByClassName("productColor");
-            //            for (var item of block) {
-            //                item.checked = false;
-            //            }
             var xhttp;
             xhttp = new XMLHttpRequest();
             xhttp.open("GET", "print-color-by-size?sizeId=" + sizeId + "&productId=${product.id}", true);
@@ -409,50 +440,70 @@
                         if (check == 0) {
                             item.disabled = true;
                         }
+                        if (addColorId != null) {
+                            xhttp.open("GET", "checkQuantity?sizeId=" + addSizeId + "&productId=${product.id}" + "&colorId=" + addColorId, true);
+                            xhttp.send();
+                            xhttp.onreadystatechange = function () {
+                                if (this.readyState === 4 && this.status === 200) {
+                                    document.getElementById("quantity-remaining").innerHTML = " Số lượng còn lại: " + Number(this.responseText);
+                                    document.getElementById("quantity9").max = Number(this.responseText);
+                                    document.getElementsByClassName('quantityvalidate')[0].oninput = function () {
+                                        var max = parseInt(this.max);
+                                        var min = parseInt(this.min);
+                                        if (parseInt(this.value) < min) {
+                                            this.value = min;
+                                        } else if (parseInt(this.value) > max) {
+                                            this.value = max;
+                                        }
+                                        addQuantity = this.value;
+
+                                    }
+                                }
+                            };
+                        }
                     }
                 }
             };
-        }
 
-        //    function setQuantity() {
-        //        var quantity2 = document.getElementById("quantity9").value;
-        //        addQuantity = quantity2;
-        //    }
-        document.getElementsByClassName('quantityvalidate')[0].oninput = function () {
-            var max = parseInt(this.max);
-            var min = parseInt(this.min);
-            if (parseInt(this.value) < min) {
-                this.value = min;
-            } else if (parseInt(this.value) > max) {
-                this.value = max;
-            }
-            var quantity2 = document.getElementById("quantity9").value;
-            addQuantity = quantity2;
         }
         function addCart() {
+
             if (addColorId == null || addSizeId == null) {
                 document.getElementById("alertcheck").style.display = "block";
                 document.getElementById("alertcheck").innerHTML = "Bạn chưa chọn Size hoặc Màu";
                 setTimeout(do_alert, 2000);
             } else {
-                if (addQuantity == null) {
-                    addQuantity = 1;
-                }
-                var xhttp;
-                xhttp = new XMLHttpRequest();
-                xhttp.open("GET", "add-to-cart?sizeId=" + addSizeId + "&productId=${product.id}"
-                        + "&quantity=" + addQuantity + "&colorId=" + addColorId, true);
-                xhttp.send();
-                xhttp.onreadystatechange = function () {
-                    if (this.readyState === 4 && this.status === 200) {
-                        console.log(this.responseText);
-                        document.getElementById("cart-count2").innerHTML = this.responseText;
-                        document.getElementById("alertcheck2").style.display = "block";
-                        document.getElementById("alertcheck").style.display = "none";
-                        document.getElementById("alertcheck2").innerHTML = "Bạn đã thêm " + addQuantity + " sản phẩm vào giỏ hàng !";
-                        setTimeout(do_alert2, 2000);
+                var max = document.getElementById("quantity9").max;
+                if (addQuantity > max) {
+                    document.getElementById("alertcheck").style.display = "block";
+                    document.getElementById("alertcheck").innerHTML = "Số lượng vượt quá số lượng còn lại";
+                    setTimeout(do_alert, 2000);
+                } else {
+                    if (addQuantity == null) {
+                        addQuantity = 1;
                     }
-                };
+                    var xhttp;
+                    xhttp = new XMLHttpRequest();
+                    xhttp.open("GET", "add-to-cart?sizeId=" + addSizeId + "&productId=${product.id}"
+                            + "&quantity=" + addQuantity + "&colorId=" + addColorId, true);
+                    xhttp.send();
+                    xhttp.onreadystatechange = function () {
+                        let status = this.responseText;
+                        if (this.readyState === 4 && this.status === 200 && status == "fail") {
+                            document.getElementById("alertcheck").style.display = "block";
+                            document.getElementById("alertcheck").innerHTML = "Số lượng vượt quá số lượng trong kho !";
+                            setTimeout(do_alert, 2000);
+                        }
+                        if (this.readyState === 4 && this.status === 200 && status != "fail") {
+                            document.getElementById("cart-count2").innerHTML = this.responseText;
+                            document.getElementById("alertcheck2").style.display = "block";
+                            document.getElementById("alertcheck").style.display = "none";
+                            document.getElementById("alertcheck2").innerHTML = "Bạn đã thêm " + addQuantity + " sản phẩm vào giỏ hàng !";
+                            setTimeout(do_alert2, 2000);
+                        }
+                    };
+                }
+
             }
         }
         var do_alert = function () {
@@ -468,23 +519,23 @@
                 setTimeout(do_alert, 2000);
             }
         }
-        function myFunction() {
-            if (addColorId != null && addSizeId != null) {
-                var xhttp;
-                xhttp = new XMLHttpRequest();
-                xhttp.open("GET", "checkQuantity?sizeId=" + addSizeId + "&productId=${product.id}" + "&colorId=" + addColorId, true);
-                xhttp.send();
-                xhttp.onreadystatechange = function () {
-                    if (this.readyState === 4 && this.status === 200) {
-                        console.log(this.responseText);
-                        document.getElementById("myInput").max = Number(this.responseText);
-                        document.getElementById("soluong123").innerHTML = "Số lượng còn lại" + this.responseText;
-                    }
-
-                };
-
-            }
-        }
+//        function myFunction() {
+//            if (addColorId != null && addSizeId != null) {
+//                var xhttp;
+//                xhttp = new XMLHttpRequest();
+//                xhttp.open("GET", "checkQuantity?sizeId=" + addSizeId + "&productId=${product.id}" + "&colorId=" + addColorId, true);
+//                xhttp.send();
+//                xhttp.onreadystatechange = function () {
+//                    if (this.readyState === 4 && this.status === 200) {
+//                        console.log(this.responseText);
+//                        document.getElementById("myInput").max = Number(this.responseText);
+//                        document.getElementById("soluong123").innerHTML = "Số lượng còn lại" + this.responseText;
+//                    }
+//
+//                };
+//
+//            }
+//        }
 
     </script>
 </html>

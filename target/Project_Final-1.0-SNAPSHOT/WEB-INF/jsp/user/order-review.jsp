@@ -93,21 +93,22 @@
                                             <div class="form-group">
                                                 <div class="col-sm-1"></div>
                                                 <div class="col-sm-10">
+                                                    <input type="hidden" name="orderDetailId" value="${orderDetailId}">
                                                     <div id="rating">
-                                                        <input type="radio" id="star5" name="rating" value="1" />
-                                                        <label class = "fa fa-star" for="star5" title="Sucks big time - 1 star"></label>
+                                                        <input type="radio" id="star5" name="rating" value="5" />
+                                                        <label class = "fa fa-star" for="star5" title="Awesome - 5 stars"></label>
 
-                                                        <input type="radio" id="star4" name="rating" value="2" />
-                                                        <label class = "fa fa-star" for="star4" title="Kinda bad - 2 stars"></label>
+                                                        <input type="radio" id="star4" name="rating" value="4" />
+                                                        <label class = "fa fa-star" for="star4" title="Pretty good - 4 stars"></label>
 
                                                         <input type="radio" id="star3" name="rating" value="3" />
                                                         <label class = "fa fa-star" for="star3" title="Meh - 3 stars"></label>
 
-                                                        <input type="radio" id="star2" name="rating" value="4" />
-                                                        <label class = "fa fa-star" for="star2" title="Pretty good - 4 stars"></label>
+                                                        <input type="radio" id="star2" name="rating" value="2" />
+                                                        <label class = "fa fa-star" for="star2" title="Kinda bad - 2 stars"></label>
 
-                                                        <input type="radio" id="star1" name="rating" value="5" />
-                                                        <label class = "fa fa-star" for="star1" title="Awesome - 5 stars"></label>
+                                                        <input type="radio" id="star1" name="rating" value="1" />
+                                                        <label class = "fa fa-star" for="star1" title="Sucks big time - 1 star"></label>
                                                     </div>
                                                     <style>
                                                         #rating{border:none;float:left;}
@@ -131,8 +132,8 @@
                                             <div class="form-group">
                                                 <div class="col-sm-1"></div>
                                                 <div class="col-sm-10">
-                                                    <label for="comment">Bình luận:</label>
-                                                    <textarea class="form-control" rows="5" id="comment" placeholder="Gửi đánh giá của bạn về sản phẩm"></textarea>
+                                                    <label for="content">Bình luận:</label>
+                                                    <textarea required="" class="form-control" rows="5" id="content" placeholder="Gửi đánh giá của bạn về sản phẩm" name="content"></textarea>
                                                 </div>
                                                 <div class="col-sm-1"></div>
                                             </div>

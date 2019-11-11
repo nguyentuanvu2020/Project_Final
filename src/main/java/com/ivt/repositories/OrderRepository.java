@@ -16,7 +16,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface OrderRepository extends CrudRepository<OrderEntity, Integer>{
-    @Query(value = "SELECT * FROM orders o join customers c on o.customer_id = c.id where c.account_id = ?1",nativeQuery = true)
+    @Query(value = "SELECT * FROM orders o join customers c on o.customer_id = c.id where c.account_id = ?1 order by o.id",nativeQuery = true)
     List<OrderEntity> getAllOrderByAccountId(int accountId);
 //    code của hiệp
 // order processing

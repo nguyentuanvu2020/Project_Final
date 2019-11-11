@@ -1,10 +1,16 @@
 package com.ivt.controller;
 
 import com.ivt.entities.AccountEntity;
+import com.ivt.entities.OrderDetailEntity;
+import com.ivt.entities.ProductEntity;
+import com.ivt.entities.ReviewEntity;
 import com.ivt.enums.Gender;
+import com.ivt.enums.OrderStatus;
 import com.ivt.service.AccountService;
 import com.ivt.service.OrderDetailService;
 import com.ivt.service.OrderService;
+import com.ivt.service.ProductService;
+import com.ivt.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -21,12 +27,18 @@ public class UserController {
 
     @Autowired
     private AccountService accountService;
-    
+
     @Autowired
     private OrderService orderService;
-    
+
     @Autowired
     private OrderDetailService orderDetailService;
+
+    @Autowired
+    private ProductService productService;
+
+    @Autowired
+    private ReviewService reviewService;
 
     @RequestMapping("/account")
     public String viewInfo(Model model) {
@@ -73,20 +85,50 @@ public class UserController {
     public String viewManageOrder(Model model) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof AccountEntity) {
-           model.addAttribute("listOrder", orderService.getAllOrderByAccountId(((AccountEntity) principal).getId())); 
+            model.addAttribute("listOrder", orderService.getAllOrderByAccountId(((AccountEntity) principal).getId()));
         }
         return "user/manage-order";
     }
-    
+
     @RequestMapping("/detail-order")
-    public String viewDetailOrder(Model model,@RequestParam("id")int id) {
-        model.addAttribute("listOrderDetail",orderDetailService.findByOrder(orderService.getOrderByID(id)));
+    public String viewDetailOrder(Model model, @RequestParam("id") int id) {
+        model.addAttribute("listOrderDetail", orderDetailService.findByOrder(orderService.getOrderByID(id)));
+        model.addAttribute("status", OrderStatus.PAID);
         return "user/detail-order";
     }
-    
+
     @RequestMapping("/order-review")
-    public String viewReviewOrder(Model model) {
+    public String viewReviewOrder(Model model,
+            @RequestParam("orderDetailId") int orderDetailId) {
+        model.addAttribute("orderDetailId", orderDetailId);
+        model.addAttribute("action", "add-review-product");
         return "user/order-review";
+    }
+
+    @RequestMapping("/add-review-product")
+    public String addReviewOrder(Model model,
+            @RequestParam("orderDetailId") int orderDetailId, @RequestParam("rating") int rating,
+            @RequestParam("content") String content) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof AccountEntity) {
+
+            ProductEntity product = productService.findProductByOrderDetailId(orderDetailId);
+            ReviewEntity newReview = new ReviewEntity();
+            newReview.setAccount((AccountEntity) principal);
+            newReview.setProduct(product);
+            newReview.setContent(content);
+            newReview.setRate(rating);
+            newReview.setOrderDetailId(orderDetailId);
+            OrderDetailEntity orderDetail = orderDetailService.findOrderDetailById(orderDetailId);
+            newReview.setTypeOfShoes("Màu: " + orderDetail.getColor() + " Size: " + orderDetail.getSize());
+            reviewService.addReview(newReview);
+            orderDetail.setIsReviewed(true);
+            orderDetailService.addOrderDetail(orderDetail);
+            return "redirect:/user/manage-order";
+        } else {
+            return "redirect:/home";
+        }
+
     }
 
     @RequestMapping("/home")
@@ -98,5 +140,5 @@ public class UserController {
     public String logOut() {;
         return "redirect:/logout";
     }
-    
+
 }

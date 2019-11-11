@@ -9,6 +9,7 @@ import com.ivt.entities.ColorEntity;
 import com.ivt.entities.ImageProductEntity;
 import com.ivt.entities.ProductDetailEntity;
 import com.ivt.entities.ProductEntity;
+import com.ivt.entities.PromotionEntity;
 import com.ivt.entities.SizeEntity;
 import com.ivt.repositories.ProductDetailRepository;
 import com.ivt.repositories.ProductRepository;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ivt.repositories.ColorRepository;
 import com.ivt.repositories.ImageProductRepository;
+import com.ivt.repositories.PromotionRepository;
 import com.ivt.repositories.SizeRepository;
 
 @Service
@@ -34,14 +36,22 @@ public class ProductService {
     @Autowired
     private SizeRepository productSizeRepository;
 
+    @Autowired
+    private PromotionRepository promotionRepository;
+
     public List<ProductEntity> getAllProduct() {
         return (List<ProductEntity>) productRepository.findAll();
     }
-    
+
     public List<ProductEntity> getAllProductAndImage() {
-        return (List<ProductEntity>) productRepository.getAllProductAndImage();
+        List<ProductEntity> listProduct = productRepository.getAllProductAndImage();
+        for (ProductEntity productEntity : listProduct) {
+            List<PromotionEntity> listPromotion = promotionRepository.findListPromotionByProductId(productEntity.getId());
+            productEntity.setListPromotion(listPromotion);
+        }
+        return listProduct;
     }
-    
+
     public List<ProductDetailEntity> findProductDetailByProduct(ProductEntity product) {
         return productDetailRepository.findByProduct(product);
     }
@@ -61,12 +71,15 @@ public class ProductService {
     public ProductDetailEntity findProductDetailById(int id) {
         return productDetailRepository.findOne(id);
     }
-    
-    public ProductEntity findAWholeProductById(int id){
+
+    public ProductEntity findAWholeProductById(int id) {
         return productRepository.findWholeProductById(id);
     }
-    
-     //code của hiệp
+
+    public ProductEntity findProductByOrderDetailId(int orderDetailId) {
+        return productRepository.findProductByOrderDetailId(orderDetailId);
+    }
+    //code của hiệp
 //    @Autowired
 //    private ProductRepository productRepository;
 //
@@ -104,7 +117,7 @@ public class ProductService {
     public ProductEntity getById(int id) {
         return productRepository.findOne(id);
     }
-    
+
     public List<ProductEntity> getByPromotionId(int promotionId) {
         return (List<ProductEntity>) productRepository.getByPromotionId(promotionId);
     }

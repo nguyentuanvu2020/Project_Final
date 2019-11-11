@@ -42,9 +42,6 @@ public class ProductEntity implements Serializable {
     private List<ReviewEntity> listReview;
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
-    private List<VoteEntity> listVote;
-
-    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
     private List<FavoriteEntity> listFavorite;
 
     @ManyToMany(mappedBy = "listProduct")
@@ -133,14 +130,6 @@ public class ProductEntity implements Serializable {
         this.listReview = listReview;
     }
 
-    public List<VoteEntity> getListVote() {
-        return listVote;
-    }
-
-    public void setListVote(List<VoteEntity> listVote) {
-        this.listVote = listVote;
-    }
-
     public List<FavoriteEntity> getListFavorite() {
         return listFavorite;
     }
@@ -152,27 +141,7 @@ public class ProductEntity implements Serializable {
     public List<PromotionEntity> getListPromotion() {
         return listPromotion;
     }
-
-//    public List<PromotionEntity> getListPromotion() {
-//        return listPromotion;
-//    }
-//
-//    public void setListPromotion(List<PromotionEntity> listPromotion) {
-//        this.listPromotion = listPromotion;
-//    }
     public void setListPromotion(List<PromotionEntity> listPromotion) {
         this.listPromotion = listPromotion;
-    }
-
-    public boolean checkProduct(List<ProductDetailEntity> listProductDetailEntity) {
-        int checkQuantity = 0;
-        for (ProductDetailEntity productDetailEntity : listProductDetailEntity) {
-            checkQuantity += productDetailEntity.getProductQuantity();
-        }
-        if (checkQuantity == 0) {
-            return false;
-        } else {
-            return true;
-        }
     }
 }

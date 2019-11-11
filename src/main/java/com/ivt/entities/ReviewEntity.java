@@ -20,13 +20,17 @@ public class ReviewEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
+    private int rate;
     private String content;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateReview;
 
+    private String status;
+    private int orderDetailId;
+    private String typeOfShoes;
+    
     @ManyToOne
     @JoinColumn(name = "account_id")
     private AccountEntity account;
@@ -37,13 +41,22 @@ public class ReviewEntity implements Serializable {
 
     public ReviewEntity() {
     }
-
+    
+    
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getRate() {
+        return rate;
+    }
+
+    public void setRate(int rate) {
+        this.rate = rate;
     }
 
     public String getContent() {
@@ -60,6 +73,30 @@ public class ReviewEntity implements Serializable {
 
     public void setDateReview(Date dateReview) {
         this.dateReview = dateReview;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public int getOrderDetailId() {
+        return orderDetailId;
+    }
+
+    public void setOrderDetailId(int orderDetailId) {
+        this.orderDetailId = orderDetailId;
+    }
+
+    public String getTypeOfShoes() {
+        return typeOfShoes;
+    }
+
+    public void setTypeOfShoes(String typeOfShoes) {
+        this.typeOfShoes = typeOfShoes;
     }
 
     public AccountEntity getAccount() {

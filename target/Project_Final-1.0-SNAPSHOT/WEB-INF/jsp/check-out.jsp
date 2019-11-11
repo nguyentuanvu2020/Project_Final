@@ -208,7 +208,7 @@
                                                     <td class="product-image">
                                                         <div class="product-thumbnail">
                                                             <div class="product-thumbnail-wrapper">
-                                                                <img class="product-thumbnail-image" alt="Giày Puma RS-X " src="//product.hstatic.net/1000243581/product/giay-puma-rsx-36932904.wht_36932904_wht_01_242556_ff31b786c9af4699b69e5c0ab41cf526_small.jpg" />
+                                                                <img class="product-thumbnail-image" alt=" " src="${pageContext.request.contextPath}/resources/image/${item.product.listImageProductDetail[0].name}" class="img-rounded" />
                                                             </div>
                                                             <span class="product-thumbnail-quantity" aria-hidden="true">${item.productQuantity}</span>
                                                         </div>
