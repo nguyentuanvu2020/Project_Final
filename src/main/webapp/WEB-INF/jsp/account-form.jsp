@@ -7,6 +7,7 @@
     <head>
         <meta charset="utf-8" />
         <meta content='width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=0' name='viewport' />
+        <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/image/logo/favicon.png"" type="image/png" />
         <link href="<c:url value="/resources/css/stylemain.css"/>" rel='stylesheet' type='text/css' media='all' />
         <!---------------- Javascript ----------------->
         <jsp:include page="include/header-scripts.jsp"/>
@@ -27,7 +28,6 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Customer-Form Page</title>
         <link rel="stylesheet" href="<c:url value="/webjars/bootstrap/3.4.1/css/bootstrap.min.css"/>"/>
-        <link rel="shortcut icon" href="//theme.hstatic.net/1000243581/1000361905/14/favicon.png?v=151" type="image/png" />
         <link href='${pageContext.request.contextPath}/resources/css/checkouts.css?v=1.1' rel='stylesheet' type='text/css'  media='all'  />
         <style>
             .mainbar-qr h2 {

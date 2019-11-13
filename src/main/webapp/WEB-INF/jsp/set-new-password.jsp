@@ -1,15 +1,15 @@
+
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="mvc" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<head>
-    <link rel="shortcut icon" href="//theme.hstatic.net/1000243581/1000361905/14/favicon.png?v=151" type="image/png" />
+<!DOCTYPE html>
+<html>
     <meta charset="utf-8" />
-    <title>TV SHOP</title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=0' name='viewport' />
     <link href="<c:url value="/resources/css/stylemain.css"/>" rel='stylesheet' type='text/css' media='all' />
     <!---------------- Javascript ----------------->
-    <jsp:include page="../include/header-scripts.jsp"/>
+    <jsp:include page="include/header-scripts.jsp"/>
     <!---------------- CSS ----------------->
     <style>
 
@@ -24,10 +24,121 @@
 
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/roboto.css"/>">
     <link href="<c:url value="/resources/css/mystyle.css"/>" rel='stylesheet' type='text/css'  media='all'  />
-
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Customer-Form Page</title>
+    <link rel="stylesheet" href="<c:url value="/webjars/bootstrap/3.4.1/css/bootstrap.min.css"/>"/>
+    <link href='${pageContext.request.contextPath}/resources/css/checkouts.css?v=1.1' rel='stylesheet' type='text/css'  media='all'  />
+    <style>
+        .mainbar-qr h2 {
+            text-align: center;
+            font-size: 16px;
+            margin-bottom: 30px;
+            font-weight: 500;
+            color: #212121;
+        }
+        .mainbar-info .mainbar-qr_section {
+            text-align: center;
+        }
+        .mainbar-info .mainbar-qr_section .count_time {
+            margin-bottom: 10px;
+            margin-top: 30px;
+        }
+        .mainbar-info .mainbar-qr_section .count_time .time-out {
+            color: #008fe5;
+        }
+        .mainbar-info .mainbar-qr_section .count_time .count_text {
+            margin-bottom: 10px;
+        }
+        .mainbar-info .mainbar-qr_section .count_time .time {
+            display: inline-block;
+            position: relative;
+            font-style: italic;
+            font-size:12px;
+        }
+        .mainbar-info .mainbar-qr_section .count_time .time i {
+            width: 10px;
+            height: 10px;
+            border: 1px solid #333;
+            border-bottom-color: transparent;
+            border-radius: 100%;
+            position: absolute;
+            top: 50%;
+            left: -14px;
+            margin-top: -6px;
+            margin-left: -6px;
+            opacity: 1;
+            -ms-filter: "progid:DXImageTransdiv.Microsoft.Alpha(Opacity=" 0 ")";
+            filter: alpha(opacity=0);
+            -webkit-animation: rotate 0.5s linear infinite;
+            animation: rotate 0.5s linear infinite;
+            opacity: 1;
+            -ms-filter: "progid:DXImageTransdiv.Microsoft.Alpha(Opacity=" 100 ")";
+            filter: alpha(opacity=100);
+        }
+        .mainbar-info .mainbar-qr_instruction {
+            max-width: 300px;
+            margin: auto;
+            text-align: center;
+            color: #212121;
+            line-height: 24px;
+        }
+        .redeem-login {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .redeem-login-title {
+            position: relative;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .redeem-login-title h2 {
+            color: #333;
+            margin-right: 5px;
+        }
+        .redeem-login-btn a {
+            display: inline-block;
+            border-radius: 4px;
+            font-weight: 500;
+            padding: 13px 10px;
+            background: #338dbc;
+            color: #fff;
+            width: 82px;
+            text-align: center;
+        }
+        .redeem-div-used
+        {
+            padding-top : 10px;
+        }
+        .btn-redeem-loading .btn-redeem-spinner {
+            -webkit-animation: rotate 0.5s linear infinite;
+            animation: rotate 0.5s linear infinite;
+            opacity: 1;
+            -ms-filter: "progid:DXImageTransdiv.Microsoft.Alpha(Opacity=" 100 ")";
+            filter: alpha(opacity=100);
+        }
+        .icon-redeem-button-spinner {
+            position: absolute;
+            top: 0;
+            opacity: 0;
+            right: -25px;
+            width: 12px;
+            height: 12px;
+            border: 2px solid #999999;
+            border-bottom-color: transparent;
+            border-radius: 100%;
+        }
+        .total-line-table-footer {
+            white-space: nowrap;
+        }
+        .row-align-top {
+            vertical-align: top;
+        }
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2, user-scalable=no">
 </head>
-<body class="hideresponsive">
-    <jsp:include page="../include/symbol.jsp"/>
+<body>
+    <jsp:include page="include/symbol.jsp"/>
     <button type="button" class="navbar-toggle collapsed" id="trigger-mobile">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
@@ -36,90 +147,66 @@
     </button>
     <div id="box-wrapper">
         <!--header-->
-        <jsp:include page="../include/header.jsp"/>
+        <jsp:include page="include/header.jsp"/>
         <!--end header-->
-        <main>
+        <div class="container text-center">
+            <hr>
+            <h1>Lấy Lại Mật Khẩu</h1>
+            <!--<p>Resize this responsive page to see the effect!</p>-->
             <hr>
             <div class="container">
                 <div class="row">
-                    <div id="product-related" class="mb10">
-
-                        <div class="wrapper-product-related">
-                            <div class="title-group-related">
-                                <h3 class="title-group">
-                                    Chi tiết đơn hàng
-                                </h3>
+                    <div class="col-sm-3" id="">${message}</div>
+                    <div class="col-sm-6">
+                        <div class="well">
+                            <div class="main-content">
+                                <mvc:form  id="form" action="${pageContext.request.contextPath}/${action}" class="step" method="post">
+                                    <div class="step-sections " step="1">
+                                        <div class="section">
+                                            <div class="section-content section-customer-indivation no-mb">
+                                                <div class="fieldset">
+                                                    <div class="field ">
+                                                        <div class="field-input-wrapper">
+                                                            <label class="field-label" for="check_email">Email</label>
+                                                            <input  required="" readonly="" autocapitalize="off" spellcheck="false" class="field-input" size="30" type="text" name="email" value="${email}" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="field ">
+                                                        <div class="field-input-wrapper">
+                                                            <label class="field-label" for="check_email">Nhập Mật Khẩu Mới</label>
+                                                            <input required="" placeholder="Nhập mật khẩu mới" autocapitalize="off" spellcheck="false" class="field-input" size="30" type="password" name="password" value="" />
+                                                        </div>
+                                                    </div>
+                                                    <div id="div_next_step" accept-charset="UTF-8">
+                                                        <button type="submit" class="step-footer-continue-btn btn" id="submit_getpw">
+                                                            <span class="btn-content">Đăng Ký Thành Viên</span>
+                                                            <i class="btn-spinner icon icon-button-spinner"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </mvc:form>
                             </div>
-                            <div class="list-product-related">
-                                <div class="clearfix overflow-cart">
-                                    <table id="table-cart">
-                                        <tbody>
-                                            <tr>
-                                                <th></th>
-                                                <th>Sản phẩm</th>
-                                                <th>Đơn giá</th>
-                                                <th>Số lượng</th>
-                                                <th>Tổng tạm</th>
-                                                <th>Kích cỡ</th>
-                                                <th>Màu Sắc</th>
-                                                <th></th>
-                                            </tr>
-                                            <c:forEach var="orderDetail" items="${listOrderDetail}">
-                                                <tr>
-                                                    <td><div class="product-thumbnail-wrapper">
-                                                            <img class="product-thumbnail-image" alt=" " style="width: 100px;height: 80px"src="${pageContext.request.contextPath}/resources/image/${orderDetail.product.listImageProductDetail[0].name}" class="img-rounded" />
-                                                        </div></td>
-                                                    <td>${orderDetail.product.name}</td>
-                                                    <td><fmt:formatNumber type = "number" maxFractionDigits = "3" value = "${orderDetail.unitPrice}"/>₫</td>
-                                                    <td>${orderDetail.quantity}</td>
-                                                    <td><fmt:formatNumber type = "number" maxFractionDigits = "3" value = "${orderDetail.price}"/>₫</td>
-                                                    <td>${orderDetail.size}</td>
-                                                    <td>${orderDetail.color}</td>
-                                                    <c:if test="${orderDetail.order.orderStatus==status&&orderDetail.isReviewed==false}">
-                                                        <td><a href="order-review?orderDetailId=${orderDetail.id}" class="btn btn-info" role="button">Review</a></td>
-                                                    </c:if>
-                                                    <c:if test="${orderDetail.order.orderStatus!=status}">
-                                                        <td><button type="button" class="btn" disabled>Review</button></td>
-                                                    </c:if>
-                                                    <c:if test="${orderDetail.isReviewed==true}">
-                                                        <td><button type="button" class="btn" disabled>Reviewed</button></td>
-                                                    </c:if>
-                                                </tr>
-                                            </c:forEach>
-                                                <tr>
-                                                    <td colspan="4"><h2>Tổng tiền</h2></td>
-                                                    <td colspan="4"><h2><fmt:formatNumber type = "number" maxFractionDigits = "3" value = "${order.totalPrice}"/>₫</h2></td>
-                                                </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="clearfix">
-                                    <a class="continue-shopping" title="Mua tiếp" href="manage-order">Quay lại</a>
-                                </div>
-                            </div>  
                         </div>
                     </div>
                 </div>
             </div>
-        </main>
-        <!--footer-->
-        <jsp:include page="../include/footer.jsp"/>
-        <!--end footer-->
+        </div>
+        
+        <jsp:include page="include/footer.jsp"/>
+        <jsp:include page="include/menu-mobile.jsp"/>
+        <!--end menu mobile-->
 
-        <!--insert hotlinemobile if need-->
-    </div>
-    <!--menu mobile-->
-    <jsp:include page="../include/menu-mobile.jsp"/>
-    <!--end menu mobile-->
+        <!--insert quick view row nếu cần-->
 
-    <!--insert quick view row nếu cần-->
-
-    <div class="back-to-top">
-        <a href="javascript:void(0);">
-            <svg class="svg-next-icon svg-next-icon-size-30" style="fill:#ffffff;">
-            <use xlink:href="#icon-scrollUp-bottom"></use>
-            </svg>
-        </a>
-    </div>
+        <div class="back-to-top">
+            <a href="javascript:void(0);">
+                <svg class="svg-next-icon svg-next-icon-size-30" style="fill:#ffffff;">
+                <use xlink:href="#icon-scrollUp-bottom"></use>
+                </svg>
+            </a>
+        </div>
 </body>
 </html>

@@ -30,7 +30,7 @@
             </div>
             <div class="col-xs-12">
                 <div class="text-center">
-                    <a href="/blogs/news" class="btn btn-view-more">Xem thêm</a>
+                    <a href="#" class="btn btn-view-more">Xem thêm</a>
                 </div>
             </div>
         </div>

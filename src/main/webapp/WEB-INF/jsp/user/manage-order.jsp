@@ -1,6 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="mvc" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <head>
     <link rel="shortcut icon" href="//theme.hstatic.net/1000243581/1000361905/14/favicon.png?v=151" type="image/png" />
     <meta charset="utf-8" />
@@ -116,10 +117,13 @@
                                                         <tr>
                                                             <td>${order.id}</td>
                                                             <td>${order.orderDate}</td>
-                                                            <td>${order.totalPrice}</td>
+                                                            <td style="text-align: right"><fmt:formatNumber type = "number" maxFractionDigits = "3" value = "${order.totalPrice}"/>₫</td>
                                                             <td>${order.orderStatus}</td>
-                                                            <td><a href="detail-order?id=${order.id}" class="btn btn-info" role="button">Info</a></td>
-                                                        </tr>
+                                                            <td><a href="detail-order?id=${order.id}" class="btn btn-info" role="button">Chi tiết</a>
+                                                                <c:if test="${order.orderStatus == status}"><a href="cancel-order?orderId=${order.id}" class="btn btn-danger" role="button">Hủy Đơn Hàng</a></c:if>
+                                                                <c:if test="${order.orderStatus != status}"><button type="button" class="btn" disabled>Không Thể Hủy</button></c:if>
+                                                                </td>
+                                                            </tr>
                                                     </c:forEach>
                                                 </tbody>
                                             </table>

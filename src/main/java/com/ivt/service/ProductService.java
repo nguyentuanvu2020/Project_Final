@@ -73,7 +73,9 @@ public class ProductService {
     }
 
     public ProductEntity findAWholeProductById(int id) {
-        return productRepository.findWholeProductById(id);
+        ProductEntity product = productRepository.findWholeProductById(id);
+        product.setListPromotion(promotionRepository.findListPromotionByProductId(product.getId()));
+        return product;
     }
 
     public ProductEntity findProductByOrderDetailId(int orderDetailId) {
@@ -120,5 +122,34 @@ public class ProductService {
 
     public List<ProductEntity> getByPromotionId(int promotionId) {
         return (List<ProductEntity>) productRepository.getByPromotionId(promotionId);
+    }
+    //Home Service
+
+    public List<ProductEntity> get6ProductFavorite() {
+        List<ProductEntity> listProductFavorite = productRepository.get6ProductFavorite();
+        for (ProductEntity productEntity : listProductFavorite) {
+            productEntity.setListImageProductDetail(imageProductRepository.findByProduct(productEntity));
+        }
+        return listProductFavorite;
+    }
+
+    public List<ProductEntity> get10ProductHot() {
+        List<ProductEntity> listProductHot = productRepository.get10ProductHot();
+        for (ProductEntity productEntity : listProductHot) {
+            productEntity.setListImageProductDetail(imageProductRepository.findByProduct(productEntity));
+            List<PromotionEntity> listPromotion = promotionRepository.findListPromotionByProductId(productEntity.getId());
+            productEntity.setListPromotion(listPromotion);
+        }
+        return listProductHot;
+    }
+
+    public List<ProductEntity> get10ProductNew() {
+        List<ProductEntity> listProductNew = productRepository.get10ProductNew();
+        for (ProductEntity productEntity : listProductNew) {
+            productEntity.setListImageProductDetail(imageProductRepository.findByProduct(productEntity));
+            List<PromotionEntity> listPromotion = promotionRepository.findListPromotionByProductId(productEntity.getId());
+            productEntity.setListPromotion(listPromotion);
+        }
+        return listProductNew;
     }
 }

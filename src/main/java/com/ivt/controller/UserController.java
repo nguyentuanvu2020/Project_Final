@@ -2,11 +2,13 @@ package com.ivt.controller;
 
 import com.ivt.entities.AccountEntity;
 import com.ivt.entities.OrderDetailEntity;
+import com.ivt.entities.OrderEntity;
 import com.ivt.entities.ProductEntity;
 import com.ivt.entities.ReviewEntity;
 import com.ivt.enums.Gender;
 import com.ivt.enums.OrderStatus;
 import com.ivt.service.AccountService;
+import com.ivt.service.MailService;
 import com.ivt.service.OrderDetailService;
 import com.ivt.service.OrderService;
 import com.ivt.service.ProductService;
@@ -39,6 +41,9 @@ public class UserController {
 
     @Autowired
     private ReviewService reviewService;
+
+    @Autowired
+    private MailService mailService;
 
     @RequestMapping("/account")
     public String viewInfo(Model model) {
@@ -86,12 +91,39 @@ public class UserController {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof AccountEntity) {
             model.addAttribute("listOrder", orderService.getAllOrderByAccountId(((AccountEntity) principal).getId()));
+            model.addAttribute("status", OrderStatus.PROCESSING);
+            return "user/manage-order";
+        } else {
+            return "redirect:/home";
         }
-        return "user/manage-order";
+
+    }
+
+    @RequestMapping("/cancel-order")
+    public String cancelOrder(Model model, @RequestParam("orderId") int orderId) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof AccountEntity) {
+            OrderEntity order = orderService.findOrderById(orderId);
+            if (order.getOrderStatus().equals(String.valueOf(OrderStatus.PROCESSING))) {
+                order.setOrderStatus(String.valueOf(OrderStatus.CANCEL));
+                orderService.updateOrder(order);
+                try {
+                    mailService.sendCancelMailPage(order);
+                } catch (Exception e) {
+                }
+                return "redirect:/user/manage-order";
+            } else {
+                return "redirect:/home";
+            }
+        } else {
+            return "redirect:/home";
+        }
+
     }
 
     @RequestMapping("/detail-order")
     public String viewDetailOrder(Model model, @RequestParam("id") int id) {
+        model.addAttribute("order", orderService.getOrderByID(id));
         model.addAttribute("listOrderDetail", orderDetailService.findByOrder(orderService.getOrderByID(id)));
         model.addAttribute("status", OrderStatus.PAID);
         return "user/detail-order";
@@ -100,6 +132,10 @@ public class UserController {
     @RequestMapping("/order-review")
     public String viewReviewOrder(Model model,
             @RequestParam("orderDetailId") int orderDetailId) {
+        OrderDetailEntity orderDetail = orderDetailService.findOrderDetailById(orderDetailId);
+        if (orderDetail.isIsReviewed()) {
+            return "redirect:/home";
+        }
         model.addAttribute("orderDetailId", orderDetailId);
         model.addAttribute("action", "add-review-product");
         return "user/order-review";

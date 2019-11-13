@@ -9,12 +9,12 @@
                     <div class="box-footer-colum">
                         <h3 class="">Liên hệ</h3>
                         <ul class="footer-list-menu">
-                            <li class="footer-address">145 Nguyễn Quyền, Hòa An, Cẩm Lệ, Đà Nẵng</li>
+                            <li class="footer-address">69 Hùng Vương, Hải Châu, Đà Nẵng</li>
                             <li class="fooer-phone">
-                                <label class="mr5">Phone: </label><span>0327130303</span>
+                                <label class="mr5">Phone: </label><span>0988696969 - 0977696969</span>
                             </li>
                             <li class="footer-email">
-                                <label class="mr5">Email: </label><span>HiepDeptrai@Gmail.com</span>
+                                <label class="mr5">Email: </label><span>support_vhSneaker@gmail.com</span>
                             </li>
                         </ul>
                     </div>
@@ -24,24 +24,20 @@
                         <h3 class="">Chính sách hỗ trợ</h3>
                         <ul class="footer-list-menu">
                             <li>
-                                <a href="/" title="Trang chủ">Trang chủ</a>
+                                <a href="home" title="Trang chủ">Trang chủ</a>
                             </li>
                             <li>
-                                <a href="/collections/all" title="Sản phẩm">Sản phẩm</a>
+                                <a href="collection" title="Sản phẩm">Sản phẩm</a>
                             </li>
                             <li>
-                                <a href="/pages/about-us" title="Giới thiệu">Giới thiệu</a>
+                                <a href="about-us" title="Giới thiệu">Giới thiệu</a>
                             </li>
                             <li>
                                 <a href="howtochoosesize" title="Hướng dẫn chọn size giày">Hướng dẫn chọn size giày</a>
                             </li>
                             <li>
-                                <a href="/pages/huong-dan-dat-hang" title="Hướng dẫn đặt hàng">Hướng dẫn đặt hàng</a>
+                                <a href="#" title="promotion">Khuyến mãi</a>
                             </li>
-                            <li>
-                                <a href="/collections/giay-khuyen-mai" title="SALE UP TO 70%">SALE UP TO 70%</a>
-                            </li>
-
                         </ul>
                     </div>
                 </div>

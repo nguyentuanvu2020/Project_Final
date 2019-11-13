@@ -17,29 +17,33 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ProductDetailService {
-
+    
     @Autowired
     private ProductDetailRepository productDetailRepository;
-
+    
     @Autowired
     private ProductRepository productRepository;
-
+    
     @Autowired
     private PromotionRepository promotionRepository;
-
+    
     public List<ProductDetailEntity> getListProductDetailByProductIdAndColorId(int productId, int colorId) {
         return productDetailRepository.getProductDetailByProductIdAndColorId(productId, colorId);
     }
-
+    
     public ProductDetailEntity findProductDetailByProductIdAndColorIdAndSizeId(int productId, int colorId, int sizeId) {
         ProductDetailEntity productDetail = productDetailRepository.getProductDetailByProductIdAndColorIdAndSizeId(productId, colorId, sizeId);
         ProductEntity product = productRepository.findWholeProductById(productDetail.getProduct().getId());
         List<PromotionEntity> listPromotion = promotionRepository.findListPromotionByProductId(product.getId());
-        product.setListPromotion(listPromotion);
+        if (listPromotion != null) {
+            product.setListPromotion(listPromotion);
+        } else {
+            product.setListPromotion(null);
+        }
         productDetail.setProduct(product);
         return productDetail;
     }
-
+    
     public ProductDetailEntity findProductDetailById(int productDetailId) {
         return productDetailRepository.findOne(productDetailId);
     }

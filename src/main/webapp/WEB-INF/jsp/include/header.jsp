@@ -65,7 +65,7 @@
                                 <a href="${pageContext.request.contextPath}/home" title="Trang chủ">Trang chủ</a>
                             </li>
                             <li class="">
-                                <a href="collection" title="Sản phẩm">Sản phẩm <i class="fa fa-angle-down"></i></a>
+                                <a href="${pageContext.request.contextPath}/collection" title="Sản phẩm">Sản phẩm <i class="fa fa-angle-down"></i></a>
                                 <ul class="dropdown-menu submenu-level1-children" role="menu">
                                     <li>
                                         <a href="/collections/giay-chinh-hang" title="Giày Chính Hãng">Giày Theo Hãng <i class="fa fa-angle-right"></i></a>
@@ -130,10 +130,10 @@
                                 </ul>
                             </li>
                             <li class="">
-                                <a href="/pages/huong-dan-chon-size-giay" title="Hướng dẫn chọn size giày">Hướng dẫn chọn size giày</a>
+                                <a href="${pageContext.request.contextPath}/howtochoosesize" title="Hướng dẫn chọn size giày">Hướng dẫn chọn size giày</a>
                             </li>
                             <li class="">
-                                <a href="/collections/giay-khuyen-mai" title="SALE UP TO 70%">Khuyến mãi</a>
+                                <a href="${pageContext.request.contextPath}/#" title="SALE UP TO 70%">Khuyến mãi</a>
                             </li>
                             <li id="cart-target" class="cart">
                                 <a href="${pageContext.request.contextPath}/cart" class="cart " title="Giỏ hàng">Giỏ Hàng
@@ -145,7 +145,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="account">Thành viên
+                                <a href="${pageContext.request.contextPath}/account">Thành viên
                                     <svg class="svg-next-icon svg-next-icon-size-24">
                                     <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-user"></use>
                                     </svg>

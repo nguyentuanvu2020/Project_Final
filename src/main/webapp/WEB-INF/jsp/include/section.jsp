@@ -28,7 +28,7 @@
                                 </picture>
                             </a>
                             <c:if test="${product.listPromotion[0].discount!=null}"><div class="product-pricesale-percent">-${product.listPromotion[0].discount}%</div></c:if>
-                                <div class="product-icon-new countdown_1021468551" style="display: none;">
+                                <div class="product-icon-new countdown_1021468551" style="display: block;">
                                     <svg class="svg-next-icon svg-next-icon-size-36" style="fill:#d80027">
                                     <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-new-product"></use>
                                     </svg>
@@ -45,26 +45,26 @@
                             </a>
                             <p class="product-vendor">${product.category.name}</p>
                             <p class="product-box-price clearfix flexbox-grid-default">
-                                <c:if test="${product.listPromotion[0].discount!=null}">
+                                <c:if test="${product.listPromotion.size()>0}">
                                     <span class="price-new flexbox-content text-left"><fmt:formatNumber type = "number" 
                                                       maxFractionDigits = "3" value = "${product.price-(product.price*product.listPromotion[0].discount/100)}" />₫</span>
                                     <span class="price-old flexbox-content text-right"><fmt:formatNumber type = "number" 
-                                                  maxFractionDigits = "3" value = "${product.price}" />₫</span>
-                                </c:if>
-                                <c:if test="${product.listPromotion[0].discount==null}">
+                                                      maxFractionDigits = "3" value = "${product.price}" />₫</span>
+                                    </c:if>
+                                    <c:if test="${product.listPromotion.size()==0}">
                                     <span class="price-new flexbox-content text-left"><fmt:formatNumber type = "number" 
                                                       maxFractionDigits = "3" value = "${product.price}" />₫</span></c:if>
-                            </p>
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
         </c:forEach>
     </div>
     <div class="row mb30">
         <div class="col-xs-12">
             <div class="text-center">
-                <a href="/collections/san-pham-moi" class="btn btn-view-more">Xem tất cả</a>
+                <a href="#" class="btn btn-view-more">Xem tất cả</a>
             </div>
         </div>
     </div>

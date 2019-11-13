@@ -23,9 +23,16 @@ import com.ivt.service.ProductDetailService;
 import com.ivt.service.ProductService;
 import com.ivt.service.ReviewService;
 import com.ivt.service.SizeService;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -79,15 +86,12 @@ public class HomeController {
 
     @RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
     public String viewHome(Model model) {
-        List<ProductEntity> allProduct = productService.getAllProductAndImage();
-        model.addAttribute("allProduct", allProduct);
+        model.addAttribute("allProduct", productService.get10ProductNew());
+        model.addAttribute("listFavorite", productService.get6ProductFavorite());
+        model.addAttribute("listHot", productService.get10ProductHot());
         return "home";
     }
 
-//    @RequestMapping(value = {"/dashboard"}, method = RequestMethod.GET)
-//    public String viewHome2(Model model) {
-//        return "dashboard";
-//    }
     @RequestMapping(value = {"/howtochoosesize"}, method = RequestMethod.GET)
     public String viewHome22() {
         return "howtochoosesize";
@@ -144,7 +148,7 @@ public class HomeController {
     @RequestMapping(value = {"/save-account"}, method = RequestMethod.POST)
     public String Register(Model model, @ModelAttribute("account") AccountEntity account) {
         AccountRoleEntity accountRole = new AccountRoleEntity();
-        accountRole.setId(2);
+        accountRole.setId(1);
         List<AccountRoleEntity> listRole = new ArrayList<>();
         listRole.add(accountRole);
         account.setAccountRoles(listRole);
@@ -221,14 +225,16 @@ public class HomeController {
             @RequestParam("productId") int productId, @RequestParam("quantity") int quantity,
             HttpSession session) {
         ProductDetailEntity newProductDetail = productDetailService.findProductDetailByProductIdAndColorIdAndSizeId(productId, colorId, sizeId);
-        boolean check = (session.getAttribute("cart") == null);
         int count = 0;
-        if (check) {
+        if (session.getAttribute("cart") == null) {
             Cart cart = new Cart();
             newProductDetail.setProductQuantity(quantity);
+            if (newProductDetail.getProduct().getListPromotion().size() > 0) {
+                newProductDetail.getProduct().setPrice(newProductDetail.getProduct().getPrice() - (newProductDetail.getProduct().getPrice() * newProductDetail.getProduct().getListPromotion().get(0).getDiscount() / 100));
+            }
             cart.addProductDetail(newProductDetail);
             session.setAttribute("cart", cart);
-            return "cart";
+            return "redirect:/cart";
         } else {
             Cart cart = (Cart) session.getAttribute("cart");
             int quantityInCart = cart.checkQuantity(newProductDetail.getId());
@@ -236,9 +242,12 @@ public class HomeController {
                 return "redirect:/product-detail-view?productId=" + productId;
             } else {
                 newProductDetail.setProductQuantity(quantity);
+                if (newProductDetail.getProduct().getListPromotion().size() > 0) {
+                    newProductDetail.getProduct().setPrice(newProductDetail.getProduct().getPrice() - (newProductDetail.getProduct().getPrice() * newProductDetail.getProduct().getListPromotion().get(0).getDiscount() / 100));
+                }
                 cart.addProductDetail(newProductDetail);
                 session.setAttribute("cart", cart);
-                return "cart";
+                return "redirect:/cart";
             }
         }
 
@@ -249,13 +258,15 @@ public class HomeController {
     public String addToCart(Model model, @RequestParam("colorId") int colorId,
             @RequestParam("sizeId") int sizeId,
             @RequestParam("productId") int productId, @RequestParam("quantity") int quantity, HttpSession session) {
-
         ProductDetailEntity newProductDetail = productDetailService.findProductDetailByProductIdAndColorIdAndSizeId(productId, colorId, sizeId);
         boolean check = (session.getAttribute("cart") == null);
         int count = 0;
         if (check) {
             Cart cart = new Cart();
             newProductDetail.setProductQuantity(quantity);
+            if (newProductDetail.getProduct().getListPromotion().size() > 0) {
+                newProductDetail.getProduct().setPrice(newProductDetail.getProduct().getPrice() - (newProductDetail.getProduct().getPrice() * newProductDetail.getProduct().getListPromotion().get(0).getDiscount() / 100));
+            }
             cart.addProductDetail(newProductDetail);
             session.setAttribute("cart", cart);
             count = cart.getCount();
@@ -263,28 +274,31 @@ public class HomeController {
         } else {
             Cart cart = (Cart) session.getAttribute("cart");
             int quantityInCart = cart.checkQuantity(newProductDetail.getId());
-            if (quantityInCart + quantity > newProductDetail.getProductQuantity()) {
-                return "fail";
-            } else {
+            if ((quantityInCart + quantity) <= newProductDetail.getProductQuantity()) {
                 newProductDetail.setProductQuantity(quantity);
+                if (newProductDetail.getProduct().getListPromotion().size() > 0) {
+                    newProductDetail.getProduct().setPrice(newProductDetail.getProduct().getPrice() - (newProductDetail.getProduct().getPrice() * newProductDetail.getProduct().getListPromotion().get(0).getDiscount() / 100));
+                }
                 cart.addProductDetail(newProductDetail);
                 session.setAttribute("cart", cart);
                 count = cart.getCount();
                 return "" + count;
+            } else {
+                return "fail";
             }
         }
     }
 
-    @RequestMapping(value = {"/update-cart"}, method = RequestMethod.GET)
-    public String updateCart(HttpSession session, Model model) {
-        Cart cart = (Cart) session.getAttribute("cart");
-        List<ProductEntity> allProduct = productService.getAllProduct();
-        model.addAttribute("listProduct", allProduct);
-        return "product-list";
-
-    }
-
+//    @RequestMapping(value = {"/update-cart"}, method = RequestMethod.GET)
+//    public String updateCart(HttpSession session, Model model) {
+//        Cart cart = (Cart) session.getAttribute("cart");
+//        List<ProductEntity> allProduct = productService.getAllProduct();
+//        model.addAttribute("listProduct", allProduct);
+//        return "product-list";
+//
+//    }
     @RequestMapping(value = {"/delete-item"}, method = RequestMethod.GET)
+    @ResponseBody
     public String viewCartx(HttpSession session, @RequestParam("id") int id) {
         Cart cart = (Cart) session.getAttribute("cart");
         if (cart.getCart().size() == 1) {
@@ -293,8 +307,8 @@ public class HomeController {
             cart.deleteProductDetail(id);
         }
         session.setAttribute("cart", cart);
-        return "cart";
-
+        String responseBody = "[" + cart.getCount() + "," + cart.getTotal() + "]";
+        return responseBody;
     }
 
     @RequestMapping(value = {"/create-order"}, method = RequestMethod.POST)
@@ -306,13 +320,13 @@ public class HomeController {
         List<OrderDetailEntity> listOrderDetail = new ArrayList<>();
         List<ProductDetailEntity> listProductDetailStore = new ArrayList<>();
         for (ProductDetailEntity item : cart.getCart()) {
-            ProductEntity product = productService.findProductById(item.getProduct().getId());
+//            ProductEntity product = productService.findProductById(item.getProduct().getId());
             ProductDetailEntity productDetailStore = productService.findProductDetailById(item.getId());
             OrderDetailEntity orderDetail = new OrderDetailEntity();
-            orderDetail.setProduct(product);
+            orderDetail.setProduct(item.getProduct());
             orderDetail.setOrder(newOrder);
             orderDetail.setQuantity(item.getProductQuantity());
-            orderDetail.setUnitPrice(product.getPrice());
+            orderDetail.setUnitPrice(item.getProduct().getPrice());
             orderDetail.setPrice(item.getProductQuantity() * orderDetail.getUnitPrice());
             orderDetail.setColor(item.getColor().getProductColor());
             orderDetail.setSize(item.getProductSize().getProductSize());
@@ -342,10 +356,21 @@ public class HomeController {
             @RequestParam(value = "error", required = false) boolean error,
             @RequestParam(value = "message", required = false) String message,
             @RequestParam(value = "style", required = false) String style) {
+        model.addAttribute("date", new Date());
         model.addAttribute("message", message);
         model.addAttribute("style", style);
-        Cart cart = (Cart) session.getAttribute("cart");
-        return "cart";
+        if (session.getAttribute("cart") == null) {
+            return "cart";
+        } else {
+            Cart cart = (Cart) session.getAttribute("cart");
+            List<ProductDetailEntity> listProductDetail = new ArrayList<>();
+            for (ProductDetailEntity item : cart.getCart()) {
+                ProductDetailEntity productDetail = productDetailService.findProductDetailById(item.getId());
+                listProductDetail.add(productDetail);
+            }
+            model.addAttribute("max", listProductDetail);
+            return "cart";
+        }
 
     }
 
@@ -353,10 +378,10 @@ public class HomeController {
     @ResponseBody
     public String updateQuantity(HttpSession session, Model model, @RequestParam("id") int id,
             @RequestParam("quantity") int quantity) {
-        ProductDetailEntity productDetail = productDetailService.findProductDetailById(id);
+//        ProductDetailEntity productDetail = productDetailService.findProductDetailById(id);
         Cart cart = (Cart) session.getAttribute("cart");
         cart.updateQuantity(id, quantity);
-        String responseBody = "[" + cart.getCount() + "," + cart.getTotal() + "," + productDetail.getProductQuantity() + "]";
+        String responseBody = "[" + cart.getCount() + "," + cart.getTotal() + "]";
         return responseBody;
 
     }
@@ -410,6 +435,20 @@ public class HomeController {
 
     }
 
+    @RequestMapping(value = {"/template"}, method = RequestMethod.GET)
+    public String viewTemplate(Model model) {
+        model.addAttribute("allProduct", productService.getAllProductAndImage());
+        return "template";
+
+    }
+
+    @RequestMapping(value = {"/template2"}, method = RequestMethod.GET)
+    public String viewTemplate2(Model model) {
+        model.addAttribute("allProduct", productService.getAllProductAndImage());
+        return "management/seller/template2";
+
+    }
+
 //    addfavorite................................................
     @RequestMapping(value = {"/check-email-isavailable"}, method = RequestMethod.GET)
     @ResponseBody
@@ -445,5 +484,41 @@ public class HomeController {
         int totalFavorite = favoriteService.favoriteTotalbyProductId(productId);
         String response = String.valueOf(totalFavorite);
         return response;
+    }
+
+    //Xác thực quên mật khẩu page....................
+    @RequestMapping(value = {"/forget-password"}, method = RequestMethod.GET)
+    public String forgetPasswordView(Model model) {
+        model.addAttribute("action", "verify-password");
+        return "forget-password";
+    }
+
+    @RequestMapping(value = {"/verify-password"}, method = RequestMethod.POST)
+    public String sendCode(Model model, @RequestParam("email") String email, HttpSession session) {
+        if (accountService.isAvailable(email)) {
+            Random rd = new Random();
+            int code = 100000 + rd.nextInt(10000);
+            String codeName = String.valueOf(code);
+            session.setAttribute(codeName, email);
+            try {
+                mailService.sendCodeMailPage(email, code);
+            } catch (Exception e) {
+            }
+            model.addAttribute("code", codeName);
+        } else {
+            return "redirect:/forget-password";
+        }
+
+        model.addAttribute("action", "check-code");
+
+        return "check-code-password";
+    }
+
+    @RequestMapping(value = {"/check-code"}, method = RequestMethod.POST)
+    public String checkCode(Model model, HttpSession session, @RequestParam("code") int code) {
+        String email = (String) session.getAttribute(String.valueOf(code));
+        model.addAttribute("email", email);
+        model.addAttribute("action", "set-new-password");
+        return "set-new-password";
     }
 }

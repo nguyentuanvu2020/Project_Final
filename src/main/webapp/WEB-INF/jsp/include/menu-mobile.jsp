@@ -27,7 +27,7 @@
                 <a href="/pages/about-us" title="Giới thiệu">Giới thiệu</a>
             </li>
             <li class="">
-                <a href="/pages/huong-dan-chon-size-giay" title="Hướng dẫn chọn size giày">Hướng dẫn chọn size giày</a>
+                <a href="howtochoosesize" title="Hướng dẫn chọn size giày">Hướng dẫn chọn size giày</a>
             </li>
         </ul>
     </div>	

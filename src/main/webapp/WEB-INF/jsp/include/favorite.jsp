@@ -15,9 +15,11 @@
         </div>
     </div>
     <div class="row">
-        <c:forEach var="product" items="${allProduct}">
+        <c:forEach var="favoriteProduct" items="${listFavorite}">
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 mb30 box-banner-index">
-                <img src="${pageContext.request.contextPath}/resources/image/${product.listImageProductDetail[0].name}" class="img-rounded"/>
+                <a href="product-detail-view?productId=${favoriteProduct.id}">
+                    <img src="${pageContext.request.contextPath}/resources/image/${favoriteProduct.listImageProductDetail[0].name}" class="img-rounded"/>
+                </a>
             </div>
         </c:forEach>
     </div>

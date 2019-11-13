@@ -53,7 +53,13 @@ public class OrderService {
         for (ProductDetailEntity productDetailEntity : listProductDetailStore) {
             productDetailRepository.save(productDetailEntity);
         }
-        mailService.sendEmail(orderSaved);
+        mailService.sendNewOrderMailPage(orderSaved);
+    }
+    
+    public OrderEntity findOrderById(int orderId){
+        OrderEntity order = orderRepository.findOne(orderId);
+        order.setListOrderDetail(orderDetailRepository.findByOrder(order));
+        return order;
     }
 
     public List<OrderEntity> getAllOrderByAccountId(int accountId) {

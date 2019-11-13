@@ -6,7 +6,9 @@
 package com.ivt.service;
 
 import com.ivt.entities.AccountEntity;
+import com.ivt.entities.CustomerEntity;
 import com.ivt.repositories.AccountRepository;
+import com.ivt.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,18 +23,32 @@ public class AccountService {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
+    @Autowired
+    private CustomerRepository customerRepository;
+
+    @Autowired
+    private MailService mailService;
+
     public AccountEntity
             findAccountByEmailAndPassword(String email, String password) {
         return accountRepository.findAccountByEmailAndPassword(email, password);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public boolean registerAccount(AccountEntity account) {
         AccountEntity accountData = accountRepository.findByEmail(account.getEmail());
         if (accountData != null && accountData.getId() > 0) {
-
             return false;
         }
-        accountRepository.save(account);
+        AccountEntity newAccount = accountRepository.save(account);
+        CustomerEntity customer = customerRepository.findByEmail(newAccount.getEmail());
+        if (customer != null) {
+            customer.setAccount(newAccount);
+        }
+        try {
+            mailService.sendNewAccountMailPage(newAccount);
+        } catch (Exception e) {
+        }
         return true;
     }
 
