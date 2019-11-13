@@ -12,7 +12,7 @@
         <div class="page-content">
             <div class="row">
                 <!--include menu-->
-                <%@include file="../../include-management/menumanagement-back.jsp" %>
+                <%@include file="../../include-management/menumanagement.jsp" %>
                 <div class="col-md-10">
                     <div class="row">
                         <div class="col-md-12">
@@ -21,6 +21,7 @@
                                     <div class="panel-title">List promotion</div>
                                 </div>
                                 <div class="panel-body">
+                                    <p>${thongbao}</p>
                                     <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example">
                                         <thead>
                                             <tr>
@@ -57,18 +58,28 @@
                                                         </c:choose>
                                                     </td>
                                                     <td>
-                                                        <button class="btn btn-primary btn-xs" onclick="location.href = '<c:url value="update-promotion/${promotion.id}"/>'">
+                                                        <button class="btn btn-primary btn-xs" onclick="location.href = '<c:url value="${request.contextPath}/management/manager/update-promotion/${promotion.id}"/>'">
                                                             <i class="glyphicon glyphicon-refresh"></i> 
                                                             Update
                                                         </button>
-                                                        <button class="btn btn-primary btn-xs" onclick="location.href = '<c:url value="add-product-promotion/${promotion.id}"/>'">
+                                                        <button class="btn btn-primary btn-xs" onclick="location.href = '<c:url value="${request.contextPath}/management/manager/add-product-promotion/${promotion.id}"/>'">
                                                             <i class="glyphicon glyphicon-plus"></i> 
                                                             Add product
                                                         </button>   
-                                                        <button class="btn btn-danger  btn-xs">
-                                                            <i class="glyphicon glyphicon-remove"></i>
-                                                            Delete
-                                                        </button>
+                                                        <c:choose>
+                                                            <c:when test="${promotion.status=='NO'}">
+                                                                <button class="btn btn-success btn-xs" onclick="location.href = '<c:url value="${request.contextPath}/management/manager/update-status-promotion/${promotion.id}'"/>">
+                                                                    <i class="glyphicon glyphicon-ok"></i>
+                                                                    Enable
+                                                                </button>
+                                                            </c:when>
+                                                            <c:when test="${promotion.status=='YES'}">
+                                                                <button class="btn btn-danger  btn-xs" onclick="location.href = '<c:url value="${request.contextPath}/management/manager/update-status-promotion/${promotion.id}'"/>">
+                                                                    <i class="glyphicon glyphicon-remove"></i>
+                                                                    Disable
+                                                                </button>
+                                                            </c:when>
+                                                        </c:choose>
                                                     </td>
                                                 </tr>
                                                 <c:set var="i" value="${i+1}"/>

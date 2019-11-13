@@ -14,10 +14,8 @@
                     </a>
                     <!-- Sub menu -->
                     <ul>
-                        <li class="glyphicon glyphicon-plus"><a href="<c:url value="admin/add-account"/>">Add account</a></li>
-                        <li><a href="<c:url value="admin/update-role"/>">Update role</a></li>
-                        <li><a href="<c:url value="admin/active-account"/>">Active account</a></li>
-                        <li><a href="<c:url value="admin/block-account"/>">Block account</a></li>
+                        <li><a href="<c:url value="${request.contextPath}/admin/add-account"/>"><i class="glyphicon glyphicon-plus"></i> Add account</a></li>
+                        <li><a href="<c:url value="${request.contextPath}/admin/list-account"/>"><i class="glyphicon glyphicon-list"></i> List account</a></li>
                     </ul>
                 </li>
             </sec:authorize>
@@ -30,8 +28,8 @@
                     </a>
                     <!-- Sub menu -->
                     <ul>
-                        <li><a href="<c:url value="manager/add-new-product"/>"><i class="glyphicon glyphicon-plus"></i> Add product</a></li>
-                        <li><a href="<c:url value="manager/list-product"/>"><i class="glyphicon glyphicon-list"></i> List product</a></li>
+                        <li><a href="<c:url value="${request.contextPath}/management/manager/add-new-product"/>"><i class="glyphicon glyphicon-plus"></i> Add product</a></li>
+                        <li><a href="<c:url value="${request.contextPath}/management/manager/list-product"/>"><i class="glyphicon glyphicon-list"></i> List product</a></li>
                     </ul>
                 </li>
                 <li class="submenu">
@@ -41,8 +39,8 @@
                     </a>
                     <!-- Sub menu -->
                     <ul>
-                        <li><a href="<c:url value="manager/add-promotion"/>"><i class="glyphicon glyphicon-plus"></i> Add promotion</a></li>
-                        <li><a href="<c:url value="manager/list-promotion"/>"><i class="glyphicon glyphicon-repeat"></i> List promotion</a></li>
+                        <li><a href="<c:url value="${request.contextPath}/management/manager/add-promotion"/>"><i class="glyphicon glyphicon-plus"></i> Add promotion</a></li>
+                        <li><a href="<c:url value="${request.contextPath}/management/manager/list-promotion"/>"><i class="glyphicon glyphicon-repeat"></i> List promotion</a></li>
                     </ul>
                 </li>
                 <li class="submenu">
@@ -52,8 +50,8 @@
                     </a>
                     <!-- Sub menu -->
                     <ul>
-                        <li><a href="<c:url value="manager/add-new-category"/>"><i class="glyphicon glyphicon-plus"></i> Add category</a></li>
-                        <li><a href="<c:url value="manager/list-category"/>"><i class="glyphicon glyphicon-repeat"></i> List categories</a></li>
+                        <li><a href="<c:url value="${request.contextPath}/management/manager/add-new-category"/>"><i class="glyphicon glyphicon-plus"></i> Add category</a></li>
+                        <li><a href="<c:url value="${request.contextPath}/management/manager/list-category"/>"><i class="glyphicon glyphicon-repeat"></i> List categories</a></li>
                     </ul>
                 </li>
                 <li class="submenu">
@@ -62,13 +60,14 @@
                         <span class="caret pull-right"></span>
                     </a>
                     <ul>
-                        <li><a href="<c:url value="seller/processing-orders"/>"><i class="glyphicon glyphicon-asterisk"></i> New orders</a></li>
-                        <li><a href="<c:url value="seller/shipping-orders"/>"><i class="glyphicon glyphicon-road"></i> Shipping Orders</a></li>
-                        <li><a href="<c:url value="seller/paid-orders"/>"><i class="glyphicon glyphicon-ok-circle"></i> Paid Orders</a></li>
+                        <li><a href="<c:url value="${request.contextPath}/management/seller/processing-orders"/>"><i class="glyphicon glyphicon-asterisk"></i> New orders</a></li>
+                        <li><a href="<c:url value="${request.contextPath}/management/seller/shipping-orders"/>"><i class="glyphicon glyphicon-road"></i> Shipping Orders</a></li>
+                        <li><a href="<c:url value="${request.contextPath}/management/seller/paid-orders"/>"><i class="glyphicon glyphicon-ok-circle"></i> Paid Orders</a></li>
+                        <li><a href="<c:url value="${request.contextPath}/management/seller/cancel-orders"/>"><i class="glyphicon glyphicon-remove-sign"></i> Cancel Orders</a></li>
                     </ul>
                 </li>
-                <li><a href="#"><i class="glyphicon glyphicon-list"></i> Make order</a></li>
-                <li><a href="<c:url value="seller/make-report"/>"><i class="glyphicon glyphicon-tasks"></i> Make report</a></li>
+                <li><a href="<c:url value="${request.contextPath}/management/seller/makeorder"/>"><i class="glyphicon glyphicon-list"></i> Make order</a></li>
+                <li><a href="<c:url value="${request.contextPath}/management/seller/make-report"/>"><i class="glyphicon glyphicon-tasks"></i> Make report</a></li>
                 </sec:authorize>
                 <sec:authorize access="hasRole('ROLE_SELLER')">
                 <li><a href="#"><i class="glyphicon glyphicon-list"></i> Make order</a></li>

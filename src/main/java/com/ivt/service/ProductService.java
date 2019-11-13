@@ -67,6 +67,10 @@ public class ProductService {
     public void addProduct(ProductEntity product) {
         productRepository.save(product);
     }
+    
+    public ProductEntity updateProduct(ProductEntity product) {
+        return productRepository.save(product);
+    }
 
     public ProductDetailEntity findProductDetailById(int id) {
         return productDetailRepository.findOne(id);

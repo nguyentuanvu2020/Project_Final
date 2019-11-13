@@ -12,7 +12,7 @@
         <div class="page-content">
             <div class="row">
                 <!--include menu-->
-                <%@include file="../../include-management/menumanagement-back.jsp" %>
+                <%@include file="../../include-management/menumanagement.jsp" %>
                 <div class="col-md-10">
                     <div class="row">
                         <div class="col-md-8">
@@ -30,15 +30,15 @@
                                             modelAttribute="product">
                                         <div class="form-group">
                                             <label>Product name</label>
-                                            <input class="form-control" name="name" type="text">
+                                            <input class="form-control" name="name" value="${product.name}" type="text">
                                         </div>
                                         <div class="form-group">
                                             <label>Price</label>
-                                            <input class="form-control" name="price" type="number" value="">
+                                            <input class="form-control" name="price" type="number" value="${product.price}">
                                         </div>
                                         <div class="form-group">
                                             <label>Description</label>
-                                            <textarea class="form-control" name="description" rows="3" id="des"></textarea>
+                                            <textarea class="form-control" name="description" rows="3" id="des">${product.description}</textarea>
                                         </div>
                                         <div class="form-group">
                                             <label>Category</label>

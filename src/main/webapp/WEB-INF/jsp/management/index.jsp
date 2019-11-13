@@ -23,19 +23,19 @@
                                 </div>
                                 <div class="row">
                                     <ul class="bs-glyphicons">
-                                        <a href="<c:url value="seller/processing-orders"/>">
+                                        <a href="<c:url value="${request.contextPath}/management/seller/processing-orders"/>">
                                             <li>
                                                 <span class="glyphicon glyphicon-list-alt"></span>
                                                 <h4 class="glyphicon-class">${orderProcessing} New orders in this month</h4>
                                             </li>
                                         </a>
-                                        <a href="<c:url value="seller/shipping-orders"/>">
+                                        <a href="<c:url value="${request.contextPath}/management/seller/shipping-orders"/>">
                                             <li>
                                                 <span class="glyphicon glyphicon-send"></span>
                                                 <h4 class="glyphicon-class">${orderShipping} Shipping orders in this month</h4>
                                             </li>
                                         </a>
-                                        <a href="<c:url value="seller/paid-orders"/>">
+                                        <a href="<c:url value="${request.contextPath}/management/seller/paid-orders"/>">
                                             <li>
                                                 <span class="glyphicon glyphicon-ok-sign"></span>
                                                 <h4 class="glyphicon-class">${totalOrderPaid} Paid Order</h4>

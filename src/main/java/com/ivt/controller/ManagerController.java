@@ -64,6 +64,7 @@ public class ManagerController {
     @RequestMapping(value = "/list-product", method = RequestMethod.GET)
     public String viewListProduct(Model model) {
         model.addAttribute("products", productService.getAll());
+
         return "management/manager/list-product";
     }
 
@@ -85,39 +86,45 @@ public class ManagerController {
             @RequestParam("file") MultipartFile[] file,
             HttpServletRequest request, HttpSession session) {
         newProduct.setStatus("YES");
-        LocalDateTime n = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss");
+        if ("".equals(newProduct.getName()) || "".equals(newProduct.getDescription()) || newProduct.getPrice() == 0) {
+            model.addAttribute("thongbao", "nhap day du thong tin");
+            return viewAddNewProduct(model, session);
+        } else {
 
-        List<ImageProductEntity> listImage = new ArrayList<ImageProductEntity>();
-        List<ProductDetailEntity> listDetail = (List<ProductDetailEntity>) session.getAttribute("listdetail");
-        ProductEntity newProductEntity = new ProductEntity();
-        try {
-            for (MultipartFile multipartFile : file) {
-                byte[] byteImage = multipartFile.getBytes();
-                ServletContext context = request.getServletContext();
-                String urlImage = context.getRealPath("/image");
-                int index = urlImage.indexOf("target");
-                String pathFolder = urlImage.substring(0, index) + "src\\main\\webapp\\resources\\image\\";
-                String filename = multipartFile.getOriginalFilename();
-                int duoifile = filename.indexOf(".");
-                String fileType = filename.substring(duoifile);
-                filename = filename.substring(0, duoifile);
-                String date = String.valueOf(System.currentTimeMillis());
-                filename = newProduct.getName() + filename + date + fileType;
-                listImage.add(new ImageProductEntity(filename));
-                newProduct.setListImageProductDetail(listImage);
-                newProductEntity = productService.saveNewProduct(newProduct);
-                Path path = Paths.get(pathFolder + filename);
-                Files.write(path, byteImage);
+            LocalDateTime n = LocalDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss");
+
+            List<ImageProductEntity> listImage = new ArrayList<ImageProductEntity>();
+            List<ProductDetailEntity> listDetail = (List<ProductDetailEntity>) session.getAttribute("listdetail");
+            ProductEntity newProductEntity = new ProductEntity();
+            try {
+                for (MultipartFile multipartFile : file) {
+                    byte[] byteImage = multipartFile.getBytes();
+                    ServletContext context = request.getServletContext();
+                    String urlImage = context.getRealPath("/image");
+                    int index = urlImage.indexOf("target");
+                    String pathFolder = urlImage.substring(0, index) + "src\\main\\webapp\\resources\\image\\";
+                    String filename = multipartFile.getOriginalFilename();
+                    int duoifile = filename.indexOf(".");
+                    String fileType = filename.substring(duoifile);
+                    filename = filename.substring(0, duoifile);
+                    String date = String.valueOf(System.currentTimeMillis());
+                    filename = newProduct.getName() + filename + date + fileType;
+                    listImage.add(new ImageProductEntity(filename));
+                    newProduct.setListImageProductDetail(listImage);
+                    newProductEntity = productService.saveNewProduct(newProduct);
+                    Path path = Paths.get(pathFolder + filename);
+                    Files.write(path, byteImage);
+                }
+                newProductEntity.setListProductDetail(listDetail);
+                productService.saveDetail(newProductEntity);
+                model.addAttribute("p", newProduct);
+                return "redirect:../../management/";
+            } catch (IOException e) {
+                System.out.println(e);
+                model.addAttribute("test", e);
+                return "management/manager/test";
             }
-            newProductEntity.setListProductDetail(listDetail);
-            productService.saveDetail(newProductEntity);
-            model.addAttribute("p", newProduct);
-            return "redirect:../../management/";
-        } catch (IOException e) {
-            System.out.println(e);
-            model.addAttribute("test", e);
-            return "management/manager/test";
         }
     }
 
@@ -341,16 +348,21 @@ public class ManagerController {
                     String duongdan = pathFolder + "/" + string;
                     File file = new File(duongdan);
                     if (file.exists()) {
-                        thongbao = "duong dan dung va co file";
+                        file.delete();
+                        List<ImageProductEntity> im = imageService.getByNameForDelete(string);
+                        for (ImageProductEntity imageProductEntity : im) {
+                            imageService.deleteImageById(imageProductEntity.getId());
+                        }
                     } else {
                         thongbao = "duong dan sai va eo co file";
                     }
                 }
-                return "redirect:../../management/";
+                return viewListProduct(model);
             } catch (IOException e) {
                 System.out.println(e);
                 model.addAttribute("test", e);
-                return "management/manager/test";
+                model.addAttribute("thongbao", "updated product have id: " + newProduct.getId());
+                return viewListProduct(model);
             }
         } else {
             for (String string : listImageName) {
@@ -376,7 +388,8 @@ public class ManagerController {
                 newProduct.setListProductDetail(listDetail);
                 productService.saveDetail(newProduct);
             }
-            return "redirect:../../management/";
+            model.addAttribute("thongbao", "updated product have id: " + newProduct.getId());
+            return viewListProduct(model);
         }
     }
 // promotion
@@ -391,7 +404,7 @@ public class ManagerController {
     @RequestMapping(value = "add-promotion", method = RequestMethod.POST)
     public String doAddPromotion(Model model,
             @ModelAttribute("newPromotion") PromotionEntity newPromotion,
-            @RequestParam("file") MultipartFile file,
+            @RequestParam(name = "file") MultipartFile file,
             HttpServletRequest request) {
         LocalDateTime n = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss");
@@ -399,7 +412,7 @@ public class ManagerController {
         if (newPromotion.getEndDate().after(newPromotion.getStartDate())) {
             try {
                 if (file.isEmpty()) {
-                    newPromotion.setImage(null);
+                    newPromotion.setImage(newPromotion.getImage());
                     newPromotion.setStatus("YES");
                     promotionService.saveNewPromotion(newPromotion);
                     return "redirect:../../management/manager/list-promotion";
@@ -498,7 +511,8 @@ public class ManagerController {
             CategoryEntity a = categoryService.saveCategory(newCategory);
             int check = a.getId();
             if (check > 0) {
-                return "redirect:list-category";
+                model.addAttribute("category", "New category have id: " + a.getId());
+                return viewListCategory(model);
             } else {
                 throw new Exception("Cant save new category!!!");
             }
@@ -524,7 +538,8 @@ public class ManagerController {
             CategoryEntity a = categoryService.saveCategory(newCategory);
             int check = a.getId();
             if (check > 0) {
-                return "redirect:list-category";
+                model.addAttribute("category", "Update category have id: " + a.getId());
+                return viewListCategory(model);
             } else {
                 throw new Exception("Cant save new category!!!");
             }
@@ -540,5 +555,46 @@ public class ManagerController {
     public String viewListCategory(Model model) {
         model.addAttribute("caregorys", categoryService.getAll());
         return "management/manager/list-category";
+    }
+
+    // update status off product
+    @RequestMapping(value = "/update-status/{productId}", method = RequestMethod.GET)
+    public String updateStatusProduct(Model model, @PathVariable("productId") int productId) {
+        ProductEntity product = productService.findProductById(productId);
+        if (product.getId() > 0) {
+            if (product.getStatus().equalsIgnoreCase("YES")) {
+                product.setStatus("NO");
+            } else {
+                product.setStatus("YES");
+            }
+            product = productService.updateProduct(product);
+            model.addAttribute("thongbao", "Update status of product have id :" + product.getId());
+
+            return viewListProduct(model);
+        } else {
+            model.addAttribute("thongbao", "Not find!!!");
+            return viewListProduct(model);
+        }
+
+    }
+
+    // update status off promotion
+    @RequestMapping(value = "/update-status-promotion/{promotionId}", method = RequestMethod.GET)
+    public String updateStatusPromotion(Model model, @PathVariable("promotionId") int promotionId) {
+        PromotionEntity promotion = promotionService.getPromotionById(promotionId);
+        if (promotion.getId() > 0) {
+            if (promotion.getStatus().equalsIgnoreCase("YES")) {
+                promotion.setStatus("NO");
+            } else {
+                promotion.setStatus("YES");
+            }
+            promotion = promotionService.updatePromotion(promotion);
+            model.addAttribute("thongbao", "Update status of promotion have id :" + promotion.getId());
+            return viewListPromotion(model);
+        } else {
+            model.addAttribute("thongbao", "Not find!!!");
+            return viewListPromotion(model);
+        }
+
     }
 }

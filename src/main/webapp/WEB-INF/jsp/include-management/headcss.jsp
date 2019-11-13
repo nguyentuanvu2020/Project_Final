@@ -12,5 +12,6 @@
     <link href="<c:url value="/resources-management/css/styles.css"/>" rel="stylesheet">
     <link href="<c:url value="/resources-management/css/buttons.css"/>" rel="stylesheet">
     <script type="text/javascript" charset="utf8" src="<c:url value="/resources-management/DataTables-1.10.20/media/js/jquery.js"/>"></script>
+    <script type="text/javascript" charset="utf8" src="<c:url value="/resources-management/js/autocomplete.js"/>"></script>
     <script src="<c:url value="/resources-management/js/scriptshop.js"/>"></script>
 </head>

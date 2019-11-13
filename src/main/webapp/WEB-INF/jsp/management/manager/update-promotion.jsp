@@ -12,7 +12,7 @@
         <div class="page-content">
             <div class="row">
                 <!--include menu-->
-                <%@include file="../../include-management/menumanagement-back.jsp" %>
+                <%@include file="../../include-management/menumanagement.jsp" %>
                 <div class="col-md-10">
                     <div class="row">
                         <div class="col-md-8">
@@ -29,6 +29,7 @@
                                             modelAttribute="newPromotion">
                                         <c:if test="${check =='edit'}">
                                             <input class="form-control" name="id" value="${newPromotion.id}" type="hidden">
+                                            <input class="form-control" name="image" value="${newPromotion.image}" type="hidden">
                                         </c:if>
                                         <div class="form-group">
                                             <label>Discount</label>
@@ -53,9 +54,15 @@
                                                 <button type="button" class="btn btn-danger btn-xs" onclick="display()">Delete</button>
                                             </div>
                                         </div>
-                                        <div id="div-file" class="form-group">
-                                            <!--                                            <label>Image</label>
-                                                                                        <input class="form-control" name="file" type="file">-->
+                                        <c:if test="${newPromotion.image == null}">
+                                            <div id="div-file" class="form-group" style="">
+                                                <label>Image</label>
+                                                <input class='form-control' name='file' type='file'>
+                                            </div>
+                                        </c:if>
+                                        <div id="div-file" class="form-group" style="display: none;">
+                                            <label>Image</label>
+                                            <input class='form-control' name='file' type='file'>
                                         </div>
 
                                         <div>
@@ -114,7 +121,7 @@
         <script>
             function display() {
                 document.getElementById("image").src = "${pageContext.request.contextPath}/resources/image/noneimage.jpg";
-                document.getElementById("div-file").innerHTML = "<label>Image</label><input class='form-control' name='file' required type='file'>";
+                document.getElementById("div-file").style.display = "block";
             }
         </script>
         <!--include footer-->
