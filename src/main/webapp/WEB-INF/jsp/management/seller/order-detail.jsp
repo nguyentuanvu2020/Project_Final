@@ -12,7 +12,7 @@
         <div class="page-content">
             <div class="row">
                 <!--include menu-->
-                <%@include file="../../include-management/menumanagement-back-2.jsp" %>
+                <%@include file="../../include-management/menumanagement.jsp" %>
                 <div class="col-md-10">
                     <div class="row">
                         <div class="col-md-12">
@@ -133,7 +133,7 @@
                                                 <i class="glyphicon glyphicon glyphicon-ok"></i>
                                                 Confirm
                                             </button>
-                                            <button onclick="location.href='<c:url value="../export-file/${orderDetail.id}"/>'" class="btn btn-sm btn-primary">
+                                            <button onclick="location.href='<c:url value="${request.contextPath}/management/seller/export-file/${orderDetail.id}"/>'" class="btn btn-sm btn-primary">
                                                 <i class="glyphicon glyphicon-print"></i>
                                                 Print order
                                             </button>

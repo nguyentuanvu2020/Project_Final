@@ -12,7 +12,7 @@
         <div class="page-content">
             <div class="row">
                 <!--include menu-->
-                <%@include file="../../include-management/menumanagement-back.jsp" %>
+                <%@include file="../../include-management/menumanagement.jsp" %>
                 <div class="col-md-9">
                     <div class="row">
                         <div class="col-md-12">
@@ -22,12 +22,16 @@
                                 </div>
                                 <div class="panel-body">
                                     <div style="margin-bottom: 5px;">
-<!--                                        <select class="btn btn-xs btn-default" name="loai" id="">
-                                            <c:forEach var="os" items="${oderStatus}">
-                                                <option value="${os}">${os}</option>
-                                            </c:forEach>
-                                        </select>-->
-                                        <input id="from-date" type="date"><span>&nbsp;to&nbsp;</span><input id="to-date" class="control-label" type="date">&nbsp;&#9679;&nbsp;<input class="btn btn-xs btn-primary" type="button" onclick="searchOrderByDate()" value="Search">
+                                        <f:form action="search" method="get">
+                                            <select name="ods" class="btn btn-default btn-xs">
+                                                <c:forEach var="s" items="${oderStatus}">
+                                                    <option value="${s}">${s}</option> 
+                                                </c:forEach>
+                                            </select>
+                                            <input class="btn btn-default btn-xs" name="s-date" type="date"><span>&nbsp;to&nbsp;</span>
+                                            <input class="btn btn-default btn-xs" name="e-date" class="control-label" type="date"><span>&nbsp;&#9679;&nbsp;</span>
+                                            <input class="btn btn-xs btn-primary" type="submit" value="Search">
+                                        </f:form>
                                     </div>
                                     <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example">
                                         <thead>
@@ -45,17 +49,17 @@
                                             <c:set var="i" value="1"/>
                                             <c:forEach var="order" items="${shippingOrders}">
                                                 <tr class="odd gradeX">
-                                                    <td class="mouser-hover" onclick="location.href = '<c:url value="order-detail/${order.id}"/>'">${i}</td>
-                                                    <td class="mouser-hover" onclick="location.href = '<c:url value="order-detail/${order.id}"/>'">${order.id}</td>
-                                                    <td class="mouser-hover" onclick="location.href = '<c:url value="order-detail/${order.id}"/>'">${order.orderDate}</td>
-                                                    <td class="mouser-hover" onclick="location.href = '<c:url value="order-detail/${order.id}"/>'">${order.note}</td>
+                                                    <td class="mouser-hover" onclick="location.href = '<c:url value="${request.contextPath}/management/seller/order-detail/${order.id}"/>'">${i}</td>
+                                                    <td class="mouser-hover" onclick="location.href = '<c:url value="${request.contextPath}/management/seller/order-detail/${order.id}"/>'">${order.id}</td>
+                                                    <td class="mouser-hover" onclick="location.href = '<c:url value="${request.contextPath}/management/seller/order-detail/${order.id}"/>'">${order.orderDate}</td>
+                                                    <td class="mouser-hover" onclick="location.href = '<c:url value="${request.contextPath}/management/seller/order-detail/${order.id}"/>'">${order.note}</td>
                                                     <td><fmt:formatNumber minFractionDigits="0" type="number" value="${order.totalPrice}"/></td>
                                                     <td>
                                                         <p class="input-sm">${order.orderStatus}</p>
                                                     </td>
                                                     <td>
-                                                        <button class="btn btn-xs btn-warning" onclick="location.href = '<c:url value="update-status-new/${order.id}"/>'">PAID</button>
-                                                        <button class="btn btn-xs btn-danger" onclick="location.href = '<c:url value="cancel-order/${order.id}"/>'">CANCEL</button>
+                                                        <button class="btn btn-xs btn-warning" onclick="location.href = '<c:url value="${request.contextPath}/management/seller/update-status-new/${order.id}"/>'">PAID</button>
+                                                        <button class="btn btn-xs btn-danger" onclick="location.href = '<c:url value="${request.contextPath}/management/seller/cancel-order/${order.id}"/>'">CANCEL</button>
                                                     </td>
                                                 </tr>
                                                 <c:set var="i" value="${i+1}"/>

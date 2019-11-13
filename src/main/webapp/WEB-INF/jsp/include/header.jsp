@@ -144,12 +144,24 @@
                                     <c:if test="${cart==null}"><span id="cart-count2" class="csscart">0</span></c:if>
                                 </a>
                             </li>
-                            <li>
-                                <a href="account">Thành viên
-                                    <svg class="svg-next-icon svg-next-icon-size-24">
-                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-user"></use>
-                                    </svg>
-                                </a>
+                            <li class="">
+                                <a href="#" title="Sản phẩm">Login<i class="fa fa-angle-down"></i></a>
+                                <ul class="dropdown-menu submenu-level1-children" role="menu">
+                                    <li>
+                                        <a href="account">Thành viên
+                                            <svg class="svg-next-icon svg-next-icon-size-24">
+                                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-user"></use>
+                                            </svg>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="management/">Quản trị
+                                            <svg class="svg-next-icon svg-next-icon-size-24">
+                                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-user"></use>
+                                            </svg>
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
                             <li class="search-header">
                                 <div class="dropdown btn-group">
@@ -166,6 +178,7 @@
                                     </div>
                                 </div>
                             </li>
+
                         </ul>
                     </div>
                 </div>				

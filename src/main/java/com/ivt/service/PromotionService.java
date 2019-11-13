@@ -23,6 +23,10 @@ public class PromotionService {
         promotionRepository.save(newPromotionEntity);
     }
 
+    public PromotionEntity updatePromotion(PromotionEntity newPromotionEntity) {
+        return promotionRepository.save(newPromotionEntity);
+    }
+
     public List<PromotionEntity> getAll() {
         return (List<PromotionEntity>) promotionRepository.findAll();
     }

@@ -1,6 +1,6 @@
 <%-- 
-    Document   : test
-    Created on : Oct 21, 2019, 12:08:52 AM
+    Document   : getdata
+    Created on : Nov 11, 2019, 2:21:14 PM
     Author     : phand
 --%>
 
@@ -12,8 +12,10 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello Error! Khoong co quen vao phan naay</h1>
-        <h1></h1>
-        <h1></h1>
+        <h1>Hello World!</h1>
+        <h1>Hello World!</h1>
+        <h1>Hello World!</h1>
+        <h1>Hello World!</h1>
+        
     </body>
 </html>

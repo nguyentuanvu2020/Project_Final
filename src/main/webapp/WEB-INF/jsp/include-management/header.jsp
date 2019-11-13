@@ -10,7 +10,7 @@
                     <h1><a href="<c:url value="/management/"/>">Management</a></h1>
                 </div>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-4">
             <!--<div class="row">
                     <div class="col-lg-12">
                         <div class="input-group form">
@@ -22,14 +22,14 @@
                     </div>
                 </div>-->
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <div class="navbar navbar-inverse" role="banner">
                     <nav class="collapse navbar-collapse bs-navbar-collapse navbar-right" role="navigation">
                         <ul class="nav navbar-nav">
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> &nbsp;<sec:authentication property="principal.name"/><b class="caret"></b></a>
                                 <ul class="dropdown-menu animated fadeInUp">
-                                    <li><a href="profile.html">Profile</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/management/profile/<sec:authentication property="principal.id"/>">Profile</a></li>
                                     <li><a href="<c:url value="/logout" />">Logout</a></li>
                                 </ul>
                             </li>

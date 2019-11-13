@@ -12,7 +12,7 @@
         <div class="page-content">
             <div class="row">
                 <!--include menu-->
-                <%@include file="../../include-management/menumanagement-back.jsp" %>
+                <%@include file="../../include-management/menumanagement.jsp" %>
                 <div class="col-md-10">
                     <div class="row">
                         <div class="col-md-12">
@@ -24,6 +24,7 @@
                                     <div class="${style}">
                                         ${message}
                                     </div>
+                                    ${category}
                                     <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example">
                                         <thead>
                                             <tr>

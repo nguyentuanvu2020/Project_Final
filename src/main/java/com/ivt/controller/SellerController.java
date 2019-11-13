@@ -7,12 +7,16 @@ package com.ivt.controller;
 
 import com.ivt.entities.AccountEntity;
 import com.ivt.entities.AccountRoleEntity;
+import com.ivt.entities.CustomerEntity;
 import com.ivt.entities.OrderDetailEntity;
 import com.ivt.entities.OrderEntity;
 import com.ivt.enums.AccountRole;
 import com.ivt.enums.OrderStatus;
+import com.ivt.model.CartByHiep;
+import com.ivt.model.ItemProduct;
 import com.ivt.service.OrderDetailService;
 import com.ivt.service.OrderService;
+import com.ivt.service.ProductService;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -63,7 +67,7 @@ public class SellerController {
             model.addAttribute("infomation", "List order of status " + status);
             List<OrderEntity> a = orderService.getAllOrderByStatusParameter(status);
             LocalDate t = LocalDate.now();
-            session.setAttribute("name", status+t);
+            session.setAttribute("name", status + t);
             session.setAttribute("order", a);
             model.addAttribute("orders", a);
 
@@ -76,7 +80,7 @@ public class SellerController {
             } else {
                 model.addAttribute("infomation", "List order in " + sd + "  to " + ed + " and status: " + status);
                 List<OrderEntity> aa = orderService.getBetweenLike(sd, ed, status);
-                session.setAttribute("name", status+" - "+sd+" - "+ed);
+                session.setAttribute("name", status + " - " + sd + " - " + ed);
                 session.setAttribute("order", aa);
                 model.addAttribute("orders", aa);
             }
@@ -144,6 +148,16 @@ public class SellerController {
         return "management/seller/list-order-paid";
     }
 
+    //paid cancel
+    @RequestMapping("/cancel-orders")
+    public String viewListOrderCancel(Model model) {
+        List<OrderEntity> ListCancels = new ArrayList<OrderEntity>();
+        model.addAttribute("oderStatus", OrderStatus.values());
+        ListCancels = orderService.getAllOrderByStatusCancel(OrderStatus.CANCEL.toString());
+        model.addAttribute("ListCancels", ListCancels);
+        return "management/seller/list-order-cancel";
+    }
+
     //update satus for order new
     @RequestMapping(value = "update-status-new/{orderId}", method = RequestMethod.GET)
     public String updateStatus(Model model,
@@ -157,13 +171,13 @@ public class SellerController {
                     case "PROCESSING":
                         od.setOrderStatus(OrderStatus.SHIPPING.toString());
                         orderService.updateOrder(od);
-                        return "redirect:../shipping-orders";
+                        return viewListOrderShipping(model);
                     case "CONFIRMED":
                         return "redirect:management/seller/list-order-confirmed";
                     case "SHIPPING":
                         od.setOrderStatus(OrderStatus.PAID.toString());
                         orderService.updateOrder(od);
-                        return "redirect:../paid-orders";
+                        return viewListOrderPaid(model);
                     case "PAID":
                         return "redirect:../paid-orders";
                     case "CANCEL":
@@ -191,12 +205,13 @@ public class SellerController {
             if (od.getId() > 0) {
                 od.setOrderStatus(od.getOrderStatus() + "-" + OrderStatus.CANCEL.toString());
                 orderService.updateOrder(od);
-                return "redirect:../processing-orders";
+                return viewListOrderCancel(model);
             } else {
                 return "redirect:../proccessing-orders";
             }
         } else {
             return "redirect:../proccessing-orders";
+//            return this.viewListOrderProcessing(model);
         }
     }
 
@@ -208,7 +223,8 @@ public class SellerController {
         boolean check = false;
         if (principal instanceof AccountEntity) {
             for (AccountRoleEntity accountRole : ((AccountEntity) principal).getAccountRoles()) {
-                if (accountRole.getRole().equals(AccountRole.ROLE_MANAGER)) {
+                if (accountRole.getRole().equals(AccountRole.ROLE_MANAGER) 
+                        || accountRole.getRole().equals(AccountRole.ROLE_SELLER)) {
                     check = true;
                 }
             }
@@ -244,4 +260,31 @@ public class SellerController {
         return modelAndView;
     }
 
+    // make order
+    @Autowired
+    private ProductService productService;
+
+    @RequestMapping(value = "/makeorder", method = RequestMethod.GET)
+    public String viewMakeOrder(Model model, HttpSession session) {
+        CartByHiep hiepCart = new CartByHiep();
+        session.setAttribute("hiepCart", hiepCart);
+        model.addAttribute("products", productService.getAll());
+        model.addAttribute("customerInfo", new CustomerEntity());
+        return "management/seller/make-order";
+    }
+
+    @RequestMapping(value = "/add-product-to-cart", method = RequestMethod.GET)
+    public String addToCart(Model model, HttpSession session,
+            @RequestParam("productID") int productId,
+            @RequestParam("color") String color,
+            @RequestParam("size") int size) {
+
+        ItemProduct newItem = new ItemProduct();
+        newItem.setProductID(productId);
+        newItem.setColor(color);
+        newItem.setSize(size);
+        CartByHiep hiepCart = (CartByHiep) session.getAttribute("hiepCart");
+        hiepCart.themMonHang(newItem);
+        return "";
+    }
 }

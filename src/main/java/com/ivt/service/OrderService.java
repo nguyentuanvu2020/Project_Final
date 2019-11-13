@@ -100,6 +100,12 @@ public class OrderService {
         //status = "'"+status+"'";
         return (List<OrderEntity>) orderRepository.getAllOrderByStatusParameter(status);
     }
+    
+     //get order by status cancel
+    public List<OrderEntity> getAllOrderByStatusCancel(String status) {
+        //status = "'"+status+"'";
+        return (List<OrderEntity>) orderRepository.getAllOrderByStatusCancel(status);
+    }
 
     //get totalprice in this month
     public double getTotalPriceInThisMonth() {

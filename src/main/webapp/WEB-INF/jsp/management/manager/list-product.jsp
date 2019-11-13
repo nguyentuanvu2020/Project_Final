@@ -12,7 +12,7 @@
         <div class="page-content">
             <div class="row">
                 <!--include menu-->
-                <%@include file="../../include-management/menumanagement-back.jsp" %>
+                <%@include file="../../include-management/menumanagement.jsp" %>
                 <div class="col-md-10">
                     <div class="row">
                         <div class="col-md-12">
@@ -21,6 +21,9 @@
                                     <div class="panel-title">List product</div>
                                 </div>
                                 <div class="panel-body">
+
+                                    <p id="returntext">${thongbao}</p>
+
                                     <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example">
                                         <thead>
                                             <tr>
@@ -54,14 +57,25 @@
                                                     <td class="center">${product.status}</td>
                                                     <td class="center">${product.category.name}</td>
                                                     <td class="center">
-                                                        <button class="btn btn-primary btn-xs" onclick="location.href='<c:url value="update-product/${product.id}"/>'">
+                                                        <button class="btn btn-primary btn-xs" onclick="location.href = '<c:url value="${request.contextPath}/management/manager/update-product/${product.id}"/>'">
                                                             <i class="glyphicon glyphicon-refresh"></i> 
                                                             Update
                                                         </button>
-                                                        <button class="btn btn-danger  btn-xs">
-                                                            <i class="glyphicon glyphicon-remove"></i>
-                                                            Delete
-                                                        </button>
+                                                        <c:choose>
+                                                            <c:when test="${product.status=='NO'}">
+                                                                <button class="btn btn-success btn-xs" onclick="location.href = '<c:url value="${request.contextPath}/management/manager/update-status/${product.id}'"/>">
+                                                                    <i class="glyphicon glyphicon-ok"></i>
+                                                                    Enable
+                                                                </button>
+                                                            </c:when>
+                                                            <c:when test="${product.status=='YES'}">
+                                                                <button class="btn btn-danger  btn-xs" onclick="location.href = '<c:url value="${request.contextPath}/management/manager/update-status/${product.id}'"/>">
+                                                                    <i class="glyphicon glyphicon-remove"></i>
+                                                                    Disable
+                                                                </button>
+                                                            </c:when>
+                                                        </c:choose>
+
                                                     </td>
                                                 </tr>
                                                 <c:set var="i" value="${i+1}"/>

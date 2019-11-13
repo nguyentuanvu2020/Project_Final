@@ -43,8 +43,11 @@ public interface OrderRepository extends CrudRepository<OrderEntity, Integer>{
 //    @Query(value = "SELECT * FROM orders o join customers c on o.customer_id = c.id where c.account_id = ?1", nativeQuery = true)
 //    List<OrderEntity> getAllOrderByAccountId(int accountId);
     
-    @Query(value = "SELECT * FROM project_final.orders where orderStatus like ?1", nativeQuery = true)
+    @Query(value = "SELECT * FROM project_final.orders where orderStatus = ?1", nativeQuery = true)
     List<OrderEntity> getAllOrderByStatusParameter(String status);
+    
+    @Query(value = "SELECT * FROM project_final.orders where orderStatus like %?1%", nativeQuery = true)
+    List<OrderEntity> getAllOrderByStatusCancel(String status);
 
     //get totalprice in this month
     @Query(value = "SELECT SUM(totalPrice) FROM project_final.orders where orderDate between ?1 and ?2 and orderStatus like 'PAID'", nativeQuery = true)
