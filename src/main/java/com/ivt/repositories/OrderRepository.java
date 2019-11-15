@@ -18,6 +18,18 @@ import org.springframework.stereotype.Repository;
 public interface OrderRepository extends CrudRepository<OrderEntity, Integer>{
     @Query(value = "SELECT * FROM orders o join customers c on o.customer_id = c.id where c.account_id = ?1 order by o.id",nativeQuery = true)
     List<OrderEntity> getAllOrderByAccountId(int accountId);
+    
+    @Query(value = "SELECT o.* FROM orders o join customers c on o.customer_id = c.id where c.account_id = ?1 and o.orderStatus like 'PROCESSING' order by o.id",nativeQuery = true)
+    List<OrderEntity> getAllOrderByAccountId2(int accountId);
+    
+    @Query(value = "SELECT o.* FROM orders o join customers c on o.customer_id = c.id where c.account_id = ?1 and o.orderStatus like 'SHIPPING' order by o.id",nativeQuery = true)
+    List<OrderEntity> getAllOrderByAccountId3(int accountId);
+    
+    @Query(value = "SELECT o.* FROM orders o join customers c on o.customer_id = c.id where c.account_id = ?1 and o.orderStatus like 'PAID' order by o.id",nativeQuery = true)
+    List<OrderEntity> getAllOrderByAccountId4(int accountId);
+    
+    @Query(value = "SELECT o.* FROM orders o join customers c on o.customer_id = c.id where c.account_id = ?1 and o.orderStatus like 'CANCEL' order by o.id",nativeQuery = true)
+    List<OrderEntity> getAllOrderByAccountId5(int accountId);
 //    code của hiệp
 // order processing
     
@@ -59,4 +71,5 @@ public interface OrderRepository extends CrudRepository<OrderEntity, Integer>{
     List<OrderEntity> findByOrderDateBetween(Date sd, Date ed);
     // get betwen date adn status
     List<OrderEntity> findByOrderDateBetweenAndOrderStatusLike(Date sd, Date ed,String status);
+    
 }

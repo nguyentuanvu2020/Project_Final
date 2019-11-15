@@ -67,7 +67,7 @@ public class ProductService {
     public void addProduct(ProductEntity product) {
         productRepository.save(product);
     }
-    
+
     public ProductEntity updateProduct(ProductEntity product) {
         return productRepository.save(product);
     }
@@ -155,5 +155,202 @@ public class ProductService {
             productEntity.setListPromotion(listPromotion);
         }
         return listProductNew;
+    }
+
+//    search service.............................
+    public List<ProductEntity> searchProductHome(String search) {
+        search = "%" + search + "%";
+        List<ProductEntity> listProduct = productRepository.searchProductHome(search);
+        for (ProductEntity productEntity : listProduct) {
+            productEntity.setListImageProductDetail(imageProductRepository.findByProduct(productEntity));
+            List<PromotionEntity> listPromotion = promotionRepository.findListPromotionByProductId(productEntity.getId());
+            productEntity.setListPromotion(listPromotion);
+        }
+        return listProduct;
+    }
+
+    public List<ProductEntity> searchByPriceAscending() {
+        List<ProductEntity> listProduct = productRepository.findAllProductByPriceASC();
+        for (ProductEntity productEntity : listProduct) {
+            productEntity.setListImageProductDetail(imageProductRepository.findByProduct(productEntity));
+            List<PromotionEntity> listPromotion = promotionRepository.findListPromotionByProductId(productEntity.getId());
+            productEntity.setListPromotion(listPromotion);
+        }
+        return listProduct;
+    }
+
+    public List<ProductEntity> searchByPriceDescending() {
+        List<ProductEntity> listProduct = productRepository.findAllProductByPriceDESC();
+        for (ProductEntity productEntity : listProduct) {
+            productEntity.setListImageProductDetail(imageProductRepository.findByProduct(productEntity));
+            List<PromotionEntity> listPromotion = promotionRepository.findListPromotionByProductId(productEntity.getId());
+            productEntity.setListPromotion(listPromotion);
+        }
+        return listProduct;
+    }
+
+    public List<ProductEntity> searchByNewAscending() {
+        List<ProductEntity> listProduct = productRepository.findAllProductByNewASC();
+        for (ProductEntity productEntity : listProduct) {
+            productEntity.setListImageProductDetail(imageProductRepository.findByProduct(productEntity));
+            List<PromotionEntity> listPromotion = promotionRepository.findListPromotionByProductId(productEntity.getId());
+            productEntity.setListPromotion(listPromotion);
+        }
+        return listProduct;
+    }
+
+    public List<ProductEntity> searchByNewDescending() {
+        List<ProductEntity> listProduct = productRepository.findAllProductByNewDESC();
+        for (ProductEntity productEntity : listProduct) {
+            productEntity.setListImageProductDetail(imageProductRepository.findByProduct(productEntity));
+            List<PromotionEntity> listPromotion = promotionRepository.findListPromotionByProductId(productEntity.getId());
+            productEntity.setListPromotion(listPromotion);
+        }
+        return listProduct;
+    }
+
+    public List<ProductEntity> searchByNameAscending() {
+        List<ProductEntity> listProduct = productRepository.findAllProductByNameASC();
+        for (ProductEntity productEntity : listProduct) {
+            productEntity.setListImageProductDetail(imageProductRepository.findByProduct(productEntity));
+            List<PromotionEntity> listPromotion = promotionRepository.findListPromotionByProductId(productEntity.getId());
+            productEntity.setListPromotion(listPromotion);
+        }
+        return listProduct;
+    }
+
+    public List<ProductEntity> searchByNameDescending() {
+        List<ProductEntity> listProduct = productRepository.findAllProductByNameDESC();
+        for (ProductEntity productEntity : listProduct) {
+            productEntity.setListImageProductDetail(imageProductRepository.findByProduct(productEntity));
+            List<PromotionEntity> listPromotion = promotionRepository.findListPromotionByProductId(productEntity.getId());
+            productEntity.setListPromotion(listPromotion);
+        }
+        return listProduct;
+    }
+
+    public List<ProductEntity> searchByHOtSell() {
+        List<ProductEntity> listProduct = productRepository.getAllProductHot();
+        for (ProductEntity productEntity : listProduct) {
+            productEntity.setListImageProductDetail(imageProductRepository.findByProduct(productEntity));
+            List<PromotionEntity> listPromotion = promotionRepository.findListPromotionByProductId(productEntity.getId());
+            productEntity.setListPromotion(listPromotion);
+        }
+        return listProduct;
+    }
+
+    public List<ProductEntity> searchByHOTFavorite() {
+        List<ProductEntity> listProduct = productRepository.getAllProductFavorite();
+        for (ProductEntity productEntity : listProduct) {
+            productEntity.setListImageProductDetail(imageProductRepository.findByProduct(productEntity));
+            List<PromotionEntity> listPromotion = promotionRepository.findListPromotionByProductId(productEntity.getId());
+            productEntity.setListPromotion(listPromotion);
+        }
+        return listProduct;
+    }
+
+    public List<ProductEntity> searchByCategoryName(String name) {
+        List<ProductEntity> listProduct = productRepository.findAllProductByCategoryName(name);
+        for (ProductEntity productEntity : listProduct) {
+            productEntity.setListImageProductDetail(imageProductRepository.findByProduct(productEntity));
+            List<PromotionEntity> listPromotion = promotionRepository.findListPromotionByProductId(productEntity.getId());
+            productEntity.setListPromotion(listPromotion);
+        }
+        return listProduct;
+    }
+
+    public List<ProductEntity> searchByColorId(int id) {
+        List<ProductEntity> listProduct = productRepository.findAllProductByColorId(id);
+        for (ProductEntity productEntity : listProduct) {
+            productEntity.setListImageProductDetail(imageProductRepository.findByProduct(productEntity));
+            List<PromotionEntity> listPromotion = promotionRepository.findListPromotionByProductId(productEntity.getId());
+            productEntity.setListPromotion(listPromotion);
+        }
+        return listProduct;
+    }
+
+    public List<ProductEntity> searchBySizeId(int id) {
+        List<ProductEntity> listProduct = productRepository.findAllProductBySizeId(id);
+        for (ProductEntity productEntity : listProduct) {
+            productEntity.setListImageProductDetail(imageProductRepository.findByProduct(productEntity));
+            List<PromotionEntity> listPromotion = promotionRepository.findListPromotionByProductId(productEntity.getId());
+            productEntity.setListPromotion(listPromotion);
+        }
+        return listProduct;
+    }
+
+    public List<ProductEntity> findAllFavoriteProductByAccountId(int id) {
+        List<ProductEntity> listProduct = productRepository.findAllFavoriteProductByAccountId(id);
+        for (ProductEntity productEntity : listProduct) {
+            productEntity.setListImageProductDetail(imageProductRepository.findByProduct(productEntity));
+            List<PromotionEntity> listPromotion = promotionRepository.findListPromotionByProductId(productEntity.getId());
+            productEntity.setListPromotion(listPromotion);
+        }
+        return listProduct;
+    }
+
+    public List<ProductEntity> searchByMoneyLower() {
+        List<ProductEntity> listProduct = productRepository.searchByMoneyLowerFive();
+        for (ProductEntity productEntity : listProduct) {
+            productEntity.setListImageProductDetail(imageProductRepository.findByProduct(productEntity));
+            List<PromotionEntity> listPromotion = promotionRepository.findListPromotionByProductId(productEntity.getId());
+            productEntity.setListPromotion(listPromotion);
+        }
+        return listProduct;
+    }
+
+    public List<ProductEntity> searchByMoneyFromFiveToOne() {
+        List<ProductEntity> listProduct = productRepository.searchByMoneyFromFiveToOne();
+        for (ProductEntity productEntity : listProduct) {
+            productEntity.setListImageProductDetail(imageProductRepository.findByProduct(productEntity));
+            List<PromotionEntity> listPromotion = promotionRepository.findListPromotionByProductId(productEntity.getId());
+            productEntity.setListPromotion(listPromotion);
+        }
+        return listProduct;
+    }
+
+    public List<ProductEntity> searchByMoneyFromOneToFive() {
+        List<ProductEntity> listProduct = productRepository.searchByMoneyFromOneToFive();
+        for (ProductEntity productEntity : listProduct) {
+            productEntity.setListImageProductDetail(imageProductRepository.findByProduct(productEntity));
+            List<PromotionEntity> listPromotion = promotionRepository.findListPromotionByProductId(productEntity.getId());
+            productEntity.setListPromotion(listPromotion);
+        }
+        return listProduct;
+    }
+
+    public List<ProductEntity> searchByMoneyFromFiveToTwo() {
+        List<ProductEntity> listProduct = productRepository.searchByMoneyFromFiveToTwo();
+        for (ProductEntity productEntity : listProduct) {
+            productEntity.setListImageProductDetail(imageProductRepository.findByProduct(productEntity));
+            List<PromotionEntity> listPromotion = promotionRepository.findListPromotionByProductId(productEntity.getId());
+            productEntity.setListPromotion(listPromotion);
+        }
+        return listProduct;
+    }
+
+    public List<ProductEntity> searchByMoneyMoreTwo() {
+        List<ProductEntity> listProduct = productRepository.searchByMoneyMoreTwo();
+        for (ProductEntity productEntity : listProduct) {
+            productEntity.setListImageProductDetail(imageProductRepository.findByProduct(productEntity));
+            List<PromotionEntity> listPromotion = promotionRepository.findListPromotionByProductId(productEntity.getId());
+            productEntity.setListPromotion(listPromotion);
+        }
+        return listProduct;
+    }
+
+    public List<ProductEntity> searchByCategoryIdAJ(int[] id) {
+        List<ProductEntity> listProduct;
+        if (id.length == 1) {
+            listProduct = productRepository.searchByCategoryIdAJ(id[0]);
+        } else {
+            listProduct = productRepository.searchByCategoryIdAJ2(id[0], id[1]);
+        }
+        for (ProductEntity productEntity : listProduct) {
+            productEntity.setListImageProductDetail(imageProductRepository.findByProduct(productEntity));
+            List<PromotionEntity> listPromotion = promotionRepository.findListPromotionByProductId(productEntity.getId());
+            productEntity.setListPromotion(listPromotion);
+        }
+        return listProduct;
     }
 }

@@ -158,7 +158,7 @@
             <hr>
             <div class="container">
                 <div class="row">
-                    <div class="col-sm-3">${message}</div>
+                    <div class="col-sm-3"></div>
                     <div class="col-sm-6">
                         <div class="well">
                             <div class="main-content">
@@ -170,11 +170,12 @@
                                                     Bạn đã có tài khoản?
                                                     <a href="register-account">Đăng Ký</a>
                                                 </p>
+                                                <p class="alert alert-danger" id="messageEmail1" style="display:<c:if test="${status==1}">block</c:if><c:if test="${status!=1}">none</c:if>">${message}</p>
                                                 <div class="fieldset">
                                                     <div class="field   ">
                                                         <div class="field-input-wrapper">
                                                             <label class="field-label" for="username">Email</label>
-                                                            <input  required="" placeholder="Email" autocapitalize="off" spellcheck="false" class="field-input" size="30" type="text" id="billing_address_full_name" name="username" value="" />
+                                                            <input  oninput="checkEmail()" required="" placeholder="Email" autocapitalize="off" spellcheck="false" class="field-input" size="30" type="text" id="check_email" name="username" value="" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -187,11 +188,16 @@
                                                     </div>
                                                 </div>
                                                 <div id="div_next_step" accept-charset="UTF-8">
-                                                    <button type="submit" class="step-footer-continue-btn btn">
+                                                    <button type="submit" class="step-footer-continue-btn btn" id="submid-lg">
                                                         <span class="btn-content">Đăng Nhập</span>
                                                         <i class="btn-spinner icon icon-button-spinner"></i>
                                                     </button>
                                                 </div>
+                                                <br>    
+                                                <p class="section-content-text">
+                                                    Bạn quên mật khẩu?
+                                                    <a href="forget-password">Lấy lại mật khẩu</a>
+                                                </p>
                                             </div>
                                         </div>
                                     </div>
@@ -203,6 +209,26 @@
                 </div>
             </div>
         </div>
+        <script>
+            function checkEmail() {
+                var email = document.getElementById("check_email").value;
+                console.log(email);
+                var xhttp;
+                xhttp = new XMLHttpRequest();
+                xhttp.open("GET", "check-email-isavailable?email=" + email, true);
+                xhttp.send();
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState === 4 && this.status === 200 && this.responseText === "fasle") {
+                        document.getElementById("messageEmail1").style.display = "block";
+                        document.getElementById("messageEmail1").innerHTML = "Email này không tồn tại!";
+                        document.getElementById("submid-lg").disabled = true;
+                    } else {
+                        document.getElementById("messageEmail1").style.display = "none";
+                        document.getElementById("submid-lg").disabled = false;
+                    }
+                };
+            }
+        </script>
         <jsp:include page="include/footer.jsp"/>
         <jsp:include page="include/menu-mobile.jsp"/>
         <!--end menu mobile-->

@@ -24,19 +24,19 @@
                         <h3 class="">Chính sách hỗ trợ</h3>
                         <ul class="footer-list-menu">
                             <li>
-                                <a href="home" title="Trang chủ">Trang chủ</a>
+                                <a href="${pageContext.request.contextPath}/home" title="Trang chủ">Trang chủ</a>
                             </li>
                             <li>
-                                <a href="collection" title="Sản phẩm">Sản phẩm</a>
+                                <a href="${pageContext.request.contextPath}/collection" title="Sản phẩm">Sản phẩm</a>
                             </li>
                             <li>
-                                <a href="about-us" title="Giới thiệu">Giới thiệu</a>
+                                <a href="${pageContext.request.contextPath}/about-us" title="Giới thiệu">Giới thiệu</a>
                             </li>
                             <li>
-                                <a href="howtochoosesize" title="Hướng dẫn chọn size giày">Hướng dẫn chọn size giày</a>
+                                <a href="${pageContext.request.contextPath}/howtochoosesize" title="Hướng dẫn chọn size giày">Hướng dẫn chọn size giày</a>
                             </li>
                             <li>
-                                <a href="#" title="promotion">Khuyến mãi</a>
+                                <a href="${pageContext.request.contextPath}/#" title="promotion">Khuyến mãi</a>
                             </li>
                         </ul>
                     </div>
@@ -53,10 +53,10 @@
                                     <a target="_blank" href="https://www.facebook.com/VH-Sneaker-114350056657765/" class="fa fa-facebook"></a>
                                 </li>
                                 <li class="rss">
-                                    <a class="fa fa-instagram" target="_blank" href="#"></a>
+                                    <a class="fa fa-instagram" target="_blank" href="${pageContext.request.contextPath}/#"></a>
                                 </li>
                                 <li class="youtube">
-                                    <a class="fa fa-youtube" target="_blank" href="#"></a>
+                                    <a class="fa fa-youtube" target="_blank" href="${pageContext.request.contextPath}/#"></a>
                                 </li>
                             </ul>
                         </div>

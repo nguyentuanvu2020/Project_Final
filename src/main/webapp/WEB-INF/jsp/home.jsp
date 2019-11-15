@@ -60,7 +60,7 @@
                 <!--end section-->
 
                 <!--begin blog-->
-                <%--<jsp:include page="include/blog.jsp"/>--%>
+                <jsp:include page="include/blog.jsp"/>
                 <div class="clearbox"></div>
                 <!--end blog-->
 
@@ -79,7 +79,7 @@
         <!--end menu mobile-->
 
         <!--insert quick view row nếu cần-->
-
+        <script defer > window.onload = function(){ setTimeout(function(){var chatJsElement = document.createElement("script"); chatJsElement.src = "https://app.ohchat.net/clients/43713/code.php"; chatJsElement.setAttribute("defer", "defer"); document.getElementsByTagName("body")[0].appendChild(chatJsElement); }, 300) };</script>
         <div class="back-to-top">
             <a href="javascript:void(0);">
                 <svg class="svg-next-icon svg-next-icon-size-30" style="fill:#ffffff;">

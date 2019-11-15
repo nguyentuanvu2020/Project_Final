@@ -32,7 +32,7 @@
                                                 <th>Name</th>
                                                 <th>Price</th>
                                                 <th>Quantity</th>
-                                                
+                                                <th>Description</th>
                                                 <th>Status</th>
                                                 <th>Category</th>
                                                 <th>Options</th>
@@ -53,7 +53,7 @@
                                                             </p>
                                                         </c:forEach>
                                                     </td>
-                                                    
+                                                    <td class="center">${product.description}</td>
                                                     <td class="center">${product.status}</td>
                                                     <td class="center">${product.category.name}</td>
                                                     <td class="center">

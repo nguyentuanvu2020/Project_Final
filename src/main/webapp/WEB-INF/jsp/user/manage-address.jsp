@@ -72,7 +72,7 @@
                                             <a href="/collections/balo-chinh-hang" title="Balo Chính Hãng">Lịch sử đơn hàng</a>
                                         </li>
                                         <li class="">
-                                            <a href="/collections/ve-sinh-giay" title="Chăm Sóc Giày">Quản lý ví</a>
+                                            <a href="${pageContext.request.contextPath}/my-favorite-product" title="My favorite">Sản phẩm đã thích</a>
                                         </li>
                                     </ul>
                                 </div>

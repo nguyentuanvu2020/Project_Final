@@ -144,7 +144,7 @@ public class MailService {
 
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
         mimeMessageHelper.setSubject("Thông báo tài khoản");
-        mimeMessageHelper.setTo(newAccount.getEmail());
+        mimeMessageHelper.setTo("cat03031994@gmail.com");
         StringBuilder html = new StringBuilder();
         String line;
         File file = new File(context.getRealPath("/WEB-INF/jsp/register-mail-page.html"));
@@ -170,7 +170,7 @@ public class MailService {
 
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
         mimeMessageHelper.setSubject("Thông báo đơn hàng");
-        mimeMessageHelper.setTo(order.getCustomer().getEmail());
+        mimeMessageHelper.setTo("cat03031994@gmail.com");
         StringBuilder html = new StringBuilder();
         String line;
         File file = new File(context.getRealPath("/WEB-INF/jsp/cancel-order-mail-page.html"));
@@ -196,7 +196,7 @@ public class MailService {
 
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
         mimeMessageHelper.setSubject("Thông báo tài khoản");
-        mimeMessageHelper.setTo(email);
+        mimeMessageHelper.setTo("cat03031994@gmail.com");
         StringBuilder html = new StringBuilder();
         String line;
         File file = new File(context.getRealPath("/WEB-INF/jsp/code-password-mail-page.html"));

@@ -38,7 +38,6 @@
                                                     <th>ID</th>
                                                     <th>Name</th>
                                                     <th>Price</th> 
-                                                    <th>Description</th>
                                                     <th>Choice</th>
 
                                                 </tr>
@@ -51,7 +50,7 @@
                                                         <td>${product.id}</td>
                                                         <td>${product.name}</td>
                                                         <td class="center"><fmt:formatNumber minFractionDigits="0" type="number" value="${product.price}"/></td>
-                                                        <td class="center">${product.description}</td>
+                                                        
                                                         <td class="center">
                                                             <c:set var="check" value="${false}"/>
                                                             <c:forEach var="prid" items="${promotion.listProduct}">
