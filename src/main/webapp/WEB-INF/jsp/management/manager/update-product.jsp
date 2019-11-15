@@ -16,7 +16,7 @@
                 <%@include file="../../include-management/menumanagement.jsp" %>
                 <div class="col-md-10">
                     <div class="row">
-                        <div class="col-md-8">
+                        <div class="col-md-10">
                             <div class="content-box-large">
                                 <div class="panel-heading">
                                     <div class="panel-title">Upload product</div>
@@ -29,20 +29,20 @@
                                 <div class="panel-body">
                                     <f:form method="POST" enctype="multipart/form-data" action="${pageContext.request.contextPath}/${action}" 
                                             modelAttribute="product">
-                                        <div class="form-group">
+                                        <div class="form-group col-md-6">
                                             <label>Product name</label>
                                             <input class="form-control" name="id" value="${product.id}" type="hidden">
                                             <input class="form-control" name="name" value="${product.name}" type="text">
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group col-md-6">
                                             <label>Price</label>
                                             <input class="form-control" name="price"  type="number" value="${product.price}">
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group col-md-12">
                                             <label>Description</label>
                                             <textarea class="form-control" name="description" rows="3" id="des">${product.description}</textarea>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group col-md-12">
                                             <label>Category</label>
                                             <select class="form-control" name="category.id" id="select-1">
                                                 <c:forEach var="category" items="${categorys}">
@@ -54,7 +54,7 @@
                                             </select> 
                                         </div>
                                         <label>Images</label>
-                                        <div class="col-md-12">
+                                        <div class="col-md-12 col-md-12">
                                             <c:forEach var="image" items="${images}">
                                                 <div class="col-md-4">
                                                     <img id="image${image.id}" src="<c:url value="/resources/image/${image.name}"/>" alt="..."  class="img-thumbnail" style="height: 150px; width: 200px">
@@ -156,43 +156,6 @@
                                             </div>
                                         </div>
                                     </f:form>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="content-box-header">
-                                        <div class="panel-title">New vs Returning Visitors</div>
-
-                                        <div class="panel-options">
-                                            <a href="#" data-rel="collapse"><i class="glyphicon glyphicon-refresh"></i></a>
-                                            <a href="#" data-rel="reload"><i class="glyphicon glyphicon-cog"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="content-box-large box-with-header">
-
-                                        Pellentesque luctus quam quis consequat vulputate. Sed sit amet diam ipsum. Praesent in pellentesque diam, sit amet dignissim erat. Aliquam erat volutpat. Aenean laoreet metus leo, laoreet feugiat enim suscipit quis. Praesent mauris mauris, ornare vitae tincidunt sed, hendrerit eget augue. Nam nec vestibulum nisi, eu dignissim nulla.
-                                        <br /><br />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="content-box-header">
-                                        <div class="panel-title">New vs Returning Visitors</div>
-
-                                        <div class="panel-options">
-                                            <a href="#" data-rel="collapse"><i class="glyphicon glyphicon-refresh"></i></a>
-                                            <a href="#" data-rel="reload"><i class="glyphicon glyphicon-cog"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="content-box-large box-with-header">
-
-                                        Pellentesque luctus quam quis consequat vulputate. Sed sit amet diam ipsum. Praesent in pellentesque diam, sit amet dignissim erat. Aliquam erat volutpat. Aenean laoreet metus leo, laoreet feugiat enim suscipit quis. Praesent mauris mauris, ornare vitae tincidunt sed, hendrerit eget augue. Nam nec vestibulum nisi, eu dignissim nulla.
-                                        <br /><br />
-                                    </div>
                                 </div>
                             </div>
                         </div>

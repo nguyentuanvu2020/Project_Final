@@ -22,4 +22,8 @@ public class RoleService {
     public AccountRoleEntity getRoleById(int id){
         return roleRepository.findOne(id);
     }
+    
+     public List<AccountRoleEntity> getAllRoleByAcountId(int id){
+        return (List<AccountRoleEntity>) roleRepository.getListRoleByAcountId(id);
+    }
 }

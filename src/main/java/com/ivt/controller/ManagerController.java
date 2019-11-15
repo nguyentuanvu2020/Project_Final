@@ -41,6 +41,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/management/manager")
@@ -62,9 +63,9 @@ public class ManagerController {
     private PromotionService promotionService;
 
     @RequestMapping(value = "/list-product", method = RequestMethod.GET)
-    public String viewListProduct(Model model) {
+    public String viewListProduct(Model model,@ModelAttribute(name = "info") String info) {
         model.addAttribute("products", productService.getAll());
-
+        model.addAttribute("info", info);
         return "management/manager/list-product";
     }
 
@@ -84,7 +85,7 @@ public class ManagerController {
     public String doAddProduct(Model model,
             @ModelAttribute("product") ProductEntity newProduct,
             @RequestParam("file") MultipartFile[] file,
-            HttpServletRequest request, HttpSession session) {
+            HttpServletRequest request, HttpSession session,RedirectAttributes ra) {
         newProduct.setStatus("YES");
         if ("".equals(newProduct.getName()) || "".equals(newProduct.getDescription()) || newProduct.getPrice() == 0) {
             model.addAttribute("thongbao", "nhap day du thong tin");
@@ -119,11 +120,12 @@ public class ManagerController {
                 newProductEntity.setListProductDetail(listDetail);
                 productService.saveDetail(newProductEntity);
                 model.addAttribute("p", newProduct);
-                return "redirect:../../management/";
+                ra.addAttribute("info", "New product have id: "+newProductEntity.getId());
+                return "redirect:../../management/manager/list-product";
             } catch (IOException e) {
                 System.out.println(e);
-                model.addAttribute("test", e);
-                return "management/manager/test";
+                model.addAttribute("info", "Erro!!!");
+                return viewAddNewProduct(model,session);
             }
         }
     }
@@ -357,12 +359,12 @@ public class ManagerController {
                         thongbao = "duong dan sai va eo co file";
                     }
                 }
-                return viewListProduct(model);
+                return viewListProduct(model,"");
             } catch (IOException e) {
                 System.out.println(e);
                 model.addAttribute("test", e);
                 model.addAttribute("thongbao", "updated product have id: " + newProduct.getId());
-                return viewListProduct(model);
+                return viewListProduct(model,"");
             }
         } else {
             for (String string : listImageName) {
@@ -389,7 +391,7 @@ public class ManagerController {
                 productService.saveDetail(newProduct);
             }
             model.addAttribute("thongbao", "updated product have id: " + newProduct.getId());
-            return viewListProduct(model);
+            return viewListProduct(model,"");
         }
     }
 // promotion
@@ -406,9 +408,23 @@ public class ManagerController {
             @ModelAttribute("newPromotion") PromotionEntity newPromotion,
             @RequestParam(name = "file") MultipartFile file,
             HttpServletRequest request) {
+        if (newPromotion.getDiscount() <= 0
+                || "".equals(newPromotion.getDescription())
+                || "".equals(newPromotion.getStartDate())
+                || "".equals(newPromotion.getEndDate())) {
+            return "redirect:../../management/manager/add-promotion";
+        }
+
         LocalDateTime n = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss");
         String date = String.valueOf(n.format(formatter));
+        if (newPromotion.getId() > 0) {
+            PromotionEntity promotion = promotionService.getPromotionById(newPromotion.getId());
+            if (promotion.getListProduct().size() > 0) {
+                newPromotion.setListProduct(promotion.getListProduct());
+            }
+        }
+
         if (newPromotion.getEndDate().after(newPromotion.getStartDate())) {
             try {
                 if (file.isEmpty()) {
@@ -426,7 +442,7 @@ public class ManagerController {
                     int duoifile = filename.indexOf(".");
                     String fileType = filename.substring(duoifile);
                     filename = filename.substring(0, duoifile);
-                    filename = newPromotion.getDescription() + filename + date + fileType;
+                    filename = newPromotion.getDiscount() + filename + date + fileType;
                     Path path = Paths.get(pathFolder + filename);
                     Files.write(path, byteImage);
                     newPromotion.setImage(filename);
@@ -435,10 +451,10 @@ public class ManagerController {
                     return "redirect:../../management/manager/list-promotion";
                 }
             } catch (IOException e) {
-                return "../../management/manager/add-promotion";
+                return "redirect:../../management/manager/add-promotion";
             }
         } else {
-            return "../../management/manager/add-promotion";
+            return "redirect:../../management/manager/add-promotion";
         }
     }
 // phần update và thêm sản phẩm vào promotion
@@ -458,7 +474,7 @@ public class ManagerController {
         return "management/manager/promotion-product";
     }
 
-    // thêm sản phẩm vào promotion
+    // 
     @RequestMapping(value = "/update-product-promotion", method = RequestMethod.POST)
     public String doAddProductPromotion(Model model,
             @ModelAttribute("promotionid") int promotionId,
@@ -507,19 +523,24 @@ public class ManagerController {
 
     @RequestMapping(value = "/add-category", method = RequestMethod.POST)
     public String viewAddNewCategory2(Model model, @ModelAttribute("caregory") CategoryEntity newCategory) {
-        try {
-            CategoryEntity a = categoryService.saveCategory(newCategory);
-            int check = a.getId();
-            if (check > 0) {
-                model.addAttribute("category", "New category have id: " + a.getId());
-                return viewListCategory(model);
-            } else {
-                throw new Exception("Cant save new category!!!");
+        if ("".equals(newCategory.getName()) || "".equals(newCategory.getDescription())) {
+            model.addAttribute("message", "please enter full info!!!");
+            return viewAddNewCategory(model);
+        } else {
+            try {
+                CategoryEntity a = categoryService.saveCategory(newCategory);
+                int check = a.getId();
+                if (check > 0) {
+                    model.addAttribute("category", "New category have id: " + a.getId());
+                    return viewListCategory(model);
+                } else {
+                    throw new Exception("Cant save new category!!!");
+                }
+            } catch (Exception e) {
+                model.addAttribute("message", "Error please check category name!!!");
+                model.addAttribute("style", "alert alert-danger");
+                return "management/manager/add-new-category";
             }
-        } catch (Exception e) {
-            model.addAttribute("message", "Error please check category name!!!");
-            model.addAttribute("style", "alert alert-danger");
-            return "management/manager/add-new-category";
         }
     }
 
@@ -570,10 +591,10 @@ public class ManagerController {
             product = productService.updateProduct(product);
             model.addAttribute("thongbao", "Update status of product have id :" + product.getId());
 
-            return viewListProduct(model);
+            return viewListProduct(model,"");
         } else {
             model.addAttribute("thongbao", "Not find!!!");
-            return viewListProduct(model);
+            return viewListProduct(model,"");
         }
 
     }

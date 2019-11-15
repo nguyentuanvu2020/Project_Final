@@ -129,9 +129,9 @@
                                             </div>
                                         </fieldset>
                                         <div style="text-align: center;">
-                                            <button class="btn btn-sm btn-primary">
-                                                <i class="glyphicon glyphicon glyphicon-ok"></i>
-                                                Confirm
+                                            <button class="btn btn-sm btn-primary" onclick="javascript:history.back()">
+                                                <i class="glyphicon glyphicon-arrow-left"></i>
+                                                Back
                                             </button>
                                             <button onclick="location.href='<c:url value="${request.contextPath}/management/seller/export-file/${orderDetail.id}"/>'" class="btn btn-sm btn-primary">
                                                 <i class="glyphicon glyphicon-print"></i>

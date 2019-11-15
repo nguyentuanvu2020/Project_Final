@@ -39,6 +39,10 @@ public class OrderDetailService {
     public OrderDetailEntity findOrderDetailById(int id) {
         return orderDetailRepository.findOne(id);
     }
+    
+    public List<OrderDetailEntity> findListOrderDetailById(int id) {
+        return (List<OrderDetailEntity>) orderDetailRepository.findOne(id);
+    }
 
     public void addOrderDetail(OrderDetailEntity orderDetail) {
         orderDetailRepository.save(orderDetail);

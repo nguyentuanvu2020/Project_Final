@@ -5,9 +5,7 @@
  */
 package com.ivt.repositories;
 
-import com.ivt.entities.ColorEntity;
 import com.ivt.entities.SizeEntity;
-import java.io.Serializable;
 import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -21,4 +19,6 @@ public interface SizeRepository extends CrudRepository<SizeEntity, Integer> {
 
     @Query(value = "select distinct pz.* from product_size pz join productdetails pd on pz.id = pd.size_id where pd.product_id = ?1 and pd.color_id = ?2 order by pz.id", nativeQuery = true)
     List<SizeEntity> findListSizeByProductIdAndColorId(int productId, int colorId);
+    
+    SizeEntity findByProductSize(int Size);
 }

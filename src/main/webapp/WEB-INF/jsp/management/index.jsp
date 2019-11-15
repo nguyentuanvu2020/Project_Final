@@ -20,6 +20,7 @@
                                     <div class="panel-title">Welcome</div>
                                 </div>
                                 <div class="row">
+                                    ${info}
                                 </div>
                                 <div class="row">
                                     <ul class="bs-glyphicons">

@@ -27,9 +27,8 @@ public class ExcelFileReportView extends AbstractXlsView {
     protected void buildExcelDocument(Map map, Workbook workbook, HttpServletRequest hsr, HttpServletResponse response) throws Exception {
         List<OrderEntity> orders = (List<OrderEntity>) map.get("order");
         String name = (String) map.get("name");
-        response.setHeader("Content-Disposition", "attachment; filename="+name+".xls");
+        response.setHeader("Content-Disposition", "attachment; filename=" + name + ".xls");
         Sheet sheet = workbook.createSheet("List Orders");
-        Sheet sheet2 = workbook.createSheet("Detail Order");
 
         Row header = sheet.createRow(0);
         header.createCell(0).setCellValue("#");
@@ -41,16 +40,6 @@ public class ExcelFileReportView extends AbstractXlsView {
         header.createCell(6).setCellValue("Total price");
         header.createCell(7).setCellValue("Status");
 //2
-        Row header2 = sheet2.createRow(0);
-        header2.createCell(0).setCellValue("#");
-        header2.createCell(1).setCellValue("Order number");
-        header2.createCell(2).setCellValue("Product Id");
-        header2.createCell(3).setCellValue("Product name");
-        header2.createCell(4).setCellValue("Size");
-        header2.createCell(5).setCellValue("Color");
-        header2.createCell(6).setCellValue("Uniprice");
-        header2.createCell(7).setCellValue("Quantity");
-        header2.createCell(8).setCellValue("Price");
 
         int i = 1;
         int stt = 1;
@@ -68,7 +57,18 @@ public class ExcelFileReportView extends AbstractXlsView {
             rowcontain.createCell(5).setCellValue(order.getNote());
             rowcontain.createCell(6).setCellValue(order.getTotalPrice());
             rowcontain.createCell(7).setCellValue(order.getOrderStatus());
-
+            j = 1;
+            Sheet sheet2 = workbook.createSheet("Detail Order " + order.getId());
+            Row header2 = sheet2.createRow(0);
+            header2.createCell(0).setCellValue("#");
+            header2.createCell(1).setCellValue("Order number");
+            header2.createCell(2).setCellValue("Product Id");
+            header2.createCell(3).setCellValue("Product name");
+            header2.createCell(4).setCellValue("Size");
+            header2.createCell(5).setCellValue("Color");
+            header2.createCell(6).setCellValue("Uniprice");
+            header2.createCell(7).setCellValue("Quantity");
+            header2.createCell(8).setCellValue("Price");
             for (OrderDetailEntity object : order.getListOrderDetail()) {
                 Row rowcontain2 = sheet2.createRow(j);
                 rowcontain2.createCell(0).setCellValue(sttt);
@@ -83,7 +83,7 @@ public class ExcelFileReportView extends AbstractXlsView {
                 j++;
                 sttt++;
             }
-            total+=order.getTotalPrice();
+            total += order.getTotalPrice();
             i++;
             stt++;
         }
@@ -93,5 +93,5 @@ public class ExcelFileReportView extends AbstractXlsView {
         rowcontain.createCell(6).setCellValue(total);
         //hsr.getSession().removeAttribute("order");
     }
-    
+
 }

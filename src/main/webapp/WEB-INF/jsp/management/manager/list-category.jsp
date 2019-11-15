@@ -31,7 +31,7 @@
                                                 <th>#</th>
                                                 <th>ID</th>
                                                 <th>Category Name</th>
-                                                <th>Description</th>
+                                                
                                                 <th>Options</th>
                                             </tr>
                                         </thead>
@@ -42,8 +42,7 @@
                                                     <td>${i}</td>
                                                     <td>${caregory.id}</td>
                                                     <td class="center">${caregory.name}</td>
-                                                    <td class="center">${caregory.description}</td>
-                                                    <td class="center">
+                                                    <td class="center" style="text-align: center;">
                                                         <button class="btn btn-primary btn-xs" onclick="location.href='<c:url value="edit-category/${caregory.id}"/>'">
                                                             <i class="glyphicon glyphicon-refresh"></i> 
                                                             Update

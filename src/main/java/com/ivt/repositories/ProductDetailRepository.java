@@ -8,6 +8,7 @@ package com.ivt.repositories;
 import com.ivt.entities.ColorEntity;
 import com.ivt.entities.ProductDetailEntity;
 import com.ivt.entities.ProductEntity;
+import com.ivt.entities.SizeEntity;
 import java.io.Serializable;
 import java.util.List;
 import org.springframework.data.jpa.repository.Query;
@@ -25,4 +26,5 @@ public interface ProductDetailRepository extends CrudRepository<ProductDetailEnt
     @Query(value = "SELECT * FROM productdetails where product_id = ?1 and color_id = ?2 and size_id = ?3", nativeQuery = true)
     ProductDetailEntity getProductDetailByProductIdAndColorIdAndSizeId(int productId, int colorId, int sizeId);
     
+    ProductDetailEntity findByProductAndColorAndProductSize(ProductEntity pe, ColorEntity c, SizeEntity s);
 }

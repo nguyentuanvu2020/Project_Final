@@ -57,13 +57,18 @@
                                                     <td>
                                                         <p class="input-sm">${order.orderStatus}</p>
                                                     </td>
-<!--                                                    <td>
-                                                        <button class="btn btn-xs btn-warning" onclick="location.href = '<c:url value="${request.contextPath}/management/seller/update-status-new/${order.id}"/>'">RETURN</button>
-                                                        <button class="btn btn-xs btn-danger" onclick="location.href = '<c:url value="${request.contextPath}/management/seller/cancel-order/${order.id}"/>'">CANCEL</button>
-                                                    </td>-->
+                                                    <!--                                                    <td>
+                                                                                                            <button class="btn btn-xs btn-warning" onclick="location.href = '<c:url value="${request.contextPath}/management/seller/update-status-new/${order.id}"/>'">RETURN</button>
+                                                                                                            <button class="btn btn-xs btn-danger" onclick="location.href = '<c:url value="${request.contextPath}/management/seller/cancel-order/${order.id}"/>'">CANCEL</button>
+                                                                                                        </td>-->
                                                 </tr>
                                                 <c:set var="i" value="${i+1}"/>
+
                                             </c:forEach>
+                                            <tr>
+                                                <td colspan="5">Total Price</td>
+                                                <td>${totalPrice}</td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>

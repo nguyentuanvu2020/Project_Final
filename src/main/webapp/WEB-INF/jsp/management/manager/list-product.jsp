@@ -1,4 +1,4 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib  uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@taglib prefix="f" uri="http://www.springframework.org/tags/form" %>
@@ -21,7 +21,7 @@
                                     <div class="panel-title">List product</div>
                                 </div>
                                 <div class="panel-body">
-
+                                    <p id="returntext">${info}</p>
                                     <p id="returntext">${thongbao}</p>
 
                                     <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example">
@@ -32,7 +32,7 @@
                                                 <th>Name</th>
                                                 <th>Price</th>
                                                 <th>Quantity</th>
-                                                <th>Description</th>
+                                                
                                                 <th>Status</th>
                                                 <th>Category</th>
                                                 <th>Options</th>
@@ -53,7 +53,7 @@
                                                             </p>
                                                         </c:forEach>
                                                     </td>
-                                                    <td class="center">${product.description}</td>
+                                                    
                                                     <td class="center">${product.status}</td>
                                                     <td class="center">${product.category.name}</td>
                                                     <td class="center">

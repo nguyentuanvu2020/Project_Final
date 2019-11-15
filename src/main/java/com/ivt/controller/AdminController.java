@@ -58,22 +58,32 @@ public class AdminController {
     @RequestMapping(value = "/add-account", method = RequestMethod.POST)
     public String addAccount(Model model,
             @ModelAttribute("newAcount") AccountEntity newAccount,
-            @RequestParam("role") int roleId[]) {
-        List<AccountRoleEntity> roles = new ArrayList<>();
-        for (int i : roleId) {
-            AccountRoleEntity role = roleService.getRoleById(i);
-            roles.add(role);
+            @RequestParam(name = "role", required = false) int roleId[]) {
+        if("".equals(newAccount.getEmail()) || newAccount.getBirthDate()== null
+                || "".equals(newAccount.getName()) 
+                || "".equals(newAccount.getPhoneNumber())){
+            model.addAttribute("info", "Please enter full info!!!");
+            return viewAddAccount(model);
         }
-        newAccount.setAccountRoles(roles);
-        newAccount.setDisabled(false);
-        newAccount.setPassword(passwordEndcoder.encode("25251325"));
-        newAccount = accountService.addNewAccount(newAccount);
-        if (newAccount.getId() > 0) {
-            model.addAttribute("info", "Sussces Account have id: " + newAccount.getId());
-            return viewListAcount(model);
-        } else {
-            model.addAttribute("info", "Fail");
-            return viewListAcount(model);
+        try {
+            List<AccountRoleEntity> roles = new ArrayList<>();
+            for (int i : roleId) {
+                AccountRoleEntity role = roleService.getRoleById(i);
+                roles.add(role);
+            }
+            newAccount.setAccountRoles(roles);
+            newAccount.setDisabled(false);
+            newAccount.setPassword(passwordEndcoder.encode("25251325"));
+            newAccount = accountService.addNewAccount(newAccount);
+            if (newAccount.getId() > 0) {
+                model.addAttribute("info", "Success Account have id: " + newAccount.getId());
+                return viewListAcount(model);
+            } else {
+                model.addAttribute("info", "Fail");
+                return viewListAcount(model);
+            }
+        } catch (Exception e) {
+            return viewAddAccount(model);
         }
     }
 
@@ -96,7 +106,12 @@ public class AdminController {
 
     @RequestMapping("/list-account")
     public String viewListAcount(Model model) {
-        model.addAttribute("listAccount", accountService.getAll());
+        List<AccountEntity> listAccount = accountService.getAll();
+        for (AccountEntity accountEntity : listAccount) {
+            List<AccountRoleEntity> roles = roleService.getAllRoleByAcountId(accountEntity.getId());
+            accountEntity.setAccountRoles(roles);
+        }
+        model.addAttribute("listAccount", listAccount);
         return "/management/admin/list-account";
     }
 }

@@ -15,17 +15,18 @@
                 <%@include file="../../include-management/menumanagement.jsp" %>
                 <div class="col-md-10">
                     <div class="row">
-                        <div class="col-md-9">
+                        <div class="col-md-10">
                             <div class="content-box-large">
                                 <div class="panel-heading">
                                     <div class="panel-title">Account Info</div>
-
+                                    
                                     <div class="panel-options">
                                         <a href="#" data-rel="collapse"><i class="glyphicon glyphicon-refresh"></i></a>
                                         <a href="#" data-rel="reload"><i class="glyphicon glyphicon-cog"></i></a>
                                     </div>
                                 </div>
                                 <div class="panel-body">
+                                    ${info}
                                     <f:form modelAttribute="account" method="post" action="${pageContext.request.contextPath}/management/${action}">
                                         <c:if test="${action=='update-profile'}">
                                             <input class="form-control" value="${account.id}" name="id" type="hidden">
@@ -50,13 +51,29 @@
                                                     <input class="form-control" value="${account.phoneNumber}" name="phoneNumber" type="number">
                                                 </div>
                                             </div>
+
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Email address</label>
-                                                    <p class="form-control"> ${account.email}</p>
+                                                    <p class="form-control">${account.email}</p>
                                                 </div>
                                             </div>
-
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="col-md-2 control-label">ROLE</label>
+                                                    <div class="col-md-12">
+                                                        <c:set var="check" value="${false}"/>
+                                                        <c:forEach var="role" items="${roles}">
+                                                            <label class="checkbox-inline">
+                                                                <input name="role" value="${role.id}" 
+                                                                       <c:forEach var="acrole" items="${account.accountRoles}">
+                                                                           <c:if test="${role.id == acrole.id}">checked=""</c:if>
+                                                                       </c:forEach> type="checkbox">
+                                                                ${role.role}</label><br>
+                                                        </c:forEach>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label>Address</label>
@@ -65,47 +82,10 @@
                                             </div>
                                         </fieldset>
                                         <div class="col-md-12" style="text-align: center;">
-                                            <input type="reset" value="Cancel">
-                                            <input type="submit" value="Add">
+                                            <input class="btn btn-default btn-primary" type="reset" value="Cancel">
+                                            <input class="btn btn-default btn-primary" type="submit"  value="Update">
                                         </div>
                                     </f:form>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="content-box-header">
-                                        <div class="panel-title">New vs Returning Visitors</div>
-
-                                        <div class="panel-options">
-                                            <a href="#" data-rel="collapse"><i class="glyphicon glyphicon-refresh"></i></a>
-                                            <a href="#" data-rel="reload"><i class="glyphicon glyphicon-cog"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="content-box-large box-with-header">
-
-                                        Pellentesque luctus quam quis consequat vulputate. Sed sit amet diam ipsum. Praesent in pellentesque diam, sit amet dignissim erat. Aliquam erat volutpat. Aenean laoreet metus leo, laoreet feugiat enim suscipit quis. Praesent mauris mauris, ornare vitae tincidunt sed, hendrerit eget augue. Nam nec vestibulum nisi, eu dignissim nulla.
-                                        <br /><br />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="content-box-header">
-                                        <div class="panel-title">New vs Returning Visitors</div>
-
-                                        <div class="panel-options">
-                                            <a href="#" data-rel="collapse"><i class="glyphicon glyphicon-refresh"></i></a>
-                                            <a href="#" data-rel="reload"><i class="glyphicon glyphicon-cog"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="content-box-large box-with-header">
-
-                                        Pellentesque luctus quam quis consequat vulputate. Sed sit amet diam ipsum. Praesent in pellentesque diam, sit amet dignissim erat. Aliquam erat volutpat. Aenean laoreet metus leo, laoreet feugiat enim suscipit quis. Praesent mauris mauris, ornare vitae tincidunt sed, hendrerit eget augue. Nam nec vestibulum nisi, eu dignissim nulla.
-                                        <br /><br />
-                                    </div>
                                 </div>
                             </div>
                         </div>

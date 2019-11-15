@@ -56,8 +56,8 @@
                                                     <td>
                                                         ${ac.disabled}
                                                         <c:choose>
-                                                             <c:when test="${ac.disabled=='true'}">
-                                                            
+                                                            <c:when test="${ac.disabled=='true'}">
+
                                                                 <button class="btn btn-success btn-xs" onclick="location.href = '<c:url value="${request.contextPath}/admin/update-status/${ac.id}'"/>">
                                                                     <i class="glyphicon glyphicon-ok"></i>
                                                                     Active
@@ -71,31 +71,32 @@
                                                             </c:when>
                                                         </c:choose>
                                                     </td>
-                                                    <td>update</td>
+                                                    <td>
+                                                        <button class="btn btn-primary  btn-xs" onclick="location.href = '<c:url value="${request.contextPath}/management/profile/${ac.id}'"/>">
+                                                            <i class="glyphicon glyphicon-eye-open"></i>
+                                                            Detail
+                                                        </button>
+                                                    </td>
                                                 </tr>
                                                 <c:set var="i" value="${i+1}"/>
                                             </c:forEach>
                                         </tbody>
                                     </table>
                                 </div>
-                                <div class="row">
+<!--                                <div class="row">
                                     <div class="col-md-3" style="background-color: red; height: 100px;">
-                                        <sec:authorize access="hasRole('ROLE_ADMIN')">
-                                            <p><a href="<c:url value="admin/home" />">Admin Home</a></p>
-                                        </sec:authorize>
+                                        
                                     </div>
                                     <div class="col-md-3" style="background-color: blue; height: 100px;">
 
                                     </div>
                                     <div class="col-md-3" style="background-color: green; height: 100px;">
-                                        <sec:authorize access="hasRole('ROLE_MANAGER')">
-                                            <p><a href="<c:url value="/manager/home" />">Manager</a></p>
-                                        </sec:authorize>
+                                       
                                     </div>
                                     <div class="col-md-3" style="background-color: navy; height: 100px;">
 
                                     </div>
-                                </div>
+                                </div>-->
                             </div>
                         </div>
                     </div>

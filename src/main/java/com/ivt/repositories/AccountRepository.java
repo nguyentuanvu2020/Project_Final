@@ -29,4 +29,7 @@ public interface AccountRepository extends
     
     @Query("Select acc.email From AccountEntity acc Where acc.email = ?1 ")
     List<AccountEntity> findByEmail2(String email);
+   
+    @Query("SELECT distinct a FROM AccountEntity a JOIN FETCH a.accountRoles ar")
+    List<AccountEntity> getAllRole();
 }

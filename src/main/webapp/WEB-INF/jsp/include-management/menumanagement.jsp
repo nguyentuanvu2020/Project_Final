@@ -54,6 +54,24 @@
                         <li><a href="<c:url value="${request.contextPath}/management/manager/list-category"/>"><i class="glyphicon glyphicon-repeat"></i> List categories</a></li>
                     </ul>
                 </li>
+<!--                <li class="submenu">
+                    <a href="#">
+                        <i class="glyphicon glyphicon-pencil"></i> Order
+                        <span class="caret pull-right"></span>
+                    </a>
+                    <ul>
+                        <li><a href="<c:url value="${request.contextPath}/management/seller/processing-orders"/>"><i class="glyphicon glyphicon-asterisk"></i> New orders</a></li>
+                        <li><a href="<c:url value="${request.contextPath}/management/seller/shipping-orders"/>"><i class="glyphicon glyphicon-road"></i> Shipping Orders</a></li>
+                        <li><a href="<c:url value="${request.contextPath}/management/seller/paid-orders"/>"><i class="glyphicon glyphicon-ok-circle"></i> Paid Orders</a></li>
+                        <li><a href="<c:url value="${request.contextPath}/management/seller/cancel-orders"/>"><i class="glyphicon glyphicon-remove-sign"></i> Cancel Orders</a></li>
+                    </ul>
+                </li>-->
+<!--                <li><a href="<c:url value="${request.contextPath}/management/seller/makeorder"/>"><i class="glyphicon glyphicon-list"></i> Make order</a></li>-->
+                <!--<li><a href="<c:url value="${request.contextPath}/management/seller/make-report"/>"><i class="glyphicon glyphicon-tasks"></i> Make report</a></li>-->
+                </sec:authorize>
+                <sec:authorize access="hasRole('ROLE_SELLER')">
+                <!--<li><a href="#"><i class="glyphicon glyphicon-list"></i> Make order</a></li>-->
+                <!--<li><a href="#"><i class="glyphicon glyphicon-tasks"></i> Make report</a></li>-->
                 <li class="submenu">
                     <a href="#">
                         <i class="glyphicon glyphicon-pencil"></i> Order
@@ -66,13 +84,7 @@
                         <li><a href="<c:url value="${request.contextPath}/management/seller/cancel-orders"/>"><i class="glyphicon glyphicon-remove-sign"></i> Cancel Orders</a></li>
                     </ul>
                 </li>
-                <li><a href="<c:url value="${request.contextPath}/management/seller/makeorder"/>"><i class="glyphicon glyphicon-list"></i> Make order</a></li>
-                <li><a href="<c:url value="${request.contextPath}/management/seller/make-report"/>"><i class="glyphicon glyphicon-tasks"></i> Make report</a></li>
-                </sec:authorize>
-                <sec:authorize access="hasRole('ROLE_SELLER')">
-                <li><a href="#"><i class="glyphicon glyphicon-list"></i> Make order</a></li>
-                <li><a href="#"><i class="glyphicon glyphicon-tasks"></i> Make report</a></li>
-                </sec:authorize>
+            </sec:authorize>
 
             <!-- <li><a href="calendar.html"><i class="glyphicon glyphicon-calendar"></i> Calendar</a></li>
                         <li><a href="stats.html"><i class="glyphicon glyphicon-stats"></i> Statistics (Charts)</a></li>

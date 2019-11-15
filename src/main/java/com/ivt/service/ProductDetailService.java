@@ -5,9 +5,11 @@
  */
 package com.ivt.service;
 
+import com.ivt.entities.ColorEntity;
 import com.ivt.entities.ProductDetailEntity;
 import com.ivt.entities.ProductEntity;
 import com.ivt.entities.PromotionEntity;
+import com.ivt.entities.SizeEntity;
 import com.ivt.repositories.ProductDetailRepository;
 import com.ivt.repositories.ProductRepository;
 import com.ivt.repositories.PromotionRepository;
@@ -53,5 +55,13 @@ public class ProductDetailService {
 //    private ProductDetailRepository productDetailRepository;
     public List<ProductDetailEntity> getListProductByProductId(ProductEntity productId) {
         return (List<ProductDetailEntity>) productDetailRepository.findByProduct(productId);
+    }
+    
+    public ProductDetailEntity getByPCS(ProductEntity p, ColorEntity c, SizeEntity s) {
+        return productDetailRepository.findByProductAndColorAndProductSize(p, c, s);
+    }
+    
+    public void Save(ProductDetailEntity pd){
+        productDetailRepository.save(pd);
     }
 }

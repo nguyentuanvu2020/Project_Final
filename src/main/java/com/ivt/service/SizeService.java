@@ -33,4 +33,8 @@ public class SizeService {
     public SizeEntity getById(int id){
         return sizeRepository.findOne(id);
     }
+    
+    public SizeEntity getBySize(int size){
+        return sizeRepository.findByProductSize(size);
+    }
 }

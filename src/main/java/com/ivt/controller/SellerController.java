@@ -7,16 +7,22 @@ package com.ivt.controller;
 
 import com.ivt.entities.AccountEntity;
 import com.ivt.entities.AccountRoleEntity;
+import com.ivt.entities.ColorEntity;
 import com.ivt.entities.CustomerEntity;
 import com.ivt.entities.OrderDetailEntity;
 import com.ivt.entities.OrderEntity;
+import com.ivt.entities.ProductDetailEntity;
+import com.ivt.entities.SizeEntity;
 import com.ivt.enums.AccountRole;
 import com.ivt.enums.OrderStatus;
 import com.ivt.model.CartByHiep;
 import com.ivt.model.ItemProduct;
+import com.ivt.service.ColorService;
 import com.ivt.service.OrderDetailService;
 import com.ivt.service.OrderService;
+import com.ivt.service.ProductDetailService;
 import com.ivt.service.ProductService;
+import com.ivt.service.SizeService;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -47,6 +53,9 @@ public class SellerController {
 
     @Autowired
     private OrderDetailService orderDetailService;
+    @Autowired SizeService sizeService;
+    @Autowired
+    private ColorService colorService;
 
     //processing orders
     @RequestMapping("/processing-orders")
@@ -144,6 +153,11 @@ public class SellerController {
         List<OrderEntity> ListPaid = new ArrayList<OrderEntity>();
         model.addAttribute("oderStatus", OrderStatus.values());
         ListPaid = orderService.getAllOrderByStatusParameter(OrderStatus.PAID.toString());
+        double totalPrice = 0;
+        for (OrderEntity orderEntity : ListPaid) {
+            totalPrice += orderEntity.getTotalPrice();
+        }
+        model.addAttribute("totalPrice", totalPrice);
         model.addAttribute("listPaidOrders", ListPaid);
         return "management/seller/list-order-paid";
     }
@@ -194,6 +208,8 @@ public class SellerController {
             return "redirect:management/seller/list-order-processing";
         }
     }
+    @Autowired
+    private ProductDetailService detailService;
 
     //cancel order by id
     @RequestMapping(value = "cancel-order/{orderId}", method = RequestMethod.GET)
@@ -202,7 +218,22 @@ public class SellerController {
     ) {
         if (orderId != 0 && orderId > 0) {
             OrderEntity od = orderService.getOrderByID(orderId);
+            List<OrderDetailEntity> listOddetail = orderDetailService.findByOrder(od);
+            od.setListOrderDetail(listOddetail);
             if (od.getId() > 0) {
+                // duyet va lay pr
+                for (OrderDetailEntity oD : od.getListOrderDetail()) {
+                    SizeEntity size = sizeService.getBySize(oD.getSize());
+                    ColorEntity color = colorService.getByName(oD.getColor());
+                    ProductDetailEntity detailUpdate = detailService.getByPCS(oD.getProduct(), color, size);
+                    if(detailUpdate.getColor().getId() == color.getId()
+                            && detailUpdate.getProductSize().getId() == size.getId()
+                            && oD.getProduct().getId() == detailUpdate.getProduct().getId()){
+                        detailUpdate.setProductQuantity(detailUpdate.getProductQuantity()+oD.getQuantity());
+                        detailService.Save(detailUpdate);
+                    }
+                }
+                
                 od.setOrderStatus(od.getOrderStatus() + "-" + OrderStatus.CANCEL.toString());
                 orderService.updateOrder(od);
                 return viewListOrderCancel(model);
@@ -223,7 +254,7 @@ public class SellerController {
         boolean check = false;
         if (principal instanceof AccountEntity) {
             for (AccountRoleEntity accountRole : ((AccountEntity) principal).getAccountRoles()) {
-                if (accountRole.getRole().equals(AccountRole.ROLE_MANAGER) 
+                if (accountRole.getRole().equals(AccountRole.ROLE_MANAGER)
                         || accountRole.getRole().equals(AccountRole.ROLE_SELLER)) {
                     check = true;
                 }

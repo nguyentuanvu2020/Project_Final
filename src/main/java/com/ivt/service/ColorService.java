@@ -31,4 +31,8 @@ public class ColorService {
     public ColorEntity getById(int id){
         return colorRepository.findOne(id);
     }
+    
+    public ColorEntity getByName(String name){
+        return colorRepository.findByProductColor(name);
+    }
 }

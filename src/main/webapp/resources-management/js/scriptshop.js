@@ -6,7 +6,7 @@ function addElementImage() {
     var soluong = document.getElementById("number-of-image").value;
     var text = "";
     for (var i = 1; i <= soluong; i++) {
-        text += '<label>Image ' + i + '</label><br><input type="file" name = "file" class="btn btn-default">';
+        text += '<div class="col-md-6"><label>Image ' + i + '</label><br><input type="file" name = "file" class="btn btn-default"></div>';
     }
     var div = document.getElementById('images');
     div.innerHTML = text;

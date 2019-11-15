@@ -29,7 +29,7 @@
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> &nbsp;<sec:authentication property="principal.name"/><b class="caret"></b></a>
                                 <ul class="dropdown-menu animated fadeInUp">
-                                    <li><a href="${pageContext.request.contextPath}/management/profile/<sec:authentication property="principal.id"/>">Profile</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/user/account">Profile</a></li>
                                     <li><a href="<c:url value="/logout" />">Logout</a></li>
                                 </ul>
                             </li>

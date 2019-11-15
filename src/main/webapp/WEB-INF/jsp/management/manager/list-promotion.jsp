@@ -27,7 +27,7 @@
                                             <tr>
                                                 <th>#</th>
                                                 <th>ID</th>
-                                                <th>Description</th>
+                                                
                                                 <th>Start date</th>
                                                 <th>End date</th>
                                                 <th>Discount</th>
@@ -41,8 +41,8 @@
                                             <c:forEach var="promotion" items="${promotions}">
                                                 <tr class="odd gradeX">
                                                     <td>${i}</td>
-                                                    <td>${promotion.id}</td>
-                                                    <td class="mouser-hover" onclick="location.href = '<c:url value="detail-promotion/${promotion.id}"/>'">${promotion.description}</td>
+                                                    <td style="color: red;" class="mouser-hover" onclick="location.href = '<c:url value="${request.contextPath}/management/manager/detail-promotion/${promotion.id}"/>'">${promotion.id}</td>
+                                                    
                                                     <td>${promotion.startDate}</td>
                                                     <td>${promotion.endDate}</td>
                                                     <td>${promotion.discount}%</td>
@@ -57,7 +57,7 @@
                                                             </c:when>
                                                         </c:choose>
                                                     </td>
-                                                    <td>
+                                                    <td style="text-align: center;">
                                                         <button class="btn btn-primary btn-xs" onclick="location.href = '<c:url value="${request.contextPath}/management/manager/update-promotion/${promotion.id}"/>'">
                                                             <i class="glyphicon glyphicon-refresh"></i> 
                                                             Update
