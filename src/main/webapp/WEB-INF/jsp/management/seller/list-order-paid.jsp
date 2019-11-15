@@ -63,14 +63,15 @@
                                                                                                         </td>-->
                                                 </tr>
                                                 <c:set var="i" value="${i+1}"/>
-
                                             </c:forEach>
-                                            <tr>
-                                                <td colspan="5">Total Price</td>
-                                                <td>${totalPrice}</td>
-                                            </tr>
                                         </tbody>
                                     </table>
+                                            <div class="col-md-6" style="text-align: center;">
+                                        <h4>Total Price</h4>
+                                    </div>
+                                    <div class="col-md-6" style="text-align: center;">
+                                        <h4><fmt:formatNumber minFractionDigits="0" type="number" value="${totalPrice}"/></h4>
+                                    </div>
                                 </div>
                             </div>
                         </div>
