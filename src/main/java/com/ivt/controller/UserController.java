@@ -1,18 +1,24 @@
 package com.ivt.controller;
 
 import com.ivt.entities.AccountEntity;
+import com.ivt.entities.ColorEntity;
 import com.ivt.entities.OrderDetailEntity;
 import com.ivt.entities.OrderEntity;
+import com.ivt.entities.ProductDetailEntity;
 import com.ivt.entities.ProductEntity;
 import com.ivt.entities.ReviewEntity;
+import com.ivt.entities.SizeEntity;
 import com.ivt.enums.Gender;
 import com.ivt.enums.OrderStatus;
 import com.ivt.service.AccountService;
+import com.ivt.service.ColorService;
 import com.ivt.service.MailService;
 import com.ivt.service.OrderDetailService;
 import com.ivt.service.OrderService;
+import com.ivt.service.ProductDetailService;
 import com.ivt.service.ProductService;
 import com.ivt.service.ReviewService;
+import com.ivt.service.SizeService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -44,7 +50,16 @@ public class UserController {
     private ReviewService reviewService;
 
     @Autowired
+    private SizeService sizeService;
+
+    @Autowired
+    private ColorService colorService;
+
+    @Autowired
     private MailService mailService;
+
+    @Autowired
+    private ProductDetailService productDetailService;
 
     @RequestMapping("/account")
     public String viewInfo(Model model) {
@@ -97,7 +112,7 @@ public class UserController {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof AccountEntity) {
             model.addAttribute("listOrder", orderService.getAllOrderByAccountId(((AccountEntity) principal).getId()));
-            model.addAttribute("status", OrderStatus.PROCESSING);
+            model.addAttribute("status", "PROCESSING");
             return "user/manage-order";
         } else {
             return "redirect:/home";
@@ -110,7 +125,15 @@ public class UserController {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof AccountEntity) {
             OrderEntity order = orderService.findOrderById(orderId);
-            if (order.getOrderStatus().equals(String.valueOf(OrderStatus.PROCESSING))) {
+            if (order.getOrderStatus().equals("PROCESSING")) {
+                for (OrderDetailEntity item : order.getListOrderDetail()) {
+                    SizeEntity size = sizeService.getBySize(item.getSize());
+                    ColorEntity color = colorService.getByName(item.getColor());
+                    ProductDetailEntity productDetailUpdate
+                            = productDetailService.findProductDetailByProductIdAndColorIdAndSizeId(item.getProduct().getId(), color.getId(), size.getId());
+                    productDetailUpdate.setProductQuantity(productDetailUpdate.getProductQuantity() + item.getQuantity());
+                    productDetailService.Save(productDetailUpdate);
+                }
                 order.setOrderStatus(String.valueOf(OrderStatus.CANCEL));
                 orderService.updateOrder(order);
                 try {

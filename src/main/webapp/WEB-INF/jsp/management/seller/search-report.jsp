@@ -61,8 +61,8 @@
                                                         <p class="input-sm">${order.orderStatus}</p>
                                                     </td>
                                                     <td>
-                                                        <button class="btn btn-xs btn-warning" style="margin: 1px;" onclick="location.href = '<c:url value="update-status-new/${order.id}"/>'">SHIP</button>
-                                                        <button class="btn btn-xs btn-danger" style="margin: 1px;" onclick="location.href = '<c:url value="cancel-order/${order.id}"/>'">CANCEL</button>
+<!--                                                        <button class="btn btn-xs btn-warning" style="margin: 1px;" onclick="location.href = '<c:url value="update-status-new/${order.id}"/>'">SHIP</button>
+                                                        <button class="btn btn-xs btn-danger" style="margin: 1px;" onclick="location.href = '<c:url value="cancel-order/${order.id}"/>'">CANCEL</button>-->
                                                     </td>
                                                 </tr>
                                                 <c:set var="i" value="${i+1}"/>

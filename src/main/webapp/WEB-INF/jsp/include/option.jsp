@@ -73,35 +73,35 @@
                 <ul class="filter-size clearfix">
                     <li>
                         <label data-filter="36" class="36">
-                            <input type="checkbox" value="(variant:product**36)">
+                            <input type="checkbox" onclick="location.href='find-by-sizeId?sizeId=1'">
                             <span>36</span>
                         </label>
                     </li>
 
                     <li>
                         <label data-filter="37" class="37">
-                            <input type="checkbox" value="(variant:product**37)">
+                            <input type="checkbox" onclick="location.href='find-by-sizeId?sizeId=2'">
                             <span>37</span>
                         </label>
                     </li>
 
                     <li>
                         <label data-filter="38" class="38">
-                            <input type="checkbox" value="(variant:product**38)">
+                            <input type="checkbox" onclick="location.href='find-by-sizeId?sizeId=3'">
                             <span>38</span>
                         </label>
                     </li>
 
                     <li>
                         <label data-filter="39" class="39">
-                            <input type="checkbox" value="(variant:product**39)">
+                            <input type="checkbox" onclick="location.href='find-by-sizeId?sizeId=4'">
                             <span>39</span>
                         </label>
                     </li>
 
                     <li>
                         <label data-filter="40" class="40">
-                            <input type="checkbox" value="(variant:product**40)">
+                            <input type="checkbox" onclick="location.href='find-by-sizeId?sizeId=5'">
                             <span>40</span>
                         </label>
                     </li>
@@ -118,43 +118,43 @@
                 <ul>
                     <li>
                         <label data-filter="nike" class="nike">
-                            <input type="checkbox" value="(vendor:product**Nike)">
+                            <input type="checkbox" onclick="location.href='find-by-colorId?colorId=1'">
                             <span>Trắng</span>
                         </label>
                     </li>
                     <li>
                         <label data-filter="adidas" class="adidas">
-                            <input type="checkbox" value="(vendor:product**Adidas)">
+                            <input type="checkbox" onclick="location.href='find-by-colorId?colorId=2'">
                             <span>Đen</span>
                         </label>
                     </li>
                     <li>
                         <label data-filter="khac" class="khac">
-                            <input type="checkbox" value="(vendor:product**Khác)">
+                            <input type="checkbox" onclick="location.href='find-by-colorId?colorId=3'">
                             <span>Đỏ</span>
                         </label>
                     </li>
                     <li>
                         <label data-filter="asics" class="asics">
-                            <input type="checkbox" value="(vendor:product**Asics)">
+                            <input type="checkbox" onclick="location.href='find-by-colorId?colorId=4'">
                             <span>Navy</span>
                         </label>
                     </li>
                     <li>
                         <label data-filter="asics" class="asics">
-                            <input type="checkbox" value="(vendor:product**Asics)">
+                            <input type="checkbox" onclick="location.href='find-by-colorId?colorId=5'">
                             <span>Xanh lá</span>
                         </label>
                     </li>
                     <li>
                         <label data-filter="asics" class="asics">
-                            <input type="checkbox" value="(vendor:product**Asics)">
+                            <input type="checkbox" onclick="location.href='find-by-colorId?colorId=6'">
                             <span>Vàng</span>
                         </label>
                     </li>
                     <li>
                         <label data-filter="asics" class="asics">
-                            <input type="checkbox" value="(vendor:product**Asics)">
+                            <input type="checkbox" onclick="location.href='find-by-colorId?colorId=7'">
                             <span>Xám</span>
                         </label>
                     </li>

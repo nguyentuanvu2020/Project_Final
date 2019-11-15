@@ -184,6 +184,7 @@ public class SellerController {
                 switch (od.getOrderStatus()) {
                     case "PROCESSING":
                         od.setOrderStatus(OrderStatus.SHIPPING.toString());
+                        od.setDeliveredDate(new Date());
                         orderService.updateOrder(od);
                         return viewListOrderShipping(model);
                     case "CONFIRMED":

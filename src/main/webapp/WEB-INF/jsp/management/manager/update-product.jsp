@@ -40,7 +40,7 @@
                                         </div>
                                         <div class="form-group col-md-12">
                                             <label>Description</label>
-                                            <textarea class="form-control" name="description" rows="3" id="des">${product.description}</textarea>
+                                            <textarea class="form-control" name="description" rows="5" id="des">${product.description}</textarea>
                                         </div>
                                         <div class="form-group col-md-12">
                                             <label>Category</label>
