@@ -114,17 +114,20 @@ public class HomeController {
 
     @RequestMapping("/login")
     public String viewLoginx(Model model,
-            @RequestParam(value = "error", required = false) boolean isError) {
+            @RequestParam(value = "isError", required = false) boolean isError) {
         model.addAttribute("action", "j_spring_security_check");
-        if (isError) {
-            model.addAttribute("message", "Wrong password");
-            return "login";
-        }
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof AccountEntity) {
+        if (principal instanceof AccountEntity && isError == false) {
             return "redirect:/user/account";
+        } else {
+            if (isError) {
+                model.addAttribute("message", "Mật khẩu không đúng");
+                model.addAttribute("status", 1);
+                return "login";
+            } else {
+                return "login";
+            }
         }
-        return "login";
     }
 
     @RequestMapping(value = {"/addproduct-detail"}, method = RequestMethod.GET)
@@ -515,10 +518,144 @@ public class HomeController {
     }
 
     @RequestMapping(value = {"/check-code"}, method = RequestMethod.POST)
-    public String checkCode(Model model, HttpSession session, @RequestParam("code") int code) {
-        String email = (String) session.getAttribute(String.valueOf(code));
-        model.addAttribute("email", email);
-        model.addAttribute("action", "set-new-password");
-        return "set-new-password";
+    public String checkCode(Model model, HttpSession session, @RequestParam("code") String code) {
+        if (session.getAttribute(String.valueOf(code)) == null) {
+            return "redirect:/home";
+        } else {
+            String email = (String) session.getAttribute(String.valueOf(code));
+            model.addAttribute("email", email);
+            model.addAttribute("action", "set-new-password");
+            return "set-new-password";
+        }
+    }
+
+    @RequestMapping(value = {"/set-new-password"}, method = RequestMethod.POST)
+    public String setNewPassword(Model model, @RequestParam("email") String email, @RequestParam("password") String password) {
+        AccountEntity account = accountService.findAccountByEmail(email);
+        account.setPassword(passwordEndcoder.encode(password));
+        accountService.addNewAccount(account);
+        return "redirect:/login";
+    }
+
+//    Search area....................................Dont touch me HIEPML
+    @RequestMapping(value = {"/search-product-home"}, method = RequestMethod.GET)
+    public String searchByNameAndCategoryHome(Model model, @RequestParam("search") String search) {
+        model.addAttribute("allProduct", productService.searchProductHome(search));
+        return "collection";
+    }
+
+    @RequestMapping(value = {"/price-ascending"}, method = RequestMethod.GET)
+    public String searchByPriceAscending(Model model) {
+        model.addAttribute("allProduct", productService.searchByPriceAscending());
+        return "collection";
+    }
+
+    @RequestMapping(value = {"/price-descending"}, method = RequestMethod.GET)
+    public String searchByPriceDescending(Model model) {
+        model.addAttribute("allProduct", productService.searchByPriceDescending());
+        return "collection";
+    }
+
+    @RequestMapping(value = {"title-ascending"}, method = RequestMethod.GET)
+    public String searchByTitleAsending(Model model) {
+        model.addAttribute("allProduct", productService.searchByNameAscending());
+        return "collection";
+    }
+
+    @RequestMapping(value = {"/title-descending"}, method = RequestMethod.GET)
+    public String searchByTitleDesending(Model model) {
+        model.addAttribute("allProduct", productService.searchByNameDescending());
+        return "collection";
+    }
+
+    @RequestMapping(value = {"/created-ascending"}, method = RequestMethod.GET)
+    public String searchByCreateAsending(Model model) {
+        model.addAttribute("allProduct", productService.searchByNewAscending());
+        return "collection";
+    }
+
+    @RequestMapping(value = {"/created-descending"}, method = RequestMethod.GET)
+    public String searchByCreateDesending(Model model) {
+        model.addAttribute("allProduct", productService.searchByNewDescending());
+        return "collection";
+    }
+
+    @RequestMapping(value = {"/hot-sell-prduct"}, method = RequestMethod.GET)
+    public String searchByHOTSell(Model model) {
+        model.addAttribute("allProduct", productService.searchByHOtSell());
+        return "collection";
+    }
+
+    @RequestMapping(value = {"/top-favorite-prduct"}, method = RequestMethod.GET)
+    public String searchByHOTFavorite(Model model) {
+        model.addAttribute("allProduct", productService.searchByHOTFavorite());
+        return "collection";
+    }
+
+    @RequestMapping(value = {"/find-by-category"}, method = RequestMethod.GET)
+    public String searchByCategory(Model model, @RequestParam("category") String category) {
+        model.addAttribute("allProduct", productService.searchByCategoryName(category));
+        return "collection";
+    }
+
+    @RequestMapping(value = {"/find-by-colorId"}, method = RequestMethod.GET)
+    public String searchByColorId(Model model, @RequestParam("colorId") int id) {
+        model.addAttribute("allProduct", productService.searchByColorId(id));
+        return "collection";
+    }
+
+    @RequestMapping(value = {"/find-by-sizeId"}, method = RequestMethod.GET)
+    public String searchBySizeId(Model model, @RequestParam("sizeId") int id) {
+        model.addAttribute("allProduct", productService.searchBySizeId(id));
+        return "collection";
+    }
+
+    @RequestMapping(value = {"/my-favorite-product"}, method = RequestMethod.GET)
+    public String myfavoriteproduct(Model model) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof AccountEntity) {
+            List<ProductEntity> myFavorite = productService.findAllFavoriteProductByAccountId(((AccountEntity) principal).getId());
+            model.addAttribute("allProduct", myFavorite);
+            return "collection";
+        } else {
+            return "redirect:/home";
+        }
+
+    }
+
+    @RequestMapping(value = {"/find-by-money1"}, method = RequestMethod.GET)
+    public String searchByMoney1(Model model) {
+        model.addAttribute("allProduct", productService.searchByMoneyLower());
+        return "collection";
+    }
+
+    @RequestMapping(value = {"/find-by-money2"}, method = RequestMethod.GET)
+    public String searchByMoney2(Model model) {
+        model.addAttribute("allProduct", productService.searchByMoneyFromFiveToOne());
+        return "collection";
+    }
+
+    @RequestMapping(value = {"/find-by-money3"}, method = RequestMethod.GET)
+    public String searchByMoney3(Model model) {
+        model.addAttribute("allProduct", productService.searchByMoneyFromOneToFive());
+        return "collection";
+    }
+
+    @RequestMapping(value = {"/find-by-money4"}, method = RequestMethod.GET)
+    public String searchByMoney4(Model model) {
+        model.addAttribute("allProduct", productService.searchByMoneyFromFiveToTwo());
+        return "collection";
+    }
+
+    @RequestMapping(value = {"/find-by-money5"}, method = RequestMethod.GET)
+    public String searchByMoney5(Model model) {
+        model.addAttribute("allProduct", productService.searchByMoneyMoreTwo());
+        return "collection";
+    }
+    
+    @RequestMapping(value = {"/searchByCategoryIdAJ"}, method = RequestMethod.GET)
+    public String searchByCategoryIdAJ(Model model,@RequestParam("id")int[] id) {
+        model.addAttribute("allProduct", productService.searchByCategoryIdAJ(id));
+        return "item-ajax";
     }
 }

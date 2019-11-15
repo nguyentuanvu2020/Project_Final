@@ -13,6 +13,7 @@ import com.ivt.service.OrderDetailService;
 import com.ivt.service.OrderService;
 import com.ivt.service.ProductService;
 import com.ivt.service.ReviewService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -48,10 +49,15 @@ public class UserController {
     @RequestMapping("/account")
     public String viewInfo(Model model) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        model.addAttribute("account", principal);
-        model.addAttribute("genders", Gender.values());
-        model.addAttribute("action", "update-data");
-        return "user/account";
+        if (principal instanceof AccountEntity) {
+            model.addAttribute("account", principal);
+            model.addAttribute("genders", Gender.values());
+            model.addAttribute("action", "update-data");
+            return "user/account";
+        } else {
+            return "redirect:/login";
+        }
+
     }
 
     @RequestMapping("/update-data")
@@ -177,4 +183,56 @@ public class UserController {
         return "redirect:/logout";
     }
 
+//    Orderby status order
+    @RequestMapping("/manage-order-processing")
+    public String viewManageOrder2(Model model) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof AccountEntity) {
+            model.addAttribute("listOrder", orderService.getAllOrderByAccountId2(((AccountEntity) principal).getId()));
+            model.addAttribute("status", OrderStatus.PROCESSING);
+            return "user/manage-order";
+        } else {
+            return "redirect:/home";
+        }
+
+    }
+
+    @RequestMapping("/manage-order-shipping")
+    public String viewManageOrder3(Model model) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof AccountEntity) {
+            model.addAttribute("listOrder", orderService.getAllOrderByAccountId3(((AccountEntity) principal).getId()));
+            model.addAttribute("status", OrderStatus.PROCESSING);
+            return "user/manage-order";
+        } else {
+            return "redirect:/home";
+        }
+
+    }
+
+    @RequestMapping("/manage-order-paid")
+    public String viewManageOrder4(Model model) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof AccountEntity) {
+            model.addAttribute("listOrder", orderService.getAllOrderByAccountId4(((AccountEntity) principal).getId()));
+            model.addAttribute("status", OrderStatus.PROCESSING);
+            return "user/manage-order";
+        } else {
+            return "redirect:/home";
+        }
+
+    }
+
+    @RequestMapping("/manage-order-cancel")
+    public String viewManageOrder5(Model model) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof AccountEntity) {
+            model.addAttribute("listOrder", orderService.getAllOrderByAccountId5(((AccountEntity) principal).getId()));
+            model.addAttribute("status", OrderStatus.PROCESSING);
+            return "user/manage-order";
+        } else {
+            return "redirect:/home";
+        }
+
+    }
 }

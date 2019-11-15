@@ -61,7 +61,7 @@
                                                     <a href="account" title="Giày Nike">Hồ sơ</a>
                                                 </li>
                                                 <li class="">
-                                                    <a href="manage-address" title="Giày Jordan">Quản lý địa chỉ</a>
+                                                    <a href="${pageContext.request.contextPath}/#" title="Giày Jordan">Quản lý địa chỉ</a>
                                                 </li>
                                                 <li class="">
                                                     <a href="change-password" title="Giày Timberland">Thay đổi mật khẩu</a>
@@ -72,7 +72,7 @@
                                             <a href="manage-order" title="Balo Chính Hãng">Lịch sử đơn hàng</a>
                                         </li>
                                         <li class="">
-                                            <a href="#" title="Chăm Sóc Giày">Quản lý ví "Đang Update</a>
+                                            <a href="${pageContext.request.contextPath}/my-favorite-product" title="My favorite">Sản phẩm đã thích</a>
                                         </li><li class="">
                                             <a href="logout" title="Chăm Sóc Giày">Đăng xuất</a>
                                         </li>

@@ -4,7 +4,6 @@
 
 <html>
     <head>
-        <link rel="shortcut icon" href="//theme.hstatic.net/1000243581/1000361905/14/favicon.png?v=151" type="image/png" />
         <meta charset="utf-8" />
         <title>TV SHOP</title>
         <meta content='width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=0' name='viewport' />
@@ -57,7 +56,9 @@
                         <div class="row" id="cart">
                             <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 pd5">
                                 <h1 class="title-head-cart">Giỏ hàng</h1>
-                                <p>${date}</p>
+                                <p><strong>
+                                    <fmt:formatDate type="both" dateStyle="long" timeStyle="long" value="${date}" />
+                                </strong></p>
                                 <p class="${style}" id="message">${message}</p>
                                 <script>
                                     setTimeout(function () {
@@ -82,7 +83,7 @@
                                                     <td>
                                                         <a href="product-detail-view?productId=${item.product.id}">
                                                             <div class="product-thumbnail-wrapper">
-                                                                <img class="product-thumbnail-image" alt=" " style="max-width: 100px;max-height: 80px"src="${pageContext.request.contextPath}/resources/image/${item.product.listImageProductDetail[0].name}" class="img-rounded" />
+                                                                <img class="product-thumbnail-image" alt=" " style="max-width: 100px;max-height: 80px"src="${pageContext.request.contextPath}/resources/image/${item.product.listImageProductDetail[1].name}" class="img-rounded" />
                                                             </div>
                                                         </a>
                                                     </td>

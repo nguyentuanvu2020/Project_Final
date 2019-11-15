@@ -28,10 +28,10 @@
         
         <security:csrf disabled="true" />
         
+<!--        <security:intercept-url pattern="/user/*" 
+                                access="hasRole('ROLE_USER')" />-->
         <security:intercept-url pattern="/user/*" 
-                                access="hasRole('ROLE_USER')" />
-        <security:intercept-url pattern="/user/*" 
-                                access="hasAnyRole('ROLE_MANAGER','ROLE_SELLER','ROLE_ADMIN')" />
+                                access="hasAnyRole('ROLE_MANAGER','ROLE_SELLER','ROLE_ADMIN','ROLE_USER')" />
         
         <security:intercept-url pattern="/admin/*" 
                                 access="hasRole('ROLE_ADMIN')" />

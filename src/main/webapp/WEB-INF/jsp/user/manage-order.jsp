@@ -73,7 +73,7 @@
                                             <a href="manage-order" title="Balo Chính Hãng">Lịch sử đơn hàng</a>
                                         </li>
                                         <li class="">
-                                            <a href="#" title="Chăm Sóc Giày">Quản lý ví "Đang Update</a>
+                                            <a href="${pageContext.request.contextPath}/my-favorite-product" title="My favorite">Sản phẩm đã thích</a>
                                         </li><li class="">
                                             <a href="logout" title="Chăm Sóc Giày">Đăng xuất</a>
                                         </li>
@@ -90,11 +90,13 @@
                                             <div class="browse-tags pull-right hidden-xs">
                                                 <span class="mr5">Xem chi tiết theo :</span>
                                                 <span class="custom-dropdown custom-dropdown--white">
-                                                    <select class="sort-by custom-dropdown__select custom-dropdown__select--white">
-                                                        <option value="processing">Đang xử lý</option>
-                                                        <option value="shipping">Đang giao hàng</option>
-                                                        <option value="paid">Đã giao</option>
-                                                        <option value="cancel">Đã Hủy</option>
+                                                    <select class="sort-by custom-dropdown__select custom-dropdown__select--white" onchange="location = this.value;">
+                                                        <option>Trạng thái</option>
+                                                        <option value="manage-order">Tất cả</option>
+                                                        <option value="manage-order-processing">Đang xử lý</option>
+                                                        <option value="manage-order-shipping">Đang giao hàng</option>
+                                                        <option value="manage-order-paid">Đã giao</option>
+                                                        <option value="manage-order-cancel">Đã Hủy</option>
                                                     </select>
                                                 </span>
                                             </div>
@@ -116,7 +118,7 @@
                                                     <c:forEach var="order" items="${listOrder}">
                                                         <tr>
                                                             <td>${order.id}</td>
-                                                            <td>${order.orderDate}</td>
+                                                            <td><fmt:formatDate type="both" value="${order.orderDate}"/></td>
                                                             <td style="text-align: right"><fmt:formatNumber type = "number" maxFractionDigits = "3" value = "${order.totalPrice}"/>₫</td>
                                                             <td>${order.orderStatus}</td>
                                                             <td><a href="detail-order?id=${order.id}" class="btn btn-info" role="button">Chi tiết</a>

@@ -179,7 +179,7 @@
                                                     </div>
                                                     <div id="div_next_step" accept-charset="UTF-8">
                                                         <button type="submit" class="step-footer-continue-btn btn" id="submit_getpw">
-                                                            <span class="btn-content">Đăng Ký Thành Viên</span>
+                                                            <span class="btn-content">Xác Nhận</span>
                                                             <i class="btn-spinner icon icon-button-spinner"></i>
                                                         </button>
                                                     </div>

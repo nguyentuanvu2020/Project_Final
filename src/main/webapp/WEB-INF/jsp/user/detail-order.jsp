@@ -67,7 +67,8 @@
                                             <c:forEach var="orderDetail" items="${listOrderDetail}">
                                                 <tr>
                                                     <td><div class="product-thumbnail-wrapper">
-                                                            <img class="product-thumbnail-image" alt=" " style="width: 100px;height: 80px"src="${pageContext.request.contextPath}/resources/image/${orderDetail.product.listImageProductDetail[0].name}" class="img-rounded" />
+                                                            <a href="${pageContext.request.contextPath}/product-detail-view?productId=${orderDetail.product.id}">
+                                                            <img class="product-thumbnail-image" alt=" " style="width: 100px;height: 80px"src="${pageContext.request.contextPath}/resources/image/${orderDetail.product.listImageProductDetail[1].name}" class="img-rounded" /></a>
                                                         </div></td>
                                                     <td>${orderDetail.product.name}</td>
                                                     <td><fmt:formatNumber type = "number" maxFractionDigits = "3" value = "${orderDetail.unitPrice}"/>₫</td>

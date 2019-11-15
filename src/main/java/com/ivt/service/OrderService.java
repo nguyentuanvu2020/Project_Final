@@ -1,9 +1,11 @@
 package com.ivt.service;
 
+import com.ivt.entities.AccountEntity;
 import com.ivt.entities.CustomerEntity;
 import com.ivt.entities.OrderDetailEntity;
 import com.ivt.entities.OrderEntity;
 import com.ivt.entities.ProductDetailEntity;
+import com.ivt.repositories.AccountRepository;
 import com.ivt.repositories.CustomerRepository;
 import com.ivt.repositories.OrderDetailRepository;
 import com.ivt.repositories.OrderRepository;
@@ -36,6 +38,9 @@ public class OrderService {
     @Autowired
     private MailService mailService;
 
+    @Autowired
+    private AccountRepository accountRepository;
+
     @Transactional(rollbackFor = Exception.class)
     public void AddOrder(OrderEntity order, List<ProductDetailEntity> listProductDetailStore) throws MessagingException, FileNotFoundException, IOException {
         CustomerEntity customer = order.getCustomer();
@@ -43,7 +48,13 @@ public class OrderService {
         if (customerData != null && customerData.getId() > 0) {
             customer.setId(customerData.getId());
         }
-        CustomerEntity customerSaved = customerRepository.save(order.getCustomer());
+        if (customer.getAccount() == null) {
+            AccountEntity accountData = accountRepository.findByEmail(customer.getEmail());
+            if (accountData != null && accountData.getId() > 0) {
+                customer.setAccount(accountData);
+            }
+        }
+        CustomerEntity customerSaved = customerRepository.save(customer);
         order.setCustomer(customerSaved);
         OrderEntity orderSaved = orderRepository.save(order);
         List<OrderDetailEntity> listOrderDetail = orderSaved.getListOrderDetail();
@@ -55,8 +66,8 @@ public class OrderService {
         }
         mailService.sendNewOrderMailPage(orderSaved);
     }
-    
-    public OrderEntity findOrderById(int orderId){
+
+    public OrderEntity findOrderById(int orderId) {
         OrderEntity order = orderRepository.findOne(orderId);
         order.setListOrderDetail(orderDetailRepository.findByOrder(order));
         return order;
@@ -106,8 +117,8 @@ public class OrderService {
         //status = "'"+status+"'";
         return (List<OrderEntity>) orderRepository.getAllOrderByStatusParameter(status);
     }
-    
-     //get order by status cancel
+
+    //get order by status cancel
     public List<OrderEntity> getAllOrderByStatusCancel(String status) {
         //status = "'"+status+"'";
         return (List<OrderEntity>) orderRepository.getAllOrderByStatusCancel(status);
@@ -144,9 +155,26 @@ public class OrderService {
     public List<OrderEntity> getBetween(Date sd, Date ed) {
         return (List<OrderEntity>) orderRepository.findByOrderDateBetween(sd, ed);
     }
-    
+
     // get order between date an stauts
     public List<OrderEntity> getBetweenLike(Date sd, Date ed, String status) {
         return (List<OrderEntity>) orderRepository.findByOrderDateBetweenAndOrderStatusLike(sd, ed, status);
+    }
+
+    ///code search by vu
+    public List<OrderEntity> getAllOrderByAccountId2(int accountId) {
+        return orderRepository.getAllOrderByAccountId2(accountId);
+    }
+
+    public List<OrderEntity> getAllOrderByAccountId3(int accountId) {
+        return orderRepository.getAllOrderByAccountId3(accountId);
+    }
+
+    public List<OrderEntity> getAllOrderByAccountId4(int accountId) {
+        return orderRepository.getAllOrderByAccountId4(accountId);
+    }
+
+    public List<OrderEntity> getAllOrderByAccountId5(int accountId) {
+        return orderRepository.getAllOrderByAccountId5(accountId);
     }
 }

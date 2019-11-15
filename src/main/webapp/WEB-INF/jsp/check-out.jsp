@@ -220,7 +220,7 @@
                                                     <td class="product-quantity visually-hidden">1</td>
                                                     <td class="product-price">
                                                         <span class="order-summary-emphasis"><fmt:formatNumber type = "number" 
-                                                  maxFractionDigits = "3" value = "${item.product.price*item.productQuantity}"/>₫</span>
+                                                                          maxFractionDigits = "3" value = "${item.product.price*item.productQuantity}"/>₫</span>
                                                     </td>
                                                 </tr>
                                             </c:forEach>
@@ -260,7 +260,7 @@
                                                 <td class="total-line-price">
                                                     <span class="order-summary-emphasis" data-checkout-subtotal-price-target="${cart.total}">
                                                         <fmt:formatNumber type = "number" 
-                                                  maxFractionDigits = "3" value = "${cart.total}"/>₫
+                                                                          maxFractionDigits = "3" value = "${cart.total}"/>₫
                                                     </span>
                                                 </td>
                                             </tr>
@@ -280,7 +280,7 @@
                                                     <span class="payment-due-currency">VND</span>
                                                     <span class="payment-due-price" data-checkout-payment-due-target="${includeShipping}">
                                                         <fmt:formatNumber type = "number" 
-                                                  maxFractionDigits = "3" value = " ${includeShipping}"/>₫
+                                                                          maxFractionDigits = "3" value = " ${includeShipping}"/>₫
                                                     </span>
                                                 </td>
                                             </tr>
@@ -317,10 +317,10 @@
                                     </div>
                                     <div class="section-content section-customer-indivation no-mb">
                                         <sec:authorize access="!isAuthenticated()">
-                                         <p class="section-content-text">
-                                            Bạn đã có tài khoản?
-                                            <a href="account">Đăng nhập</a>
-                                        </p>   
+                                            <p class="section-content-text">
+                                                Bạn đã có tài khoản?
+                                                <a href="account">Đăng nhập</a>
+                                            </p>   
                                         </sec:authorize>
                                         <div class="fieldset">
                                             <div class="field   ">
@@ -359,21 +359,21 @@
                                 <div id="change_pick_location_or_shipping">
                                 </div>
                             </div>
-                        </div>
-                        <div class="step-footer">
-                            <div id="div_next_step" accept-charset="UTF-8">
-                                <input name="utf8" type="hidden" value="✓">
-                                    <button type="submit" class="step-footer-continue-btn btn">
-                                        <span class="btn-content">Hoàn tất đơn hàng</span>
-                                        <i class="btn-spinner icon icon-button-spinner"></i>
-                                    </button>
+                            <div class="step-footer">
+                                <div id="div_next_step" accept-charset="UTF-8">
+                                    <input name="utf8" type="hidden" value="✓">
+                                        <button type="submit" class="step-footer-continue-btn btn">
+                                            <span class="btn-content">Hoàn tất đơn hàng</span>
+                                            <i class="btn-spinner icon icon-button-spinner"></i>
+                                        </button>
+                                </div>
+                                <a class="step-footer-previous-link" href="cart">
+                                    <svg class="previous-link-icon icon-chevron icon" xmlns="http://www.w3.org/2000/svg" width="6.7" height="11.3" viewBox="0 0 6.7 11.3"><path d="M6.7 1.1l-1-1.1-4.6 4.6-1.1 1.1 1.1 1 4.6 4.6 1-1-4.6-4.6z"></path></svg>
+                                    Giỏ hàng
+                                </a>
                             </div>
-                            <a class="step-footer-previous-link" href="cart">
-                                <svg class="previous-link-icon icon-chevron icon" xmlns="http://www.w3.org/2000/svg" width="6.7" height="11.3" viewBox="0 0 6.7 11.3"><path d="M6.7 1.1l-1-1.1-4.6 4.6-1.1 1.1 1.1 1 4.6 4.6 1-1-4.6-4.6z"></path></svg>
-                                Giỏ hàng
-                            </a>
-                        </div>
-                    </mvc:form>
+                        </mvc:form>                   
+                    </div>
                 </div>
             </div>
             <div class="main-footer">

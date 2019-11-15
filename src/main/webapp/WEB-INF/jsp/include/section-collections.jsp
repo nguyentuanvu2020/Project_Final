@@ -12,17 +12,6 @@
                             <div></div>
                         </div>	
                     </div>
-                    <div class="pagination-default clearfix clear-ajax col-xs-12">
-                        <div class="clearfix">
-                            <a class="page-node current">1</a>
-                            <a class="page-node" href="/collections/giay-nike?page=2">2</a>
-                            <a class="page-node" href="/collections/giay-nike?page=3">3</a>
-                            <a class="page-node ">…</a>
-                            <a class="page-node" href="/collections/giay-nike?page=19">19</a>
-                            <a class="next fa fa-angle-right" href="/collections/giay-nike?page=2"></a>
-                            <a class="next-last fa fa-angle-double-right" href="/collections/giay-nike?page=19"></a>
-                        </div>
-                    </div>
                 </div>																									
             </div>
         </div>

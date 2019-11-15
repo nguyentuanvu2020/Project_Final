@@ -45,6 +45,7 @@ public class AccountService {
         CustomerEntity customer = customerRepository.findByEmail(newAccount.getEmail());
         if (customer != null) {
             customer.setAccount(newAccount);
+            customerRepository.save(customer);
         }
         try {
             mailService.sendNewAccountMailPage(newAccount);
@@ -89,12 +90,12 @@ public class AccountService {
             return false;
         }
     }
-    
-    public List<AccountEntity> getAll(){
+
+    public List<AccountEntity> getAll() {
         return (List<AccountEntity>) accountRepository.findAll();
     }
-    
-    public AccountEntity addNewAccount(AccountEntity newAccount){
+
+    public AccountEntity addNewAccount(AccountEntity newAccount) {
         return accountRepository.save(newAccount);
     }
 }

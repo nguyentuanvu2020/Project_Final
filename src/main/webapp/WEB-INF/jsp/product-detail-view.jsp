@@ -1,7 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@taglib prefix="pt" uri="http://java.sun.com/jstl/core"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -332,7 +333,7 @@
                                             <div class="container-fluid">
                                                 <div class="row">
                                                     <h4>Khách hàng: ${review.account.name}</h4>
-                                                    <p>Phân loại hàng: ${review.typeOfShoes}    ${review.dateReview}</p>
+                                                    <p>Phân loại hàng: ${review.typeOfShoes}<span style="color: gray;float: right">Ngày đánh giá: <fmt:formatDate type="both" value="${review.dateReview}"/></span></p>
                                                     <p></p>
                                                     <p><c:forEach begin="1" end="${review.rate}"><span class="fa fa-star checked"></span></c:forEach></p>
                                                     <p>${review.content}</p>
