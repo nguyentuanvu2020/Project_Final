@@ -235,7 +235,7 @@ public class SellerController {
                     }
                 }
                 
-                od.setOrderStatus(od.getOrderStatus() + "-" + OrderStatus.CANCEL.toString());
+                od.setOrderStatus(OrderStatus.CANCEL.toString());
                 orderService.updateOrder(od);
                 return viewListOrderCancel(model);
             } else {
