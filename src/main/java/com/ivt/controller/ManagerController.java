@@ -110,7 +110,7 @@ public class ManagerController {
                     String fileType = filename.substring(duoifile);
                     filename = filename.substring(0, duoifile);
                     String date = String.valueOf(System.currentTimeMillis());
-                    filename = newProduct.getName() + filename + date + fileType;
+                    filename =  filename + date + fileType;
                     listImage.add(new ImageProductEntity(filename));
                     newProduct.setListImageProductDetail(listImage);
                     newProductEntity = productService.saveNewProduct(newProduct);
