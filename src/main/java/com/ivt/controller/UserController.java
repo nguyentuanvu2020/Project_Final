@@ -1,6 +1,7 @@
 package com.ivt.controller;
 
 import com.ivt.entities.AccountEntity;
+import com.ivt.entities.AccountRoleEntity;
 import com.ivt.entities.ColorEntity;
 import com.ivt.entities.OrderDetailEntity;
 import com.ivt.entities.OrderEntity;
@@ -68,6 +69,11 @@ public class UserController {
             model.addAttribute("account", principal);
             model.addAttribute("genders", Gender.values());
             model.addAttribute("action", "update-data");
+            for (AccountRoleEntity accountRole : ((AccountEntity) principal).getAccountRoles()) {
+                if(accountRole.getId()>=2){
+                    model.addAttribute("admin", 1);
+                }
+            }
             return "user/account";
         } else {
             return "redirect:/login";

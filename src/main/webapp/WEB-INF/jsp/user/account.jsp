@@ -51,6 +51,9 @@
                                 </div>
                                 <div class="filter-box">
                                     <ul id="menusidebarleft" class="menu-collection clearfix mb15">
+                                        <li class="">
+                                            <c:if test="${admin==1}"><a href="${pageContext.request.contextPath}/management/" title="Quản trị viên">Quản trị viên</a></c:if>
+                                        </li>
                                         <li class=" submenu-parent" aria-expanded="false">
                                             <a href="javascript:void(0);" title="Personal Info">Thông tin cá nhân</a>
                                             <svg class="svg-next-icon svg-next-icon-size-10" style="fill:#333">

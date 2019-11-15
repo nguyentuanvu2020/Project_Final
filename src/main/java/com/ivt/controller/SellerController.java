@@ -18,6 +18,7 @@ import com.ivt.enums.OrderStatus;
 import com.ivt.model.CartByHiep;
 import com.ivt.model.ItemProduct;
 import com.ivt.service.ColorService;
+import com.ivt.service.MailService;
 import com.ivt.service.OrderDetailService;
 import com.ivt.service.OrderService;
 import com.ivt.service.ProductDetailService;
@@ -53,9 +54,15 @@ public class SellerController {
 
     @Autowired
     private OrderDetailService orderDetailService;
-    @Autowired SizeService sizeService;
+    
+    @Autowired 
+    private SizeService sizeService;
+    
     @Autowired
     private ColorService colorService;
+    
+    @Autowired
+    private MailService mailService;
 
     //processing orders
     @RequestMapping("/processing-orders")
@@ -237,6 +244,11 @@ public class SellerController {
                 
                 od.setOrderStatus(OrderStatus.CANCEL.toString());
                 orderService.updateOrder(od);
+                try {
+                    mailService.sendCancelMailPage(od); 
+                } catch (Exception e) {
+                }
+                
                 return viewListOrderCancel(model);
             } else {
                 return "redirect:../proccessing-orders";
