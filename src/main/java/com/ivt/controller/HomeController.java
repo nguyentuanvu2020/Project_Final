@@ -85,7 +85,7 @@ public class HomeController {
     private ReviewService reviewService;
 
     @RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
-    public String viewHome(Model model) {
+    public String viewHome(Model model,@RequestParam(value = "order",required = false)String order) {
         model.addAttribute("allProduct", productService.get10ProductNew());
         model.addAttribute("listFavorite", productService.get6ProductFavorite());
         model.addAttribute("listHot", productService.get10ProductHot());
@@ -348,9 +348,9 @@ public class HomeController {
         try {
             orderService.AddOrder(newOrder, listProductDetailStore);
             session.removeAttribute("cart");
-            return "redirect:/home";
+            return "redirect:/home?order=success";
         } catch (Exception e) {
-            return "redirect:/home";
+            return "redirect:/home?order=fail";
         }
     }
 

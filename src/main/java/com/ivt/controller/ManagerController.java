@@ -71,6 +71,7 @@ public class ManagerController {
 
     @RequestMapping(value = "/add-new-product", method = RequestMethod.GET)
     public String viewAddNewProduct(Model model, HttpSession session) {
+        session.removeAttribute("listDetail");
         model.addAttribute("action", "management/manager/add-new-product");
         model.addAttribute("product", new ProductEntity());
         model.addAttribute("categorys", categoryService.getAll());
@@ -190,6 +191,7 @@ public class ManagerController {
             @PathVariable("productid") int productId,
             HttpSession session) {
         model.addAttribute("action", "management/manager/update-product");
+        session.removeAttribute("listDetail");
         ProductEntity product = productService.getById(productId);
         List<ImageProductEntity> listImage = new ArrayList<>();
         listImage = imageService.getListImageByProducId(product);
